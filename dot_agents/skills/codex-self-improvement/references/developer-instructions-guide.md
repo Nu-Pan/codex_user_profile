@@ -71,6 +71,22 @@
 
 - この条件付き項目は `codex_meta` のような Codex 自己改善 profile には有効だが、`question` や `spec_doc` の共通要件にはしない。
 
+## When a workflow is implemented as profile + skill
+
+- `developer_instructions` には session 契約だけを書く。
+- 対応 skill が前提なら、must-read にその user skill を入れてよい。
+- 詳細な workflow、判断基準、テンプレ断片は user skill とその `references/` へ逃がす。
+- `developer_instructions` では、詳細が別文書にあることを 1 行で示せば十分である。
+
+例:
+
+```text
+- 実施前に `AGENTS.md` と user skill `my-workflow` を確認し、そこを正本として扱う。
+- 詳細な workflow、判断基準、テンプレ断片は user skill `my-workflow` とその `references/` を参照する。
+```
+
+- 逆に、workflow 全文、variant ごとの差分、長いテンプレ本文を `developer_instructions` に埋め込まない。
+
 ## Example profile lens
 
 以下は profile 設計の例であり、profile 名の自己認識を要求するルールではない。
@@ -83,6 +99,7 @@
   - mission は「Codex 自己改善」。
   - must read は `AGENTS.md` とこの skill。
   - allowed modes は「最小ハーネスから進める」。
+  - workflow を新しい profile + skill に分解する場合でも、詳細は skill と `references/` に置く。
   - 条件付き追加項目として OpenAI developer docs MCP の行を持ってよい。
 - `spec_doc`
   - mission は「仕様策定」。

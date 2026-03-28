@@ -35,10 +35,15 @@
 ## Validation
 
 - `developer_instructions` を更新したら、少なくとも 1 回は instruction chain の見え方を確認する。
+- 新規 profile を追加したら、その profile 単体で mission、allowed modes、must-read が見えることを確認する。
+- 新規 skill を追加したら、その skill 単体で trigger、目的、読むべき reference が見えることを確認する。
+- profile と対応 skill を同時に追加したら、組み合わせたときの責務分離も確認する。
 - 確認候補:
+  - `codex exec -p <profile_name> "Summarize the current mission, allowed modes, and must-read documents."`
+  - `codex exec '$<skill-name> Summarize this workflow and which references you would read first.'`
+  - `codex exec -p <profile_name> '$<skill-name> Explain how this workflow is split between developer_instructions, SKILL.md, references, and config.toml.'`
   - `codex --ask-for-approval never "Summarize the current instructions."`
   - `codex --cd <subdir> --ask-for-approval never "Show which instruction files are active."`
-  - `codex --ask-for-approval never '$codex-self-improvement Summarize the Codex self-improvement workflow.'`
 - instruction や skill が古く見える場合は、Codex を対象 directory で再起動して確認する。
 
 ## Generalize to references
@@ -53,9 +58,11 @@
 最低 1 回、以下を点検すること。
 
 - `developer_instructions`、`AGENTS.md`、permissions の責務分離が崩れていないか
+- 典型 workflow の session 契約が `developer_instructions` に閉じ、詳細手順が skill / `references/` に逃がされているか
 - MCP rule の置き場所が `config.toml`、`AGENTS.md`、存在する場合の task 文書、`developer_instructions` のどれかで一意に説明できるか
 - `developer_instructions` を「正本そのもの」と誤解させる表現になっていないか
 - profile 名の自己認識を前提にしたルールが紛れ込んでいないか
+- profile 名が `lower_snake_case`、skill 名が `lower-hyphen-case` の既定に沿っているか
 - 編集可能範囲が必要以上に広がっていないか
 - 同じルールが複数箇所に重複していないか
 - `instructions` や `model_instructions_file` と責務が混線していないか
@@ -68,6 +75,7 @@
 - 何を変更したか
 - なぜその変更で Codex 自己改善の最小ハーネスとして成立すると判断したか
 - 実行した確認内容
+- 新規 profile / skill を追加した場合は、それぞれ単体確認と組み合わせ確認の結果
 - 残っている制約や未解決事項
 - 修正内容のエッセンスを `references/` へ引き上げたか、見送ったか、その判断
 - `AGENTS.md`、`~/.codex/config.toml`、存在する場合の repo-scoped `.codex/config.toml`、この skill の間に矛盾があればその内容

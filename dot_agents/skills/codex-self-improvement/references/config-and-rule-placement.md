@@ -79,6 +79,18 @@
 - 特定の作業タイプでだけ必要な MCP 利用判断基準を書く。
 - 例: Codex 自己改善時だけ契約確認で OpenAI developer docs MCP を再確認する。
 
+### user skill の `SKILL.md`
+
+- 再利用可能な workflow の trigger、目的、quick start、reference map を書く。
+- session 契約や durable 設定の正本にはしない。
+- 長い手順や variant ごとの詳細は `references/` へ逃がす。
+
+### user skill の `references/`
+
+- workflow の詳細手順、判断基準、テンプレ断片、variant ごとの差分を書く。
+- SKILL.md から必要時にだけ読める構成にする。
+- 同じ詳細 rule を `developer_instructions` に再掲しない。
+
 ### `model_instructions_file`
 
 - built-in instructions を置き換える強い設定なので、通常運用では使わない。
@@ -97,6 +109,16 @@
 - `developer_instructions` には特定 profile だけに必要な追加契約を書く。
 - 同じ rule を複数箇所に増やさず、最小スコープの置き場所を選ぶ。
 - 狭い層で再掲する場合も、server inventory や接続設定は `config.toml` に戻し、行動契約だけを書く。
+
+## When codifying a typical workflow
+
+- repo-wide router が必要かを最初に決め打ちしない。既定では `AGENTS.md` を増やさず、`profile` と対応 `skill` の組で表現する。
+- workflow の session 契約は `profiles.<name>.developer_instructions` に置く。
+- workflow の durable 設定は `~/.codex/config.toml` の `profiles.<name>` に置く。
+- workflow の trigger と短い導線は対応 skill の `SKILL.md` に置く。
+- workflow の詳細手順、判断基準、テンプレ断片は対応 skill の `references/` に置く。
+- 同じ workflow を profile と skill に分解するときでも、同一 rule を複数箇所へ複写しない。
+- discoverability を高めたい場合も、まず skill metadata と must-read の参照を使い、repo-wide router の追加は最後に検討する。
 
 ## When adding an MCP server
 
@@ -118,6 +140,8 @@
 
 - `developer_instructions` には、その session に必要な最小限の追加契約だけを書く。
 - `AGENTS.md` には、repo 全体の入口と文書ルーティングだけを書く。
+- 新しい典型 workflow は、既定では新規 profile と対応 skill に分解して扱う。
+- workflow を分解するときは、session 契約を `developer_instructions`、詳細手順を skill と `references/`、durable 設定を `config.toml` へ置く。
 - 詳細ルールはこの skill の `references/` に集約し、`AGENTS.md` と `developer_instructions` に同じ細則を重複させない。
 - 個人設定として完結する profile や permissions は `~/.codex/config.toml` を優先し、repo 共有 override だけを `.codex/config.toml` に残す。可搬性を壊す HOME 配下の `permissions` は既定では共有設定に持ち込まない。
 - MCP rule は `config.toml`、`AGENTS.md`、存在する場合の task 文書、`developer_instructions` のうち最小スコープへ置く。

@@ -48,6 +48,8 @@ developer_instructions = """
 - この session の目的は Codex 自己改善である。
 - 実施前に有効な `AGENTS.md` と user skill `codex-self-improvement` を確認し、repo 側 guidance を正本として扱う。
 - この session では Codex 自己改善に必要な設定・導線・最小ハーネス改善だけを扱う。
+- ユーザーが示した再利用可能な workflow を Codex に取り込む場合は、新規 profile と対応 skill に分解して設計する。
+- 長い workflow、判断基準、テンプレ本文は `developer_instructions` に埋め込まず、user skill とその `references/` に置く。
 - Codex 契約や repo から確認できない設定キーの意味を確認する必要があるなら OpenAI developer docs MCP を使う。
 - 許可されていない範囲へ広げず、最小ハーネスから進める。
 - 指示や権限が衝突する場合は編集せず、ユーザーに確認する。
