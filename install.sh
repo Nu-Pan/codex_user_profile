@@ -30,9 +30,27 @@ link_path() {
   echo "linked: $target_path -> $source_path"
 }
 
+cleanup_legacy_path() {
+  local target_path="$1"
+  local backup_path
+
+  if [[ -L "$target_path" ]]; then
+    rm "$target_path"
+    echo "removed legacy link: $target_path"
+    return
+  fi
+
+  if [[ -e "$target_path" ]]; then
+    backup_path="${target_path}.bak.${timestamp}"
+    mv "$target_path" "$backup_path"
+    echo "backed up legacy path: $target_path -> $backup_path"
+  fi
+}
+
 # .codex 系のリンク
 link_path "$repo_root/dot_codex/AGENTS.md" "$HOME/.codex/AGENTS.md"
-link_path "$repo_root/dot_codex/config.toml" "$HOME/.codex/AGENTS.toml"
+link_path "$repo_root/dot_codex/config.toml" "$HOME/.codex/config.toml"
+cleanup_legacy_path "$HOME/.codex/AGENTS.toml"
 
 # .agents 系のリンク
 mkdir -p "$HOME/.agents/skills"

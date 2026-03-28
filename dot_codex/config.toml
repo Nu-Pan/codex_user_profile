@@ -1,0 +1,43 @@
+# ----
+# 全体設定
+# ----
+
+model = "gpt-5.4"
+model_reasoning_effort = "xhigh"
+plan_mode_reasoning_effort = "xhigh"
+model_verbosity = "high"
+approval_policy = "on-request"
+sandbox_mode = "read-only"
+personality = "pragmatic"
+file_opener = "vscode"
+
+[history]
+persistence = "none"
+
+# ----
+# web 検索
+# ----
+
+web_search = "cached"
+
+[tools.web_search]
+context_size = "high"
+
+# ----
+# project / plugin / MCP
+# ----
+
+[projects."/home/happy/ticket_guys_b_team"]
+trust_level = "trusted"
+
+[plugins."github@openai-curated"]
+enabled = true
+
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
+
+[mcp_servers.openaiDeveloperDocs.tools.search_openai_docs]
+approval_mode = "approve"
+
+[mcp_servers.openaiDeveloperDocs.tools.fetch_openai_doc]
+approval_mode = "approve"
