@@ -1,7 +1,8 @@
 # ----
-# 全体設定
+# 全体デフォルト設定
 # ----
 
+# 基本設定
 model = "gpt-5.4"
 model_reasoning_effort = "xhigh"
 plan_mode_reasoning_effort = "xhigh"
@@ -9,30 +10,20 @@ model_verbosity = "high"
 approval_policy = "on-request"
 sandbox_mode = "read-only"
 personality = "pragmatic"
+
+# リンクが vscode で開きやすい感じになる
 file_opener = "vscode"
 
+# セッション間で履歴を持ち越さない
 [history]
 persistence = "none"
 
-# ----
-# web 検索
-# ----
-
+# ???
 web_search = "cached"
 
+# ???
 [tools.web_search]
 context_size = "high"
-
-# ----
-# project / plugin / MCP
-# ----
-
-[projects."/home/happy/ticket_guys_b_team"]
-trust_level = "trusted"
-
-[projects."/home/happy/codex_user_profile"]
-trust_level = "trusted"
-
 
 # ----
 # 個人用 profile / permissions
@@ -45,11 +36,14 @@ trust_level = "trusted"
 ".codex" = "write"
 "doc/task/codex_self_improvement.md" = "write"
 
+# TODO なんでネットワーク禁止してるんだ…？
 [permissions.codex_meta_scope.network]
 enabled = false
 
 # NOTE
 #   コンセプトは「Codex 自身の設定・導線・最小ハーネスだけを安全に改善する」ことである
+# TODO
+#   最小ハーネスっていうあたりはなくていい？
 
 [profiles.codex_meta]
 sandbox_mode = "workspace-write"
@@ -64,6 +58,18 @@ developer_instructions = """
 - 指示や権限が衝突する場合は編集せず、ユーザーに確認する。
 - 最終報告では、変更内容、成立根拠、未解決事項、制約、関連文書との矛盾を述べる。
 """
+
+# ----
+# project / plugin / MCP
+# ----
+
+# TODO 多分、 Codex CLI によって自動的に追加された設定。なのでこの設定は git でトラックしたくない。
+
+[projects."/home/happy/ticket_guys_b_team"]
+trust_level = "trusted"
+
+[projects."/home/happy/codex_user_profile"]
+trust_level = "trusted"
 
 [plugins."github@openai-curated"]
 enabled = true
