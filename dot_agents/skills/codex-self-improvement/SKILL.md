@@ -22,11 +22,18 @@ description: Use when improving Codex itself rather than product code, especiall
 - repo-wide の入口は `AGENTS.md`、durable settings は `config.toml`、詳細ルールと手順は `references/` を正本とする。
 - 実施前に `AGENTS.md`、`~/.codex/config.toml`、変更対象を確認し、必要な参照文書だけ読む。
 
+## Repo path notes
+
+- guidance、最終報告、他のリポジトリから参照される説明で見せる path の正本は `~/.codex/...` / `~/.agents/...` とする。
+- `dot_codex/...` / `dot_agents/...` は、HOME 配下設定を mirror した checkout 上で実ファイルを操作するときだけ使う repo 内 path として扱う。
+- canonical path とローカル作業 path を混同せず、cross-repo の説明に `dot_codex/...` / `dot_agents/...` を持ち出さない。
+
 ## Reference map
 
 - [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md)
-  - ルールの置き場所、`config.toml` / permissions / MCP / `AGENTS.md` の責務分離で迷ったときに読む。
+  - path 表記の canonical rule と、`config.toml` / permissions / MCP / `AGENTS.md` の責務分離で迷ったときに読む。
 - [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md)
   - `developer_instructions` を新設・改訂するときに読む。
 - [`references/workflow-checklist.md`](references/workflow-checklist.md)
   - 編集前の確認、自己レビュー、最終報告、OpenAI developer docs MCP を使う条件を確認するときに読む。
+  - Validation の `codex` コマンド例は対話的 TTY での確認を前提にした例であり、非対話 runner ではそのまま再現できない場合がある。

@@ -21,6 +21,12 @@
 - まずは Codex が自己改善を始められる最小ハーネスを優先し、周辺自動化へ広げない。
 - ユーザーの明示的な許可が無い限り、対象範囲を広げない。
 
+## Path visibility rule
+
+- guidance、最終報告、他のリポジトリから参照される説明で path を示すときは、deploy 後に見える `~/.codex/...` / `~/.agents/...` を canonical path とする。
+- `dot_codex/...` / `dot_agents/...` は、HOME 配下設定を mirror した checkout 上で実ファイルを編集するときだけ使う local working path であり、一般 guidance の正本にはしない。
+- repo 固有の mirror path を、cross-repo の guidance や path 契約へ持ち出さない。
+
 ## Where each rule belongs
 
 ### `AGENTS.md`
