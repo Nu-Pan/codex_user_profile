@@ -3,13 +3,55 @@ set -euo pipefail
 
 # パスを展開
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-timestamp="$(date +%Y%m%d%H%M%S)"
+
+remove_path() {
+  local target_path="$1"
+  local message="$2"
+
+  if [[ ! -e "$target_path" && ! -L "$target_path" ]]; then
+    return
+  fi
+
+  rm -rf -- "$target_path"
+  echo "$message: $target_path"
+}
+
+cleanup_backups_for_target() {
+  local target_path="$1"
+  local target_dir
+  local target_name
+  local backup_path
+
+  target_dir="$(dirname "$target_path")"
+  target_name="$(basename "$target_path")"
+
+  if [[ ! -d "$target_dir" ]]; then
+    return
+  fi
+
+  while IFS= read -r backup_path; do
+    rm -rf -- "$backup_path"
+    echo "removed obsolete backup: $backup_path"
+  done < <(find "$target_dir" -maxdepth 1 -mindepth 1 -name "${target_name}.bak.*" -print | sort)
+}
+
+cleanup_known_backups() {
+  local source_path
+
+  cleanup_backups_for_target "$HOME/.codex/AGENTS.md"
+  cleanup_backups_for_target "$HOME/.codex/config.toml"
+  cleanup_backups_for_target "$HOME/.codex/AGENTS.toml"
+
+  for source_path in "$repo_root"/dot_agents/skills/*; do
+    [[ -e "$source_path" ]] || continue
+    cleanup_backups_for_target "$HOME/.agents/skills/$(basename "$source_path")"
+  done
+}
 
 # リンクを貼る関数
 link_path() {
   local source_path="$1"
   local target_path="$2"
-  local backup_path
 
   mkdir -p "$(dirname "$target_path")"
 
@@ -21,9 +63,7 @@ link_path() {
   fi
 
   if [[ -e "$target_path" || -L "$target_path" ]]; then
-    backup_path="${target_path}.bak.${timestamp}"
-    mv "$target_path" "$backup_path"
-    echo "backed up: $target_path -> $backup_path"
+    remove_path "$target_path" "removed existing path"
   fi
 
   ln -s "$source_path" "$target_path"
@@ -32,19 +72,8 @@ link_path() {
 
 cleanup_legacy_path() {
   local target_path="$1"
-  local backup_path
 
-  if [[ -L "$target_path" ]]; then
-    rm "$target_path"
-    echo "removed legacy link: $target_path"
-    return
-  fi
-
-  if [[ -e "$target_path" ]]; then
-    backup_path="${target_path}.bak.${timestamp}"
-    mv "$target_path" "$backup_path"
-    echo "backed up legacy path: $target_path -> $backup_path"
-  fi
+  remove_path "$target_path" "removed legacy path"
 }
 
 # .codex 系のリンク
@@ -68,3 +97,5 @@ for target_path in "$HOME"/.agents/skills/*; do
     echo "removed stale link: $target_path"
   fi
 done
+
+cleanup_known_backups
