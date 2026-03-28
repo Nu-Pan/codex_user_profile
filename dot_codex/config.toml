@@ -1,5 +1,5 @@
 # ----
-# 全体デフォルト設定
+# グローバル設定
 # ----
 
 # 基本設定
@@ -11,65 +11,52 @@ approval_policy = "on-request"
 sandbox_mode = "read-only"
 personality = "pragmatic"
 
-# リンクが vscode で開きやすい感じになる
+# Web検索モード。cached はライブ取得せず、OpenAI 管理のインデックスを使う
+web_search = "cached"
+
+# 参照リンクが vsocde フレンドリーになる
 file_opener = "vscode"
 
-# セッション間で履歴を持ち越さない
+# ----
+# セッション履歴
+# ----
+
 [history]
 persistence = "none"
 
-# ???
-web_search = "cached"
+# ----
+# Web 検索
+# ----
 
-# ???
 [tools.web_search]
+
+ # Web検索結果からモデルに渡す文脈量。high は多め
 context_size = "high"
 
 # ----
-# 個人用 profile / permissions
+# Codex 自己改善プロファイル
 # ----
 
-# Codex 自己改善専用の最小権限
-[permissions.codex_meta_scope.filesystem.":project_roots"]
-"." = "read"
-"AGENTS.md" = "write"
-".codex" = "write"
-"doc/task/codex_self_improvement.md" = "write"
-
-# TODO なんでネットワーク禁止してるんだ…？
-[permissions.codex_meta_scope.network]
-enabled = false
-
 # NOTE
-#   コンセプトは「Codex 自身の設定・導線・最小ハーネスだけを安全に改善する」ことである
-# TODO
-#   最小ハーネスっていうあたりはなくていい？
+#   Codex 自己改善は portability を優先し、permissions ではなく sandbox ベースで運用する
 
 [profiles.codex_meta]
 sandbox_mode = "workspace-write"
-default_permissions = "codex_meta_scope"
+sandbox_workspace_write.network_access = true
 developer_instructions = """
 - 常に日本語で回答する。
 - この session の目的は Codex 自己改善である。
-- 実施前に `AGENTS.md` と `doc/task/codex_self_improvement.md` を読み、repo 全体 guidance と詳細ルールに従う。
+- 実施前に有効な `AGENTS.md` と user skill `codex-self-improvement` を確認し、repo 側 guidance を正本として扱う。
 - この session では Codex 自己改善に必要な設定・導線・最小ハーネス改善だけを扱う。
-- Codex や OpenAI developer docs の契約確認が必要なら OpenAI developer docs MCP を使う。
+- Codex 契約や repo から確認できない設定キーの意味を確認する必要があるなら OpenAI developer docs MCP を使う。
 - 許可されていない範囲へ広げず、最小ハーネスから進める。
 - 指示や権限が衝突する場合は編集せず、ユーザーに確認する。
 - 最終報告では、変更内容、成立根拠、未解決事項、制約、関連文書との矛盾を述べる。
 """
 
 # ----
-# project / plugin / MCP
+# OpenAI Docs MCP
 # ----
-
-# TODO 多分、 Codex CLI によって自動的に追加された設定。なのでこの設定は git でトラックしたくない。
-
-[projects."/home/happy/ticket_guys_b_team"]
-trust_level = "trusted"
-
-[projects."/home/happy/codex_user_profile"]
-trust_level = "trusted"
 
 [plugins."github@openai-curated"]
 enabled = true
@@ -82,3 +69,25 @@ approval_mode = "approve"
 
 [mcp_servers.openaiDeveloperDocs.tools.fetch_openai_doc]
 approval_mode = "approve"
+
+[mcp_servers.openaiDeveloperDocs.tools.list_api_endpoints]
+approval_mode = "approve"
+
+[mcp_servers.openaiDeveloperDocs.tools.get_openapi_spec]
+approval_mode = "approve"
+
+# ----
+# project / plugin / MCP
+# ----
+
+# NOTE
+#   環境依存のフルパスが入っているので、本当は git でトラックしたくない。
+#   しかしこれは Codex CLI によって自動的に追加されちゃう設定なので、嫌でも勝手に書き込まれる。
+#   しかも、この設定だけを別ファイルに分離する方法もない。
+#   自分専用ということでこの問題には目を瞑って放置する。
+
+[projects."/home/happy/ticket_guys_b_team"]
+trust_level = "trusted"
+
+[projects."/home/happy/codex_user_profile"]
+trust_level = "trusted"
