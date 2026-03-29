@@ -35,6 +35,9 @@
 ## Validation
 
 - `developer_instructions` を更新したら、少なくとも 1 回は instruction chain の見え方を確認する。
+- 既存 `束ね skill` を編集したら、その skill 単体で trigger、既定 route、読むべき reference、component skill への導線が見えることを確認する。
+- 既存 component skill を編集したら、その skill 単体で担当フェーズ、入力条件、期待出力、読むべき reference が見えることを確認する。
+- 既存 `references/` を編集したら、その文書単体で判断基準や例外条件が見え、bundle skill や component skill と入口説明を重複していないことを確認する。
 - 新規 profile を追加したら、その profile 単体で mission、allowed modes、must-read が見えることを確認する。
 - 新規 `束ね skill` を追加したら、その skill 単体で trigger、推奨順序、読むべき reference、役割別 skill への導線が見えることを確認する。
 - 新規 `役割別 skill` を追加したら、その skill 単体で担当フェーズ、入力条件、期待出力、読むべき reference が見えることを確認する。
@@ -67,6 +70,7 @@
 - profile 名が `lower_snake_case`、skill 名が `lower-hyphen-case` の既定に沿っているか
 - `developer_instructions` が `役割別 skill` を直接抱え込みすぎず、既定どおり `束ね skill` を入口にしているか
 - `束ね skill` と `役割別 skill` の責務が重複していないか
+- `束ね skill` には route の概要だけを残し、詳細な選択条件や例外は `references/` へ逃がせているか
 - skill 文面が 1 行 1 意図になっており、`Use when`、`Purpose`、`Quick start`、`Reference map` に同じ説明を重複させていないか
 - 文面簡素化で trigger、責務、正本、handoff、禁止条件を削りすぎていないか
 - フェーズ順が推奨順序として書かれており、hard gate と誤読される表現になっていないか

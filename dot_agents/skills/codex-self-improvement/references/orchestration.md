@@ -6,6 +6,13 @@
 - 変更対象が repo-scoped `.codex/**/*` や user skill 側に及ぶ場合は、その現状も先に確認する。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 
+## Route by default
+
+- まず最小 route を選ぶ。既定は `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`。
+- 置き場所、責務境界、canonical path、permissions / MCP の扱いが曖昧な場合だけ `codex-self-improvement-placement` を前に足す。
+- reusable workflow や `developer_instructions` を変える場合だけ `codex-self-improvement-workflow` を足す。
+- route を広げた後でも、その task に不要な component skill までは読まない。
+
 ## Choosing component skills
 
 - [`codex-self-improvement-placement`](../codex-self-improvement-placement/SKILL.md)
@@ -19,18 +26,16 @@
 
 ## Typical routes
 
-- 文面整理だけをしたい: `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
+- 文面整理や bundle skill 自体の責務維持編集: `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
 - 置き場所判断や責務分離が先に必要: `codex-self-improvement-placement` -> 必要なら `codex-self-improvement-workflow` または `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
 - reusable workflow を profile / skills へ分解したい: `codex-self-improvement-placement` -> `codex-self-improvement-workflow` -> 必要なら `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
-- bundle skill 自体を直すが責務は変えない: `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
 
 ## Recommended sequence
 
 1. 現状確認と既存差分の把握を行う。
-2. rule placement や権限境界が曖昧なら `placement` を先に使う。
-3. reusable workflow の導線や `developer_instructions` を変えるなら `workflow` を使う。
-4. skill 文面の整理や簡素化が主目的なら `skill-writing` を使う。
-5. 実際の編集後に `review` で validation と最終報告観点を確認する。
+2. `Route by default` に従って最小 route を選ぶ。
+3. route を広げる条件が出た場合だけ `placement` または `workflow` を足す。
+4. 実際の編集後に `review` で validation と最終報告観点を確認する。
 
 - placement 判断が変わったら、workflow 設計や編集方針へ戻ってよい。
 - 新規 profile と bundle/component skills を同時に足した場合は、最後に責務分離をまとめて見直す。
@@ -39,6 +44,5 @@
 
 - bundle skill は入口と導線だけを持ち、phase-local な詳細は component skill 側へ逃がす。
 - component skill は自分の責務に必要な reference だけを読む。
-- route が決まったら、その task に不要な component skill までは読まない。
 - skill 文面の簡素化ルールは `skill-writing` 側へ集約し、他 skill に同じ書き方 rule を重複させない。
 - 一般化できる原則が見えたら、task 固有の説明を増やす前に対応する `references/` へ引き上げる。

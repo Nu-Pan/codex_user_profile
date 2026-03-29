@@ -1,13 +1,13 @@
 ---
 name: codex-self-improvement
-description: Use when improving Codex itself rather than product code, especially when editing `AGENTS.md`, `~/.codex/**/*`, repo-scoped `.codex/**/*`, this bundle skill, or related `~/.agents/skills/codex-self-improvement-*` skills. Use as the entry point for workflow routing, wording cleanup, config placement, workflow decomposition, and Codex/OpenAI docs contract checks. Do not use for product implementation, ordinary tests, or environment setup.
+description: Use when improving Codex itself rather than product code, especially when editing `AGENTS.md`, `~/.codex/**/*`, repo-scoped `.codex/**/*`, this skill family, or related workflow settings. Use as the entry point for route selection, wording cleanup, placement decisions, workflow decomposition, and Codex/OpenAI docs contract checks. Do not use for product implementation, ordinary tests, or environment setup.
 ---
 
 # Codex Self Improvement
 
 ## Use when
 
-- `AGENTS.md`、`~/.codex/**/*`、repo-scoped `.codex/**/*`、この bundle skill、または関連 `~/.agents/skills/codex-self-improvement-*` skills を追加・変更するとき
+- `AGENTS.md`、`~/.codex/**/*`、repo-scoped `.codex/**/*`、この skill family、または関連 `~/.agents/skills/codex-self-improvement-*` skills を追加・変更するとき
 - skill 文面を、責務を変えずに短く直接的な表現へ整えたいとき
 - `profiles`、`developer_instructions`、permissions、MCP 設定など Codex の挙動設定を改善したいとき
 - ユーザーが示した reusable workflow を profile、bundle skill、component skills へ分解して Codex に取り込みたいとき
@@ -19,21 +19,20 @@ description: Use when improving Codex itself rather than product code, especiall
 
 ## Purpose
 
-- この skill は Codex 自己改善 workflow の入口であり、読むべき component skill を選ぶための導線だけを持つ。
-- session 契約の正本は `profiles.codex_meta.developer_instructions` とする。
-- repo-wide の入口は `AGENTS.md`、durable settings は `config.toml`、phase-local な詳細ルールは component skills とその `references/` を正本とする。
+- この skill は Codex 自己改善 workflow の入口であり、route を選んで必要な component skill へ渡す。
+- session 契約の正本は `profiles.codex_meta.developer_instructions`、repo-wide の入口は `AGENTS.md`、phase-local な詳細は component skills と `references/` を正本とする。
 
 ## Recommended flow
 
 1. `AGENTS.md`、`~/.codex/config.toml`、変更対象、必要なら既存差分を確認する。
-2. 置き場所や責務分離で迷うなら `codex-self-improvement-placement` を使う。
-3. reusable workflow や `developer_instructions` を変えるなら `codex-self-improvement-workflow` を使う。
-4. skill 文面を責務そのままで整理するなら `codex-self-improvement-skill-writing` を使う。
-5. 編集前後の checklist、validation、最終報告は `codex-self-improvement-review` で確認する。
+2. [`references/orchestration.md`](references/orchestration.md) で最小 route を選ぶ。
+3. 選んだ component skill と必要な `references/` だけを読む。
+4. 編集後は `codex-self-improvement-review` で validation と最終報告観点を確認する。
 
-- フェーズ順は推奨順序であり、必要に応じて往復してよい。
-- 文面整理だけの task は `codex-self-improvement-skill-writing` と `codex-self-improvement-review` だけで足りることが多い。責務や置き場所が変わる場合だけ `codex-self-improvement-placement` / `codex-self-improvement-workflow` へ広げる。
-- Codex 契約や repo から確認できない設定キーの意味を確定する必要がある場合だけ OpenAI developer docs MCP を使う。
+- 文面整理だけなら既定は `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`。
+- 置き場所や責務分離が曖昧な場合だけ `codex-self-improvement-placement` を先に足す。
+- reusable workflow や `developer_instructions` を変える場合だけ `codex-self-improvement-workflow` を足す。
+- Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 
 ## Component skills
 
@@ -45,14 +44,12 @@ description: Use when improving Codex itself rather than product code, especiall
 ## Quick start
 
 - `AGENTS.md`、`~/.codex/config.toml`、この skill を確認する。
-- [`references/orchestration.md`](references/orchestration.md) を見て、今回の route を 1 つ選ぶ。
-- 選んだ component skill の `SKILL.md` と必要な `references/` だけを読む。
+- [`references/orchestration.md`](references/orchestration.md) で今回の route を 1 つ選ぶ。
+- その route に必要な component skill と `references/` だけを読む。
 
 ## Repo path notes
 
-- guidance、最終報告、他のリポジトリから参照される説明で見せる path の正本は `~/.codex/...` / `~/.agents/...` とする。
-- `dot_codex/...` / `dot_agents/...` は、HOME 配下設定を mirror した checkout 上で実ファイルを操作するときだけ使う repo 内 path として扱う。
-- canonical path とローカル作業 path を混同せず、cross-repo の説明に `dot_codex/...` / `dot_agents/...` を持ち出さない。
+- path 表記の正本は `~/.codex/...` / `~/.agents/...` とする。repo 内の実ファイルを触るときだけ `dot_codex/...` / `dot_agents/...` を使う。
 
 ## Reference map
 
