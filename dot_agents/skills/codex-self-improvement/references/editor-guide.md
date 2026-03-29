@@ -8,7 +8,7 @@
 ## Preserve before editing
 
 - trigger 条件、out-of-scope、担当責務
-- shared rule、profile-level `developer_instructions`、root skill の routing の正本がどこか
+- shared rule、top-level `developer_instructions`、root skill の routing の正本がどこか
 - 同じ概念に複数の呼び方がある場合は、その正本語彙がどこで定義されているか
 - role contract の `Inputs`、`Outputs`、`Write policy`
 - role が root handoff の不足を local facts で復元できるか

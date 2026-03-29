@@ -4,7 +4,7 @@
 
 - OpenAI 公式 docs に沿って、Codex self-improvement workflow で `model` / `model_reasoning_effort` / `model_verbosity` を選ぶ基準をまとめる。
 - この文書は model の「重さ」を選ぶ判断基準の正本であり、個別 role config の値そのものは置かない。
-- child agent role の standalone custom agent config (`agent_roles/*.toml`) を埋めるときも、この文書と OpenAI config reference を使う。Agents SDK は使わない。
+- child agent role の standalone custom agent config (`agent_roles/*.toml`) を埋めるときも、この文書と OpenAI config reference を使う。root router contract の置き場所判断には使わない。
 
 ## Default stance
 

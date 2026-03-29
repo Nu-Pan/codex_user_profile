@@ -3,10 +3,10 @@
 ## Purpose
 
 - `AGENTS.md` は root agent と child agent の両方に共通する最小規約を置く。
-- `profile-level developer_instructions` は root profile の router / orchestrator 契約を置く。
+- `top-level developer_instructions` は root session の router / orchestrator 契約を置く。
 - `agent_roles/*.toml` の `developer_instructions` は child agent role の role-local bootstrap contract を置く。
 - `developer_instructions` は must-read の入口であり、workflow 本文の正本ではない。
-- repo 全体ルールや handbook の本体は `AGENTS.md`、profile-level `developer_instructions`、root skill、role contract に分けて戻す。
+- repo 全体ルールや handbook の本体は `AGENTS.md`、top-level `developer_instructions`、root skill、role contract に分けて戻す。
 
 ## What each layer includes
 
@@ -19,17 +19,17 @@
 - 指示衝突時や権限衝突時の扱い
 - profile 固有 routing ではなく共有前提だけ
 
-### `profile-level developer_instructions`
+### `top-level developer_instructions`
 
 - 応答言語や最終出力の基礎スタイル
-- その profile の mission
+- root session の mission
 - root agent を router / orchestrator に限定する方針
 - Codex CLI に何かをさせる前に、対応する custom skill と child role を用意する方針
 - 実施前に読むべき正本や task 文書
-- その profile で許容する作業モード
+- root session で許容する作業モード
 - 品質基準、自己レビュー基準、報告要件
 - 指示衝突時や権限衝突時の扱い
-- その profile に固有で必要な追加参照先や追加制約
+- root session に固有で必要な追加参照先や追加制約
 
 ### `role-level developer_instructions`
 
@@ -63,15 +63,15 @@
 - 原則ではなく、その層に必要な最小限の契約だけを書く。
 - 既定では must-read を `AGENTS.md` と root skill に留め、child agent roles や詳細 reference はそこから辿らせる。
 - この skill family では `root skill`、`child agent role`、`reference`、`role config` を正本語彙として使い、独自の言い換えを増やさない。
-- 長くなるルールは `AGENTS.md`、profile-level `developer_instructions`、root skill に逃がし、そこには参照だけを書く。
+- 長くなるルールは `AGENTS.md`、top-level `developer_instructions`、root skill に逃がし、そこには参照だけを書く。
 
 ## Minimal templates
 
-### `profile-level developer_instructions`
+### `top-level developer_instructions`
 
 ```text
 - 常に <language> で回答する。
-- この profile の目的は <mission> である。
+- この session の目的は <mission> である。
 - 実施前に `AGENTS.md` と root skill `<root-skill-name>` を読み、共通規約と導線を正本として扱う。
 - Codex CLI に何かをさせる前に、対応する custom skill と child role を確認し、無ければ先に作成する。
 - この profile では <allowed_modes> だけを扱う。

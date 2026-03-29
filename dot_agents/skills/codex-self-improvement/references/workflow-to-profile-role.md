@@ -2,14 +2,14 @@
 
 ## Purpose
 
-- ユーザーが提示した再利用可能な workflow を、`AGENTS.md`、profile-level `developer_instructions`、root skill、child agent roles、role config、`references/` に分解するときの基準を定義する。
+- ユーザーが提示した再利用可能な workflow を、`AGENTS.md`、top-level `developer_instructions`、root skill、child agent roles、role config、`references/` に分解するときの基準を定義する。
 - この文書は「どこに何を書くか」と「どこに書かないか」を定め、root router contract と child role bootstrap contract を混同しないためのものだ。
 - file placement 自体が曖昧な場合は、この文書だけで決め切らず `references/config-and-rule-placement.md` へ戻る。
 
 ## Terms
 
 - `AGENTS.md`: root agent と child agent の両方に共通する最小規約を置く。
-- `profile-level developer_instructions`: root profile の router / orchestrator 契約を置く。
+- `top-level developer_instructions`: root session の router / orchestrator 契約を置く。
 - `root skill`: workflow 全体の導線、推奨 role sequence、読むべき reference、child agent への入口を与える。
 - `child agent role`: 1 つの責務だけを持つ focused な agent type を指す。
 - `role config`: child agent role に適用する standalone custom agent TOML layer を指す。`name`、`description`、`developer_instructions`、`model`、`model_reasoning_effort`、`model_verbosity`、`sandbox_mode` を置く。
@@ -19,7 +19,7 @@
 ## Default split
 
 - `AGENTS.md` は共有規約だけを持つ。
-- profile-level `developer_instructions` は root router contract だけを持つ。
+- top-level `developer_instructions` は root router contract だけを持つ。
 - root skill は trigger、推奨 role sequence、reference map を持つ。
 - child agent role は 1 つの責務だけを持つ。
 - role config は model tier と role-local bootstrap を持つ。
@@ -35,12 +35,12 @@
 - root / child 共通の最小規約を明示したい。
 - repo-wide に常時有効な router を置きたい場合は、routing ではなく shared rule の範囲だけを書く。
 
-### profile-level `developer_instructions`
+### top-level `developer_instructions`
 
 - root profile の mission が必要である。
 - root profile を router / orchestrator に限定したい。
 - Codex CLI に何かをさせる前に、対応する custom skill と child role を先に用意したい。
-- task framing、child role 選定、child agent 起動、最小 handoff、完了待機、最終統合を profile の契約として固定したい。
+- task framing、child role 選定、child agent 起動、bootstrap packet、完了待機、最終統合を profile の契約として固定したい。
 
 ### root skill
 
@@ -73,14 +73,14 @@
 
 ## Decomposition recipe
 
-1. workflow から mission、must-read、allowed modes、quality bar、衝突時の扱い、報告要件だけを抜き出し、`AGENTS.md` と profile-level `developer_instructions` に分けて入れる。
+1. workflow から mission、must-read、allowed modes、quality bar、衝突時の扱い、報告要件だけを抜き出し、`AGENTS.md` と top-level `developer_instructions` に分けて入れる。
 2. workflow から end-to-end の導線、推奨 role sequence、child agent への handoff を抜き出し、root skill に入れる。
 3. workflow から focused な責務を抜き出し、child agent role に切る。
 4. child agent role の contract には、最低限の入力と local bootstrap 条件を必ず書く。root の handoff が不完全でも動く前提で分解する。
 5. role ごとに必要な `model` / `model_reasoning_effort` / `model_verbosity` tier を中心に抜き出し、OpenAI 公式 docs の一般原則に沿う設定として role config に入れる。
 6. role ごとの再利用可能な詳細手順、判断基準、テンプレ断片を `references/` に入れる。
 7. durable 設定だけを抜き出し、`config.toml` に入れる。
-8. root router contract が本当に必要かを最後に判断し、必要なときだけ profile-level `developer_instructions` を触る。router は起動導線だけを持ち、実作業は child agent に委ねる。
+8. root router contract が本当に必要かを最後に判断し、必要なときだけ top-level `developer_instructions` を触る。router は起動導線だけを持ち、実作業は child agent に委ねる。
 9. validation の詳細は [`workflow-checklist.md`](workflow-checklist.md) を正本とする。
 
 ## Placement note
@@ -90,12 +90,12 @@
 
 ## Minimal templates
 
-### profile-level template
+### top-level template
 
 ```md
 - 常に <language> で回答する。
 - この session の目的は <mission> である。
-- 実施前に `AGENTS.md` と root skill `<root-skill-name>` を確認し、`~/.codex/config.toml` の profile-level `developer_instructions` を共通の root router contract として扱う。
+- 実施前に `AGENTS.md` と root skill `<root-skill-name>` を確認し、`~/.codex/config.toml` の top-level `developer_instructions` を共通の root router contract として扱う。
 - この session では <allowed_modes> だけを扱う。
 - 詳細な workflow、role sequence、spawn policy は root skill `<root-skill-name>` と、そこから辿る関連 `references/` を参照する。
 - <quality_bar> を満たすまで作業を打ち切らない。
@@ -104,17 +104,12 @@
 ```
 
 ```toml
-[profiles.<profile_name>]
-sandbox_mode = "workspace-write"
-model = "<model>"
-model_reasoning_effort = "<effort>"
-model_verbosity = "<verbosity>"
 developer_instructions = """
-<profile-level contract>
+<top-level contract>
 """
 ```
 
-- profile-level の契約は `AGENTS.md` の共有規約と分け、`config.toml` には durable 設定と root router contract を残す。
+- top-level の契約は `AGENTS.md` の共有規約と分け、`config.toml` には durable 設定と root router contract を残す。
 
 ### role config template
 
@@ -156,7 +151,7 @@ description: Use when <trigger condition>. Use for <workflow>. Do not use for <o
 ## Purpose
 
 - この skill は <workflow> 全体の導線、推奨 role sequence、child agent role への入口を定義し、実作業は child agent role に委ねる。
-- 共通規約は `AGENTS.md`、root router contract は `~/.codex/config.toml` の profile-level `developer_instructions`、child agent role の read-first docs は各 role config に閉じる。
+- 共通規約は `AGENTS.md`、root router contract は `~/.codex/config.toml` の top-level `developer_instructions`、child agent role の read-first docs は各 role config に閉じる。
 - child agent role は、root handoff が最小でも local docs と local artifacts から自己起動できる前提で扱う。
 
 ## Recommended flow
@@ -175,9 +170,9 @@ description: Use when <trigger condition>. Use for <workflow>. Do not use for <o
 
 ## Quick start
 
-- `AGENTS.md` と必要な reference を確認する。
+- `AGENTS.md`、`~/.codex/config.toml`、必要な reference を確認する。
 - まず <first orchestration step> を行う。
-- child agent に渡す handoff は task summary、対象ファイル、明示した制約、観測済みの local facts に絞る。
+- child agent に渡す handoff は bootstrap packet に絞る。bootstrap packet には task summary、対象ファイル、明示した制約、観測済みの local facts を入れる。
 
 ## Reference map
 

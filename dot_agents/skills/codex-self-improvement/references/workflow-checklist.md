@@ -24,7 +24,7 @@
 - この文書を validation の正本として扱う。
 - `AGENTS.md` を更新したら、少なくとも 1 回は instruction chain の見え方を確認する。
 - `AGENTS.md` を更新したら、共通ルールだけが残っていることを確認する。
-- profile-level `developer_instructions` を更新したら、root router contract が `~/.codex/config.toml` にあることを確認する。
+- top-level `developer_instructions` を更新したら、root router contract が `~/.codex/config.toml` にあることを確認する。
 - 既存 root skill を編集したら、その skill 単体で trigger、既定 route、読むべき reference、child agent role への導線が見え、正本語彙への導線が残っていることを確認する。
 - 既存 root skill を編集したら、child agent が root handoff の不足を local docs と local artifacts で復元できることも確認する。
 - この repo では、repo root の `README.md` に列挙された 3 つの典型プロンプト例のうち、今回の変更に対応する例を入口確認か自動 validation に使い、README の実例からでも同じ route に乗ることを確認する。
@@ -70,15 +70,15 @@
 最低 1 回、以下を点検すること。
 
 - `AGENTS.md`、`config.toml`、permissions の責務分離が崩れていないか
-- 共通ルールが `AGENTS.md` に、root router contract が profile-level `developer_instructions` に、全体導線が root skill に、詳細手順が `references/` / role contract に逃がされているか
+- 共通ルールが `AGENTS.md` に、root router contract が top-level `developer_instructions` に、全体導線が root skill に、詳細手順が `references/` / role contract に逃がされているか
 - root skill が編集作業や検証作業を抱え込まず、実作業が child agent に分離されているか
 - child agent の完了待機で timeout を使わず、完了まで待つ運用が明文化されているか
-- MCP rule の置き場所が `config.toml`、`AGENTS.md`、profile-level `developer_instructions`、存在する場合の task 文書、role config の `developer_instructions` のどれかで一意に説明できるか
+- MCP rule の置き場所が `config.toml`、`AGENTS.md`、top-level `developer_instructions`、存在する場合の task 文書、role config の `developer_instructions` のどれかで一意に説明できるか
 - `AGENTS.md` を「正本そのもの」と誤解させる表現になっていないか
 - profile 名の自己認識を前提にしたルールが紛れ込んでいないか
 - profile 名が `lower_snake_case`、skill 名が `lower-hyphen-case` の既定に沿っているか
 - `AGENTS.md` が child agent role を直接抱え込みすぎず、既定どおり root skill を入口にし、child agent 起動が原則必須になっているか
-- profile-level `developer_instructions` が root router contract だけを持ち、child role 契約を侵食していないか
+- top-level `developer_instructions` が root router contract だけを持ち、child role 契約を侵食していないか
 - child agent role config が standalone custom agent 方式になっていて、role-local の read-first docs を `developer_instructions` に閉じているか
 - child agent role が root handoff を前提にしすぎず、local bootstrap 条件を明示しているか
 - root skill、role contract、compatibility skill の責務が重複していないか

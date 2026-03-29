@@ -21,14 +21,14 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 
 - この root skill は Codex 自己改善の入口である。
 - root session は routing と handoff だけを持ち、実作業は child agent に委ねる。
-- 共通規約は `AGENTS.md`、root router contract は `~/.codex/config.toml`、role contract は [`references/role-contracts.md`](references/role-contracts.md)、配置判断は [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を正本とする。
+- 共通規約は `AGENTS.md`、root router contract は `~/.codex/config.toml` の top-level `developer_instructions`、role contract は [`references/role-contracts.md`](references/role-contracts.md)、配置判断は [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を正本とする。
 
 ## Recommended flow
 
 1. `AGENTS.md`、`~/.codex/config.toml`、変更対象、既存差分を確認する。この repo では、repo root の `README.md` に列挙された 3 つの典型プロンプト例だけを入口の local facts として確認する。
 2. [`references/orchestration.md`](references/orchestration.md) と [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を読み、routing と placement の前提を揃える。
 3. 必要な custom skill と child agent role を確認し、既存 role で足りるならその role を使う。
-4. child agent への handoff は task summary、対象ファイル、明示した制約、観測済みの local facts に絞る。
+4. child agent への handoff は bootstrap packet に絞る。bootstrap packet には task summary、対象ファイル、明示した制約、観測済みの local facts を入れる。
 5. child agent の完了待機は timeout を使わず、完了まで待つ。Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 
 ## Child agent roles
@@ -41,8 +41,9 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 ## Quick start
 
 - `codex_meta` profile で開始する。
-- `AGENTS.md` とこの root skill を読み、次に `references/orchestration.md` と `references/role-contracts.md` を読む。
-- 置き場所や `developer_instructions` の使い分けで迷うときは [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) と [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md) を読む。
+- `AGENTS.md`、`~/.codex/config.toml`、この root skill を読み、次に `references/orchestration.md` と [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を読む。
+- role の mission、inputs、outputs、write policy は [`references/role-contracts.md`](references/role-contracts.md) を読む。
+- `developer_instructions` の使い分けで迷うときは [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md) を読む。
 - 最初の child agent は、迷いがなければ最小 role sequence に従い、迷いがあれば `si_scope` から始める。
 
 ## Repo path notes
@@ -56,9 +57,9 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 - [`references/role-contracts.md`](references/role-contracts.md)
   - `si_scope`、`si_design`、`si_editor`、`si_audit` の mission、inputs、outputs、write policy を確認するときに読む。
 - [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md)
-  - `AGENTS.md`、profile-level `developer_instructions`、role config、`config.toml`、permissions、MCP の置き場所を確認するときに読む。
+  - `AGENTS.md`、top-level `developer_instructions`、role config、`config.toml`、permissions、MCP の置き場所を確認するときに読む。
 - [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md)
-  - profile-level と role-level の `developer_instructions` の書式と責務分離を確認するときに読む。
+  - top-level と role-level の `developer_instructions` の書式と責務分離を確認するときに読む。
 - [`references/workflow-to-profile-role.md`](references/workflow-to-profile-role.md)
   - workflow を `profile`、root skill、child agent roles、role config、`references/` に分解する基準を確認するときに読む。
 - [`references/model-selection.md`](references/model-selection.md)

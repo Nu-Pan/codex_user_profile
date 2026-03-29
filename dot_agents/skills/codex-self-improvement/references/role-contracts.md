@@ -6,7 +6,7 @@
 - child agent role は 1 つの責務だけを担当する。
 - child agent role は root handoff が最小でも、自分の role config と current repo state から起動できるように書く。
 - 具体の read-first docs は role config の `developer_instructions` に閉じる。
-- `AGENTS.md` は root / child 共通の規約に閉じ、root router contract は `~/.codex/config.toml` の profile-level `developer_instructions` に置く。
+- `AGENTS.md` は root / child 共通の規約に閉じ、root router contract は `~/.codex/config.toml` の top-level `developer_instructions` に置く。
 - root session は task summary だけでなく、対象ファイル、明示した制約、観測済みの local facts も渡す。
 - root session は必要に応じて role 出力を `summary` / `decision` / `next action` の relay envelope に正規化してよいが、role-specific の Outputs が source contract である。
 - 出力は root session が次の role へ短く handoff できる粒度にする。

@@ -9,7 +9,7 @@
 
 - `root session`: `codex_meta` profile で起動し、router / orchestrator として task summary、role selection、child agent 起動、最終統合だけを担当する親 session。
 - `common rules`: `AGENTS.md` に書く、root と child が共通で守る最小ルール。
-- `root router contract`: `~/.codex/config.toml` の `[profiles.codex_meta].developer_instructions` に書く、root session 専用の追加行動契約。
+- `root router contract`: `~/.codex/config.toml` の top-level `developer_instructions` に書く、root session 専用の追加行動契約。
 - `child agent`: root session が 1 つの責務だけを任せるために起動する agent。
 - `child agent role`: `si_scope`、`si_design`、`si_editor`、`si_audit` のような child agent の責務名。
 - `role config`: `agents.<name>.config_file` から読む standalone custom agent TOML layer。child agent role ごとの `name`、`description`、`developer_instructions`、`model`、`model_reasoning_effort`、`model_verbosity`、`sandbox_mode` を置く。
@@ -46,7 +46,7 @@
 
 ## Choosing child agent roles
 
-- `si_scope`: `AGENTS.md` / `config.toml` / permissions / MCP / canonical path / root router contract と profile-level `developer_instructions` の置き場所判断が必要なときに使う。
+- `si_scope`: `AGENTS.md` / `config.toml` / permissions / MCP / canonical path / root router contract と top-level `developer_instructions` の置き場所判断が必要なときに使う。
 - `si_design`: reusable workflow を `profile`、root skill、child agent roles、`reference`、durable 設定へ分解したいときに使う。
 - `si_editor`: 承認済み write scope の prose / config を更新し、責務を変えずに整理したいときに使う。
 - `si_audit`: diff の妥当性、責務分離、validation、残余リスクを点検したいときに使う。
