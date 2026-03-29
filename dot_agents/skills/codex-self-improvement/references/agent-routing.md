@@ -2,58 +2,16 @@
 
 ## Purpose
 
-- root session がどこまでローカルで扱い、どこから child agent へ逃がすかの既定を定義する。
-- role-based self-improvement workflow の spawn policy を 1 か所で追えるようにする。
+- これは routing の互換サマリである。正本は [`orchestration.md`](orchestration.md) を読む。
 
-## Root responsibilities
+## Short summary
 
-- `AGENTS.md`、`~/.codex/config.toml`、変更対象、既存差分を確認する。
-- task を短い `task summary` に圧縮する。
-- 最小 role sequence を選ぶ。
-- child agent へ渡す入力を整え、結果を統合する。
-- 最終報告の組み立てと、必要な validation の依頼または案内を行う。
-- root session 自身で編集、検証、placement decision、責務分離の判断を進めない。
-- 変更を伴う作業は、規模に関わらず child agent に委ねる。
+- root session は task framing、role selection、handoff、最終統合だけを担う。
+- child agent は原則として必ず起動し、full history ではなく task summary と必要最小限の制約だけを渡す。
+- repo-tracked な編集は `si_editor` に寄せ、編集後は既定で `si_audit` を通す。
+- 置き場所や責務分離で迷ったら `si_scope`、workflow の分解で迷ったら `si_design` を使う。
 
-## Spawn defaults
+## If you need more detail
 
-- child agent は原則として必ず起動する。root session 単独で開始しない。
-- `fork_context = false` を既定にする。
-- child agent へは full history を渡さず、`task summary`、`files in scope`、`expected output` だけを渡す。
-- child agent の入力に追加するのは、判断に必要な制約だけに絞る。
-- 非 docs child agent は同時に 1 体までを既定にする。
-- OpenAI developer docs の参照は専用 role に分けず、必要な role が直接行う。
-- repo-tracked な非自明編集は `si_editor` に寄せる。
-- repo-tracked な編集後は、既定で `si_audit` を通す。
-
-## No local work
-
-- root session は変更内容の実施を自前で抱えない。
-- 1 ファイルだけの更新でも、repo-tracked な変更は child agent に委ねる。
-- placement、workflow redesign、cross-doc consistency の判断は child agent の責務として扱う。
-- root session が担うのは task framing、role selection、handoff、最終統合だけである。
-
-## Use each role when
-
-- `si_scope`
-  - `AGENTS.md` / `developer_instructions` / `config.toml` / permissions / MCP / path guidance の置き場所を決める必要がある。
-- `si_design`
-  - workflow を `profile`、root skill、child agent roles、`references/`、durable 設定へ再分解する必要がある。
-- `si_editor`
-  - 承認済み write scope の prose / config を更新する必要がある。
-- `si_audit`
-  - diff の妥当性、責務分離、validation、残余リスクを点検したい。
-
-## Child prompt package
-
-- `task summary`
-- `files in scope`
-- `expected output`
-- 必要なら `constraints`
-- 必要なら直前 role の要約結果
-
-## Handoff discipline
-
-- `si_scope` と `si_design` の出力は、root session が次の role へ短く受け渡せる形に圧縮する。
-- `si_editor` には write scope を明示し、他 role の責務まで抱え込ませない。
-- `si_audit` には diff と validation 結果を渡し、findings first で返させる。
+- spawn policy、handoff package、role ごとの入力条件は [`orchestration.md`](orchestration.md) を読む。
+- role ごとの Inputs / Outputs / Write policy は [`role-contracts.md`](role-contracts.md) を読む。

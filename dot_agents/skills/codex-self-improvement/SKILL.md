@@ -19,20 +19,18 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 
 ## Purpose
 
-- この root skill は Codex 自己改善 workflow の入口であり、root session は routing、child agent 起動、最終統合だけを担当し、実作業は child agent に委ねる。
-- 正本語彙、最小の role sequence、child agent role 選定を定義する。
-- この workflow の session 契約の正本は `profiles.codex_meta.developer_instructions`、repo-wide の入口は `AGENTS.md`、詳細判断の正本は関連 `references/` と child agent role contract とする。
+- この root skill は Codex 自己改善 workflow の入口であり、root session は task framing、child agent 起動、最終統合だけを担当し、実作業は child agent に委ねる。
+- session 契約の正本は `profiles.codex_meta.developer_instructions`、repo-wide の入口は `AGENTS.md`、routing と詳細判断の正本は関連 `references/` と child agent role contract である。
+- ここには導線だけを置き、手順の本文は `references/` に逃がす。
 
 ## Recommended flow
 
 1. `AGENTS.md`、`~/.codex/config.toml`、変更対象、既存差分を確認する。
-2. [`references/orchestration.md`](references/orchestration.md) で正本語彙と最小 role sequence を確認する。
+2. [`references/orchestration.md`](references/orchestration.md) と [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) で、最小 role sequence と置き場所の判断を確認する。
 3. 少なくとも 1 つの child agent role を起動し、task summary、対象ファイル、期待出力だけを渡す。
-4. 実際の編集、検証、判断は child agent に委ねる。
-5. repo-tracked な非自明編集は `si_editor` へ寄せる。
-6. 編集後は `si_audit` 相当の観点で validation 結果と最終報告観点を確認する。
+4. repo-tracked な編集は `si_editor` に寄せ、編集後は `si_audit` で validation と残余リスクを点検する。
 
-- 既定 role sequence、sequence を広げる条件、spawn policy は [`references/orchestration.md`](references/orchestration.md) と [`references/agent-routing.md`](references/agent-routing.md) を正本とする。
+- 既定 role sequence、sequence を広げる条件、spawn policy は [`references/orchestration.md`](references/orchestration.md) を正本とし、[`references/agent-routing.md`](references/agent-routing.md) は互換サマリとして読む。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 - 迷ったら `si_scope` で置き場所と責務境界を確定し、必要なときだけ後続 role を足す。
 
@@ -47,8 +45,8 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 
 - `codex_meta` profile で開始する。
 - `AGENTS.md`、`~/.codex/config.toml`、この root skill を確認する。
-- [`references/orchestration.md`](references/orchestration.md) の `Choosing child agent roles` と `Typical sequences` を見て最小 role sequence を決める。
-- child agent の起動方針で迷うときは [`references/agent-routing.md`](references/agent-routing.md) を読む。
+- [`references/orchestration.md`](references/orchestration.md) の `Default role sequence` と `Choosing child agent roles` を見て最小 role sequence を決める。
+- 置き場所や session 契約で迷うときは [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) と [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md) を読む。
 - 各 role に何を渡し、何を返させるかは [`references/role-contracts.md`](references/role-contracts.md) を読む。
 
 ## Repo path notes
@@ -58,17 +56,17 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 ## Reference map
 
 - [`references/orchestration.md`](references/orchestration.md)
-  - 推奨 role sequence、role の広げ方、正本語彙、往復条件を確認するときに読む。
+  - root/child の routing、推奨 role sequence、handoff の正本を確認するときに読む。
 - [`references/agent-routing.md`](references/agent-routing.md)
-  - root session がどこまでローカルで扱い、どこから child agent へ逃がすか、spawn policy の既定を確認するときに読む。
+  - routing の短い互換サマリを確認するときに読む。
 - [`references/role-contracts.md`](references/role-contracts.md)
-  - `si_scope`、`si_design`、`si_editor`、`si_audit` に渡す入力と期待出力を確認するときに読む。
+  - `si_scope`、`si_design`、`si_editor`、`si_audit` に渡す入力、期待出力、write policy を確認するときに読む。
 - [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md)
   - `AGENTS.md`、`developer_instructions`、`config.toml`、permissions、MCP の置き場所を確認するときに読む。
 - [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md)
-  - `developer_instructions` に何を書くかを確認するときに読む。
+  - `developer_instructions` の session 契約と書式を確認するときに読む。
 - [`references/workflow-to-profile-role.md`](references/workflow-to-profile-role.md)
-  - profile、root skill、child agent roles、role config、`references/` への分解基準と最小テンプレを確認するときに読む。
+  - profile、root skill、child agent roles、role config、`references/` への分解基準を確認するときに読む。
 - [`references/editor-guide.md`](references/editor-guide.md)
   - prose / config / reference の文章を短く直接的に保つ基準を確認するときに読む。
 - [`references/workflow-checklist.md`](references/workflow-checklist.md)

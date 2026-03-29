@@ -2,6 +2,7 @@
 
 ## Common rules
 
+- Routing と spawn policy の正本は [`orchestration.md`](orchestration.md) にある。
 - child agent role は 1 つの責務だけを担当する。
 - 出力は root session が次の role へ短く handoff できる粒度にする。
 - 出力は `summary`、`decision`、`next action` の形で圧縮する。
@@ -13,7 +14,6 @@
 
 - Mission: placement、session 契約、canonical path、editable scope を決める。
 - Read first:
-  - `references/orchestration.md`
   - `references/config-and-rule-placement.md`
   - `references/developer-instructions-guide.md`
 - Inputs:
@@ -31,7 +31,6 @@
 
 - Mission: reusable workflow を profile、root skill、child agent roles、role configs、references に分解する。
 - Read first:
-  - `references/orchestration.md`
   - `references/workflow-to-profile-role.md`
   - `references/developer-instructions-guide.md`
 - Inputs:
@@ -50,7 +49,6 @@
 
 - Mission: 承認済み write scope の prose / config を更新する。
 - Read first:
-  - `references/orchestration.md`
   - `references/editor-guide.md`
   - task に必要な局所 reference
 - Inputs:
@@ -68,7 +66,6 @@
 
 - Mission: diff の妥当性、責務分離、validation、残余リスクを点検する。
 - Read first:
-  - `references/orchestration.md`
   - `references/workflow-checklist.md`
   - 変更対象に対応する局所 reference
 - Inputs:

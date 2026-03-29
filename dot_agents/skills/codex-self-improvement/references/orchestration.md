@@ -1,5 +1,10 @@
 # Orchestration
 
+## Purpose
+
+- これは routing と handoff の正本である。
+- `agent-routing.md` はこの文書の互換サマリとして扱う。
+
 ## Canonical terms
 
 - `root session`: `codex_meta` profile で起動し、task summary、role selection、最終統合を担当する親 session。
@@ -19,13 +24,14 @@
 - `AGENTS.md`、`~/.codex/config.toml`、変更対象、既存差分を確認する。
 - 変更対象が repo-scoped `.codex/**/*` や user skill 側に及ぶ場合は、その現状も先に確認する。
 - 複数文書をまたいで編集する場合は、この文書の正本語彙に揃える。
+- 置き場所の判断が先なら [`config-and-rule-placement.md`](config-and-rule-placement.md) を先に読む。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 
 ## Default role sequence
 
-- まず root session で task を要約し、child agent を起動する前提で role sequence を選ぶ。root session 単独で完結させない。
+- root session は task を要約し、最小 role sequence を選んで child agent を起動する。root session 単独で完結させない。
 - 置き場所、権限、canonical path、session 契約が曖昧な場合だけ `si_scope` を足す。
-- reusable workflow、profile、role config、互換 shim の責務分離を再設計する場合だけ `si_design` を足す。
+- reusable workflow、profile、role config の責務分離を再設計する場合だけ `si_design` を足す。
 - repo-tracked な非自明編集や複数文書の文面整理は `si_editor` へ寄せる。
 - repo-tracked な編集を行った後は、既定で `si_audit` を最後に足す。
 - 同時に複数 role を広げすぎず、必要条件が出たときだけ前段または後段を足す。
@@ -65,5 +71,5 @@
 - `si_design` は architecture decision と target artifact list を返し、repo-tracked patch は返さない。
 - `si_editor` は承認済み write scope の repo-tracked patch を担当する。
 - `si_audit` は findings、validation、残余リスクを返し、repo-tracked patch は返さない。
-- spawn policy や role ごとの入力条件で迷ったら [`agent-routing.md`](agent-routing.md) と [`role-contracts.md`](role-contracts.md) へ戻る。
+- spawn policy や role ごとの入力条件で迷ったら [`role-contracts.md`](role-contracts.md) へ戻る。
 - 一般化できる原則が見えたら、task 固有の説明を増やす前に対応する `references/` へ引き上げる。

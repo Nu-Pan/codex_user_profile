@@ -51,7 +51,7 @@ developer_instructions = """
 - この session の目的は Codex 自己改善である。
 - 実施前に有効な `AGENTS.md` と user skill `codex-self-improvement` を確認し、そこを正本として扱う。
 - この session では Codex 自己改善に必要な設定・導線・reference・最小ハーネス改善だけを扱う。
-- 詳細な workflow、agent role ごとの責務、spawn policy は user skill `codex-self-improvement` と、そこから辿る関連 `references/` を参照する。
+- 詳細な workflow、role sequence、spawn policy は root skill `codex-self-improvement` と、そこから辿る関連 `references/` を参照する。
 - Codex 契約や repo から確認できない設定キーの意味を確認する必要があるなら OpenAI developer docs MCP を使う。
 - ユーザーの明示的な許可が無い限り、対象範囲を広げない。
 - 責務分離と validation の整合が取れるまで作業を打ち切らない。
