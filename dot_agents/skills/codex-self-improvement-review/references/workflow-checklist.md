@@ -50,7 +50,7 @@
 
 - `codex exec -p <profile_name> "Summarize the current mission, allowed modes, and must-read documents."`
 - `codex exec '$<bundle-skill-name> Summarize this workflow, the recommended phases, and which component skills you would read.'`
-- `codex exec '$<component-skill-name> Summarize your phase, inputs, outputs, and review criteria.'`
+- `codex exec '$<component-skill-name> Summarize your phase, inputs, outputs, local decision criteria, and reference map.'`
 - `codex exec -p <profile_name> '$<bundle-skill-name> Explain how this workflow is split between developer_instructions, bundle skill, component skills, references, and config.toml.'`
 - `codex --ask-for-approval never "Summarize the current instructions."`
 - `codex --cd <subdir> --ask-for-approval never "Show which instruction files are active."`

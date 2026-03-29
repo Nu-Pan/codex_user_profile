@@ -244,6 +244,6 @@ description: Use when <trigger condition>. Use for <phase responsibility>. Do no
 
 - `codex exec -p <profile_name> "Summarize the current mission, allowed modes, and must-read documents."` で profile の見え方を確認する。
 - `codex exec '$<bundle-skill-name> Summarize this workflow, the recommended phases, and which component skills you would read.'` で `bundle skill` の導線を確認する。
-- `codex exec '$<component-skill-name> Summarize your phase, inputs, outputs, and review criteria.'` で `component skill` の局所責務を確認する。
+- `codex exec '$<component-skill-name> Summarize your phase, inputs, outputs, local decision criteria, and reference map.'` で `component skill` の局所責務を確認する。
 - `codex exec -p <profile_name> '$<bundle-skill-name> Explain how this workflow is split between developer_instructions, bundle skill, component skills, references, and config.toml.'` で責務分離を確認する。
 - instruction や skill が古く見える場合は、Codex を対象 directory で再起動して確認する。

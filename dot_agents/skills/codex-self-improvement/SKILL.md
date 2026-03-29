@@ -29,9 +29,7 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 3. 選んだ route に必要な component skills と `references/` だけを読む。
 4. 編集後は `codex-self-improvement-review` で validation と最終報告観点を確認する。
 
-- 既定 route は `codex-self-improvement-skill-writing` -> `codex-self-improvement-review` とする。
-- 置き場所判断が要る場合だけ `codex-self-improvement-placement`、workflow 分解や `developer_instructions` 設計が要る場合だけ `codex-self-improvement-workflow` を前に足す。
-- bundle skill と component skill 群をまとめて総点検するときは `codex-self-improvement-placement` -> `codex-self-improvement-workflow` -> `codex-self-improvement-skill-writing` -> `codex-self-improvement-review` を既定にする。
+- 既定 route、route を広げる条件、bundle skill と component skill 群をまとめて総点検するときの推奨順序は [`references/orchestration.md`](references/orchestration.md) を正本とする。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 
 ## Component skills
