@@ -42,6 +42,7 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 
 - `codex_meta` profile で開始する。
 - `AGENTS.md`、`~/.codex/config.toml`、この root skill を確認する。
+- `model / reasoning effort` の重さを決める必要があるときは [`references/model-selection.md`](references/model-selection.md) を確認する。
 - 最小 role sequence は [`references/orchestration.md`](references/orchestration.md)、各 role の入出力と write policy は [`references/role-contracts.md`](references/role-contracts.md) を読む。
 - 置き場所や session 契約で迷うときは [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) と [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md) を読む。
 
@@ -61,6 +62,8 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
   - `developer_instructions` の session 契約と書式を確認するときに読む。
 - [`references/workflow-to-profile-role.md`](references/workflow-to-profile-role.md)
   - profile、root skill、child agent roles、role config、`references/` への分解基準を確認するときに読む。
+- [`references/model-selection.md`](references/model-selection.md)
+  - OpenAI 公式 docs に沿って model / reasoning effort / verbosity の tier を選ぶ基準を確認するときに読む。
 - [`references/editor-guide.md`](references/editor-guide.md)
   - prose / config / reference の文章を短く直接的に保つ基準を確認するときに読む。
 - [`references/workflow-checklist.md`](references/workflow-checklist.md)

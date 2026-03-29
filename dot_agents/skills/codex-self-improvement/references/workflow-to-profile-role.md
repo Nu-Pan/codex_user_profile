@@ -54,6 +54,8 @@
 - その role だけ model / reasoning / verbosity tier を root と変えたい。
 - 同じ role を繰り返し起動するとき、毎回 CLI override で指定したくない。
 - role 固有の session 契約は不要で、durable な推論 tier だけを固定したい。
+- model / reasoning / verbosity tier の選定原則は [`references/model-selection.md`](model-selection.md) を正本とする。
+- role config には選定結果だけを置き、判断基準の本文は置かない。
 
 ### `reference`
 
