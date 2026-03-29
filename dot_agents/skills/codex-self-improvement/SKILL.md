@@ -7,7 +7,7 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 
 ## Use when
 
-- `AGENTS.md`、`~/.codex/**/*`、repo-scoped `.codex/**/*`、この root skill、または関連 `~/.agents/skills/codex-self-improvement-*` を追加・変更するとき
+- `AGENTS.md`、`~/.codex/**/*`、repo-scoped `.codex/**/*`、この root skill、または関連 references / child agent role / role config を追加・変更するとき
 - skill family の文面、語彙、責務境界、導線を role-based architecture へまとめて見直したいとき
 - `profiles`、`developer_instructions`、permissions、MCP 設定など Codex の挙動設定を改善したいとき
 - ユーザーが示した reusable workflow を `profile`、root skill、child agent roles、`references/`、durable 設定に分解して Codex に取り込みたいとき
@@ -61,3 +61,13 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
   - root session がどこまでローカルで扱い、どこから child agent へ逃がすか、spawn policy の既定を確認するときに読む。
 - [`references/role-contracts.md`](references/role-contracts.md)
   - `si_scope`、`si_design`、`si_editor`、`si_audit` に渡す入力と期待出力を確認するときに読む。
+- [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md)
+  - `AGENTS.md`、`developer_instructions`、`config.toml`、permissions、MCP の置き場所を確認するときに読む。
+- [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md)
+  - `developer_instructions` に何を書くかを確認するときに読む。
+- [`references/workflow-to-profile-role.md`](references/workflow-to-profile-role.md)
+  - profile、root skill、child agent roles、role config、`references/` への分解基準と最小テンプレを確認するときに読む。
+- [`references/editor-guide.md`](references/editor-guide.md)
+  - prose / config / reference の文章を短く直接的に保つ基準を確認するときに読む。
+- [`references/workflow-checklist.md`](references/workflow-checklist.md)
+  - 編集前確認、validation、自己レビュー、最終報告の観点を確認するときに読む。

@@ -103,7 +103,7 @@
 - `codex_meta`
   - mission は「Codex 自己改善」。
   - must read は `AGENTS.md` と root skill `codex-self-improvement`。
-  - allowed modes は「root は軽量 orchestrator として振る舞い、深い判断は child agent へ逃がす」。
+  - allowed modes は「最小ハーネスから進める」。
   - workflow を新しい profile + root skill + child agent roles に分解する場合でも、詳細は関連 `references/` に置く。
   - 条件付き追加項目として OpenAI developer docs MCP の行を持ってよい。
 - `spec_doc`

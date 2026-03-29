@@ -12,8 +12,8 @@
 - Mission: placement、session 契約、canonical path、editable scope を決める。
 - Read first:
   - `references/orchestration.md`
-  - `../codex-self-improvement-placement/references/config-and-rule-placement.md`
-  - `../codex-self-improvement-workflow/references/developer-instructions-guide.md`
+  - `references/config-and-rule-placement.md`
+  - `references/developer-instructions-guide.md`
 - Inputs:
   - 変更意図
   - 対象ファイル
@@ -30,8 +30,8 @@
 - Mission: reusable workflow を profile、root skill、child agent roles、role configs、references に分解する。
 - Read first:
   - `references/orchestration.md`
-  - `../codex-self-improvement-workflow/references/workflow-to-profile-role.md`
-  - `../codex-self-improvement-workflow/references/developer-instructions-guide.md`
+  - `references/workflow-to-profile-role.md`
+  - `references/developer-instructions-guide.md`
 - Inputs:
   - goal
   - constraints
@@ -49,7 +49,7 @@
 - Mission: 承認済み write scope の prose / config を更新する。
 - Read first:
   - `references/orchestration.md`
-  - `../codex-self-improvement-skill-writing/references/editor-guide.md`
+  - `references/editor-guide.md`
   - task に必要な局所 reference
 - Inputs:
   - 承認済み write scope
@@ -67,7 +67,7 @@
 - Mission: diff の妥当性、責務分離、validation、残余リスクを点検する。
 - Read first:
   - `references/orchestration.md`
-  - `../codex-self-improvement-review/references/workflow-checklist.md`
+  - `references/workflow-checklist.md`
   - 変更対象に対応する局所 reference
 - Inputs:
   - diff summary

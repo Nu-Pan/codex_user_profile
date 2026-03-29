@@ -4,7 +4,7 @@
 
 - ユーザーが提示した再利用可能な workflow を、Codex が繰り返し扱える `profile`、root skill、child agent roles、role config、`references/` に分解するときの基準を定義する。
 - この文書は「どこに何を書くか」と「最小テンプレ」を定め、role-based self-improvement workflow の迷いを減らす。
-- file placement 自体が曖昧な場合は、この文書だけで決め切らず `codex-self-improvement-placement` 側の reference へ戻る。
+- file placement 自体が曖昧な場合は、この文書だけで決め切らず `references/config-and-rule-placement.md` へ戻る。
 
 ## Terms
 
@@ -57,6 +57,19 @@
 
 - role に閉じた詳細手順、判断基準、例外条件、短いテンプレ断片がある。
 - root skill に長い説明を載せず、必要時だけ読ませたい。
+
+### one root skill で足りる場合
+
+- workflow が単一の導線で完結し、導線と局所手順を分ける利得が小さい。
+- 追加の role 分割をしても、責務より重複の方が増える。
+- `developer_instructions` から読ませる入口が 1 つで十分で、child agent role を経由させる理由が弱い。
+
+### `profile` + `root skill` + child agent roles が要る場合
+
+- session 契約の追加と、workflow 全体の導線と、再利用可能な局所手順のすべてが必要である。
+- 既定では、複数責務を持つ workflow は `profile` + `root skill` + 必要な child agent roles の組で表現する。
+- 例外として、単なる durable 設定差分だけなら profile だけでよい。
+- 例外として、既存 profile の行動契約で十分なら、root skill と child agent role だけでよい。
 
 ## Decomposition recipe
 
@@ -129,6 +142,92 @@ model_verbosity = "<verbosity>"
 ```
 
 - role config には、既定では model tier 以外を入れない。
+
+## Minimal root skill template
+
+```markdown
+---
+name: <root-skill-name>
+description: Use when <trigger condition>. Use for <workflow>. Do not use for <out-of-scope>.
+---
+
+# <Root Skill Title>
+
+## Use when
+
+- <trigger condition>
+
+## Purpose
+
+- この skill は <workflow> 全体の導線、推奨 role sequence、child agent role への入口を定義する。
+- session 契約の正本は対応 profile の `developer_instructions` とする。
+
+## Recommended flow
+
+1. <phase 1>
+2. <phase 2>
+3. <phase 3>
+
+- 往復や省略があり得る条件があるなら、ここで短く述べる。
+
+## Child agent roles
+
+- `<child-agent-role-a>`: <phase or responsibility>
+- `<child-agent-role-b>`: <phase or responsibility>
+
+## Quick start
+
+- `AGENTS.md` と必要な reference を確認する。
+- まず <first orchestration step> を行う。
+
+## Reference map
+
+- [`references/<doc>.md`](references/<doc>.md)
+  - <when to read>
+```
+
+- root skill は、workflow 全文の置き場所ではなく、入口と導線の置き場所として使う。
+- root skill が長くなり始めたら、詳細手順は child agent role 側の `references/` へ移す。
+
+## Minimal child agent role template
+
+```markdown
+---
+name: <child-agent-role-name>
+description: Use when <trigger condition>. Use for <phase responsibility>. Do not use for <out-of-scope>.
+---
+
+# <Child Agent Role Title>
+
+## Use when
+
+- <trigger condition>
+
+## Purpose
+
+- この role は <phase responsibility> に必要な再利用可能な詳細手順と判断基準を定義する。
+- workflow 全体の導線は対応する root skill を正本とする。
+
+## Inputs
+
+- <required inputs or preconditions>
+
+## Outputs
+
+- <expected deliverables>
+
+## Quick start
+
+- 必要な reference を確認する。
+- まず <first local step> を行う。
+
+## Reference map
+
+- [`references/<doc>.md`](references/<doc>.md)
+  - <when to read>
+```
+
+- child agent role は、他 role の段取りや session 契約を再掲しない。
 
 ## Representative example
 
