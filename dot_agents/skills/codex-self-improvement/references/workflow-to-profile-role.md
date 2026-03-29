@@ -25,6 +25,7 @@
 - root skill は「最初に何を読み、どの順で child agent を起動するか」を示し、実作業は child agent role に寄せる。
 - child agent role は、その責務に必要な入力条件、期待出力、write policy だけに閉じる。
 - role config は、OpenAI 公式 docs の一般原則に従って、まず model、reasoning、verbosity の tier を中心に持たせる。
+- role の責務が読み取り専用か書き込み可かで明確に分かれるなら、`sandbox_mode` を最小限追加して capability を role contract に合わせる。
 - `reference` は、各 role から必要時にだけ読む詳細手順と例外条件を持つ。
 - role sequence は既定では推奨順序であり、hard gate にはしない。往復や省略があり得る場合は root skill 側で条件を説明する。
 
@@ -52,6 +53,7 @@
 ### role config
 
 - その role だけ model / reasoning / verbosity tier を root と変えたい。
+- その role だけ sandbox_mode のような capability も root と変えたい。
 - 同じ role を繰り返し起動するとき、毎回 CLI override で指定したくない。
 - role 固有の session 契約は不要で、durable な推論 tier だけを固定したい。
 - model / reasoning / verbosity tier の選定原則は [`references/model-selection.md`](model-selection.md) を正本とする。
@@ -149,9 +151,11 @@ developer_instructions = """
 model = "<model>"
 model_reasoning_effort = "<effort>"
 model_verbosity = "<verbosity>"
+sandbox_mode = "<read-only|workspace-write>"
 ```
 
 - これは基本形であり、role config には OpenAI 公式 docs の一般原則に沿う必要最小限の追加設定を置いてよい。
+- たとえば、`si_scope` / `si_design` / `si_audit` は `sandbox_mode = "read-only"`、`si_editor` は `sandbox_mode = "workspace-write"` にする。
 
 ## Minimal root skill template
 
@@ -251,3 +255,6 @@ description: Use when <trigger condition>. Use for <phase responsibility>. Do no
   - `si_design`: workflow / role split を設計する。
   - `si_editor`: 承認済み write scope を更新する。
   - `si_audit`: diff と validation を点検する。
+  - role config の例:
+    - `si_scope` / `si_design` / `si_audit`: `sandbox_mode = "read-only"`
+    - `si_editor`: `sandbox_mode = "workspace-write"`
