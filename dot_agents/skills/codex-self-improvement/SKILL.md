@@ -1,16 +1,16 @@
 ---
 name: codex-self-improvement
-description: Use when improving Codex itself rather than product code, especially when editing `AGENTS.md`, `~/.codex/**/*`, repo-scoped `.codex/**/*`, this skill family, or related workflow settings. Use as the entry point for route selection, wording cleanup, placement decisions, workflow decomposition, and Codex/OpenAI docs contract checks. Do not use for product implementation, ordinary tests, or environment setup.
+description: Use when improving Codex itself rather than product code, especially when editing `AGENTS.md`, `~/.codex/**/*`, repo-scoped `.codex/**/*`, this bundle skill, its related component skills, or related workflow settings. Use as the entry point for route selection, wording cleanup, placement decisions, workflow decomposition, and Codex/OpenAI docs contract checks. Do not use for product implementation, ordinary tests, or environment setup.
 ---
 
 # Codex Self Improvement
 
 ## Use when
 
-- `AGENTS.md`、`~/.codex/**/*`、repo-scoped `.codex/**/*`、この skill family、または関連 `~/.agents/skills/codex-self-improvement-*` skills を追加・変更するとき
+- `AGENTS.md`、`~/.codex/**/*`、repo-scoped `.codex/**/*`、この bundle skill、または関連 `~/.agents/skills/codex-self-improvement-*` の component skills を追加・変更するとき
 - skill 文面を、責務を変えずに短く直接的な表現へ整えたいとき
 - `profiles`、`developer_instructions`、permissions、MCP 設定など Codex の挙動設定を改善したいとき
-- ユーザーが示した reusable workflow を profile、bundle skill、component skills へ分解して Codex に取り込みたいとき
+- ユーザーが示した reusable workflow を `profile`、`bundle skill`、`component skill` に分解して Codex に取り込みたいとき
 
 ## Do not use when
 
@@ -19,7 +19,7 @@ description: Use when improving Codex itself rather than product code, especiall
 
 ## Purpose
 
-- この skill は Codex 自己改善 workflow の入口であり、route を選んで必要な component skill へ渡す。
+- この bundle skill は Codex 自己改善 workflow の入口であり、route を選んで必要な component skill へ渡す。
 - session 契約の正本は `profiles.codex_meta.developer_instructions`、repo-wide の入口は `AGENTS.md`、phase-local な詳細は component skills と `references/` を正本とする。
 
 ## Recommended flow
@@ -37,13 +37,13 @@ description: Use when improving Codex itself rather than product code, especiall
 ## Component skills
 
 - [`codex-self-improvement-placement`](../codex-self-improvement-placement/SKILL.md): `AGENTS.md` / `config.toml` / permissions / MCP / canonical path の置き場所を判断する。
-- [`codex-self-improvement-workflow`](../codex-self-improvement-workflow/SKILL.md): reusable workflow を `profile` + `束ね skill` + `役割別 skill` に分解し、`developer_instructions` を設計する。
+- [`codex-self-improvement-workflow`](../codex-self-improvement-workflow/SKILL.md): reusable workflow を `profile` + `bundle skill` + `component skill` に分解し、`developer_instructions` を設計する。
 - [`codex-self-improvement-skill-writing`](../codex-self-improvement-skill-writing/SKILL.md): skill を構成する文章を簡素化し、bundle skill / component skill / reference の責務境界を保ったまま読みやすくする。
 - [`codex-self-improvement-review`](../codex-self-improvement-review/SKILL.md): checklist、validation、reference への一般化、最終報告を行う。
 
 ## Quick start
 
-- `AGENTS.md`、`~/.codex/config.toml`、この skill を確認する。
+- `AGENTS.md`、`~/.codex/config.toml`、この bundle skill を確認する。
 - [`references/orchestration.md`](references/orchestration.md) で今回の route を 1 つ選ぶ。
 - その route に必要な component skill と `references/` だけを読む。
 

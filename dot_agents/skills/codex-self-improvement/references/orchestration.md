@@ -18,7 +18,7 @@
 - [`codex-self-improvement-placement`](../codex-self-improvement-placement/SKILL.md)
   - `AGENTS.md` / `config.toml` / permissions / MCP / canonical path の置き場所判断が必要なときに使う。
 - [`codex-self-improvement-workflow`](../codex-self-improvement-workflow/SKILL.md)
-  - reusable workflow を `profile`、`束ね skill`、`役割別 skill` に分解したいときに使う。
+  - reusable workflow を `profile`、`bundle skill`、`component skill` に分解したいときに使う。
 - [`codex-self-improvement-skill-writing`](../codex-self-improvement-skill-writing/SKILL.md)
   - skill を構成する文章を、責務を変えずに短く直接的な表現へ整理したいときに使う。
 - [`codex-self-improvement-review`](../codex-self-improvement-review/SKILL.md)
@@ -28,7 +28,7 @@
 
 - 文面整理や bundle skill 自体の責務維持編集: `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
 - 置き場所判断や責務分離が先に必要: `codex-self-improvement-placement` -> 必要なら `codex-self-improvement-workflow` または `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
-- reusable workflow を profile / skills へ分解したい: `codex-self-improvement-placement` -> `codex-self-improvement-workflow` -> 必要なら `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
+- reusable workflow を `profile` / `bundle skill` / `component skill` へ分解したい: `codex-self-improvement-placement` -> `codex-self-improvement-workflow` -> 必要なら `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
 
 ## Recommended sequence
 
@@ -38,7 +38,7 @@
 4. 実際の編集後に `review` で validation と最終報告観点を確認する。
 
 - placement 判断が変わったら、workflow 設計や編集方針へ戻ってよい。
-- 新規 profile と bundle/component skills を同時に足した場合は、最後に責務分離をまとめて見直す。
+- 新規 profile と bundle skill / component skills を同時に足した場合は、最後に責務分離をまとめて見直す。
 
 ## Handoff rule
 
