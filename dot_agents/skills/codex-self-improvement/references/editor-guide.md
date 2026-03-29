@@ -22,6 +22,7 @@
 - root skill は入口と spawn policy だけを持ち、実作業は child agent に逃がす。詳細手順は role contract や `references/` に逃がす。
 - legacy compatibility skill は handoff だけを書き、canonical な本文を抱え込まない。
 - reference は深い判断基準、変換ルール、例外条件だけを持ち、入口説明を繰り返さない。
+- OpenAI 公式 docs で足りる一般的な内容は、skill family に再掲せず、公式 docs への導線に置き換える。
 - 例が責務や境界の理解に寄与しないなら削る。
 - 文量を減らすために重要な境界語を落とさない。
 
@@ -90,3 +91,4 @@
 - `この legacy skill は <canonical role> への handoff を定義する compatibility entrypoint である。` の型を優先する。
 - `まず <primary reference> を読む。必要なら関連 reference を辿る。` のように、最初の一手を明示する。
 - 語彙統一が主題なら、`<canonical term> を正本とし、<alias> はこの scope では使わない。` のように判断結果を短く残す。
+- `OpenAI 公式 docs で足りるので、詳細は <official docs> を参照する。` のように、外部の正本へ逃がす。
