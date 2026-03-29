@@ -2,7 +2,7 @@
 
 ## Purpose
 
-- prose / config / reference の文章を、責務を変えずに短く直接的にする基準を定義する。
+- prose / config / reference の文章を、責務を変えずに短く直接的にする基準を定義する。旧 skill-writing 相当の作業もここで扱う。
 - 文章整理の目的は情報量を増やすことではなく、入口、責務、引き渡し条件、正本語彙を誤読なく見せることである。
 
 ## Preserve before editing
@@ -25,7 +25,7 @@
 - 例が責務や境界の理解に寄与しないなら削る。
 - 文量を減らすために重要な境界語を落とさない。
 
-## Canonical terms for this bundle
+## Canonical terms for this skill family
 
 - `root session`
 - `child agent`
