@@ -21,7 +21,7 @@
 - 既定では、新しい典型 workflow は `profile` と 1 つの root skill で表現する。
 - workflow に複数の責務やレビュー観点がある場合は、root skill の下に複数の child agent roles を置く。
 - `profile` は session 契約だけを持ち、workflow の本文や role 分担を抱え込まない。
-- root skill は「最初に何を読み、どの順で進め、必要ならどの role を起動するか」を示す。
+- root skill は「最初に何を読み、どの順で child agent を起動するか」を示し、実作業は child agent role に寄せる。
 - child agent role は、その責務に必要な入力条件、期待出力、write policy だけに閉じる。
 - role config は、既定では model、reasoning、verbosity の tier だけを持つ。
 - `reference` は、各 role から必要時にだけ読む詳細手順と例外条件を持つ。
@@ -40,6 +40,7 @@
 - workflow 全体の導線を 1 つの入口で示したい。
 - 同じ workflow で複数の child agent role を使い分ける。
 - must-read と spawn policy を再利用したい。
+- root session に実作業を抱え込ませたくない。
 
 ### child agent role
 
@@ -79,13 +80,14 @@
 4. role ごとに必要な model / reasoning / verbosity tier だけを抜き出し、role config に入れる。
 5. role ごとの再利用可能な詳細手順、判断基準、テンプレ断片を `references/` に入れる。
 6. durable 設定だけを抜き出し、`config.toml` に入れる。
-7. repo-wide router が本当に必要かを最後に判断し、必要なときだけ `AGENTS.md` を触る。
+7. repo-wide router が本当に必要かを最後に判断し、必要なときだけ `AGENTS.md` を触る。router は起動導線だけを持ち、実作業は child agent に委ねる。
 
 ## Default placement summary
 
 ### `AGENTS.md`
 
 - repo 全体の router だけを書く。
+- 実作業手順や編集手順は書かない。
 - 新しい workflow のために repo-wide 導線が本当に必要な場合だけ更新する。
 
 ### `~/.codex/config.toml`
@@ -104,6 +106,7 @@
 ### `~/.agents/skills/<root-skill-name>/SKILL.md`
 
 - trigger 条件、目的、推奨 role sequence、child agent role の導線、reference map を置く。
+- 実作業の本文は置かない。
 - session 契約の正本にはならない。
 
 ### `~/.agents/skills/<root-skill-name>/agent_roles/*.toml`
@@ -159,7 +162,7 @@ description: Use when <trigger condition>. Use for <workflow>. Do not use for <o
 
 ## Purpose
 
-- この skill は <workflow> 全体の導線、推奨 role sequence、child agent role への入口を定義する。
+- この skill は <workflow> 全体の導線、推奨 role sequence、child agent role への入口を定義し、実作業は child agent role に委ねる。
 - session 契約の正本は対応 profile の `developer_instructions` とする。
 
 ## Recommended flow

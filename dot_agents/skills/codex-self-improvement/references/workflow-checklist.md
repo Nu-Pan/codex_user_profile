@@ -78,11 +78,12 @@
 
 - `developer_instructions`、`AGENTS.md`、permissions の責務分離が崩れていないか
 - 典型 workflow の session 契約が `developer_instructions` に閉じ、全体導線が root skill に、詳細手順が `references/` / role contract に逃がされているか
+- root skill が編集作業や検証作業を抱え込まず、実作業が child agent に分離されているか
 - MCP rule の置き場所が `config.toml`、`AGENTS.md`、存在する場合の task 文書、`developer_instructions` のどれかで一意に説明できるか
 - `developer_instructions` を「正本そのもの」と誤解させる表現になっていないか
 - profile 名の自己認識を前提にしたルールが紛れ込んでいないか
 - profile 名が `lower_snake_case`、skill 名が `lower-hyphen-case` の既定に沿っているか
-- `developer_instructions` が child agent role を直接抱え込みすぎず、既定どおり root skill を入口にしているか
+- `developer_instructions` が child agent role を直接抱え込みすぎず、既定どおり root skill を入口にし、child agent 起動が原則必須になっているか
 - root skill、role contract、compatibility skill の責務が重複していないか
 - root skill には route の概要だけを残し、詳細な選択条件や例外は `references/` や role contract へ逃がせているか
 - 同じ概念が root skill / compatibility skills / `references/` / role contract で別名のまま共存していないか

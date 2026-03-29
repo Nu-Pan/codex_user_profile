@@ -38,6 +38,7 @@
 ### `AGENTS.md`
 
 - repo 全体の bootstrapping と router だけを書く。
+- router の実行手順や作業本文は置かない。
 - 作業分類、必読文書、禁止事項、仕様文書の入口を置く。
 - Codex 自己改善タスクの導線は示してよい。
 - repo-wide に常時有効な MCP 利用方針だけを置く。

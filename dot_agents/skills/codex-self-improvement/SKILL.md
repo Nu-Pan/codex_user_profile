@@ -19,16 +19,18 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 
 ## Purpose
 
-- この root skill は Codex 自己改善 workflow の入口であり、正本語彙、最小の role sequence、child agent role 選定を定義する。
+- この root skill は Codex 自己改善 workflow の入口であり、root session は routing、child agent 起動、最終統合だけを担当し、実作業は child agent に委ねる。
+- 正本語彙、最小の role sequence、child agent role 選定を定義する。
 - この workflow の session 契約の正本は `profiles.codex_meta.developer_instructions`、repo-wide の入口は `AGENTS.md`、詳細判断の正本は関連 `references/` と child agent role contract とする。
 
 ## Recommended flow
 
 1. `AGENTS.md`、`~/.codex/config.toml`、変更対象、既存差分を確認する。
 2. [`references/orchestration.md`](references/orchestration.md) で正本語彙と最小 role sequence を確認する。
-3. 必要な child agent role だけを起動し、task summary、対象ファイル、期待出力だけを渡す。
-4. repo-tracked な非自明編集は `si_editor` へ寄せる。
-5. 編集後は `si_audit` 相当の観点で validation と最終報告観点を確認する。
+3. 少なくとも 1 つの child agent role を起動し、task summary、対象ファイル、期待出力だけを渡す。
+4. 実際の編集、検証、判断は child agent に委ねる。
+5. repo-tracked な非自明編集は `si_editor` へ寄せる。
+6. 編集後は `si_audit` 相当の観点で validation 結果と最終報告観点を確認する。
 
 - 既定 role sequence、sequence を広げる条件、spawn policy は [`references/orchestration.md`](references/orchestration.md) と [`references/agent-routing.md`](references/agent-routing.md) を正本とする。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。

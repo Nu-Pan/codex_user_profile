@@ -19,7 +19,7 @@
 - 1 行 1 意図の短い箇条書きを優先する。
 - 抽象名詞より、観測可能な行動や判断を表す動詞を使う。
 - まず重複を削除し、その後に言い換える。削除で足りる箇所に新しい説明を足さない。
-- root skill は入口と spawn policy だけを持ち、詳細手順は role contract や `references/` に逃がす。
+- root skill は入口と spawn policy だけを持ち、実作業は child agent に逃がす。詳細手順は role contract や `references/` に逃がす。
 - legacy compatibility skill は handoff だけを書き、canonical な本文を抱え込まない。
 - reference は深い判断基準、変換ルール、例外条件だけを持ち、入口説明を繰り返さない。
 - 例が責務や境界の理解に寄与しないなら削る。

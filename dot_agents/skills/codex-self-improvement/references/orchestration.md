@@ -23,7 +23,7 @@
 
 ## Default role sequence
 
-- まず root session だけで task を要約し、spawn が本当に必要かを判断する。
+- まず root session で task を要約し、child agent を起動する前提で role sequence を選ぶ。root session 単独で完結させない。
 - 置き場所、権限、canonical path、session 契約が曖昧な場合だけ `si_scope` を足す。
 - reusable workflow、profile、role config、互換 shim の責務分離を再設計する場合だけ `si_design` を足す。
 - repo-tracked な非自明編集や複数文書の文面整理は `si_editor` へ寄せる。

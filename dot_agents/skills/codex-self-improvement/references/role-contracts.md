@@ -6,6 +6,7 @@
 - 出力は root session が次の role へ短く handoff できる粒度にする。
 - 出力は `summary`、`decision`、`next action` の形で圧縮する。
 - repo-tracked な編集権限は `si_editor` に集約する。
+- root session は実作業を持たず、child agent の output を受けて routing と統合だけを行う。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 
 ## `si_scope`

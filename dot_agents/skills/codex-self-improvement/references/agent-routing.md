@@ -11,11 +11,13 @@
 - task を短い `task summary` に圧縮する。
 - 最小 role sequence を選ぶ。
 - child agent へ渡す入力を整え、結果を統合する。
-- 最終報告と、必要な validation の実行または案内を行う。
+- 最終報告の組み立てと、必要な validation の依頼または案内を行う。
+- root session 自身で編集、検証、placement decision、責務分離の判断を進めない。
+- 変更を伴う作業は、規模に関わらず child agent に委ねる。
 
 ## Spawn defaults
 
-- child agent は必要な責務が出たときだけ起動する。既定では root session だけで開始する。
+- child agent は原則として必ず起動する。root session 単独で開始しない。
 - `fork_context = false` を既定にする。
 - child agent へは full history を渡さず、`task summary`、`files in scope`、`expected output` だけを渡す。
 - child agent の入力に追加するのは、判断に必要な制約だけに絞る。
@@ -24,11 +26,12 @@
 - repo-tracked な非自明編集は `si_editor` に寄せる。
 - repo-tracked な編集後は、既定で `si_audit` を通す。
 
-## Stay local when
+## No local work
 
-- 1 ファイルだけの機械的な更新で済む。
-- placement、workflow redesign、cross-doc consistency の判断が不要である。
-- 変更結果のリスクが低く、`si_audit` による最終確認だけで十分である。
+- root session は変更内容の実施を自前で抱えない。
+- 1 ファイルだけの更新でも、repo-tracked な変更は child agent に委ねる。
+- placement、workflow redesign、cross-doc consistency の判断は child agent の責務として扱う。
+- root session が担うのは task framing、role selection、handoff、最終統合だけである。
 
 ## Use each role when
 
