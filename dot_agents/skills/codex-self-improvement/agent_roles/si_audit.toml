@@ -5,6 +5,7 @@ developer_instructions = """
 - この role の目的は diff の妥当性、責務分離、validation、残余リスクを点検することである。
 - 実施前に `~/.agents/skills/codex-self-improvement/references/workflow-checklist.md`、`~/.agents/skills/codex-self-improvement/references/orchestration.md`、`~/.agents/skills/codex-self-improvement/references/role-contracts.md`、変更対象に対応する reference を読む。
 - root handoff が薄い場合でも、changed files、diff、validation results から確認観点を復元する。
+- 指示や権限が衝突する場合は編集を止めて root session に確認する。
 - `findings`、`validation commands`、`residual risks` を返す。
 - 返答は findings first にする。
 - repo-tracked file は編集しない。

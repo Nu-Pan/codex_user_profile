@@ -16,20 +16,15 @@
 - `reference`: `references/` 配下の詳細文書を指す。
 - `durable 設定`: `config.toml` に置く継続設定を指す。
 
-## Default model
+## Default split
 
-- 既定では、新しい典型 workflow は `AGENTS.md`、profile-level `developer_instructions`、1 つの root skill で表現する。
-- workflow に複数の責務やレビュー観点がある場合は、root skill の下に複数の child agent roles を置く。
-- 共通規約は `AGENTS.md` に閉じ、root router contract は profile-level `developer_instructions` に、導線と role sequence は root skill に、局所判断は child agent role と `references/` に逃がす。
-- `AGENTS.md` は共有規約だけを持ち、workflow の本文や role 分担を抱え込まない。
-- root skill は「最初に何を読み、どの順で child agent を起動するか」を示し、実作業は child agent role に寄せる。
-- child agent role は、その責務に必要な入力条件、期待出力、write policy に加えて、root handoff が薄いときの local bootstrap 条件も明示する。
-- child agent role は、自分の role config、current config、current diff、対象ファイルだけで起動できるように書く。
-- role config は、OpenAI 公式 docs の一般原則に従って、まず `model`、`model_reasoning_effort`、`model_verbosity` の tier を中心に持たせる。
-- role config は standalone custom agent config として持ち、role-local な read-first docs と bootstrap 条件もここに閉じる。
-- role の責務が読み取り専用か書き込み可かで明確に分かれるなら、`sandbox_mode` を最小限追加して capability を role contract に合わせる。
-- `reference` は、各 role から必要時にだけ読む詳細手順と例外条件を持つ。
-- role sequence は既定では推奨順序であり、hard gate にはしない。往復や省略があり得る場合は root skill 側で条件を説明する。
+- `AGENTS.md` は共有規約だけを持つ。
+- profile-level `developer_instructions` は root router contract だけを持つ。
+- root skill は trigger、推奨 role sequence、reference map を持つ。
+- child agent role は 1 つの責務だけを持つ。
+- role config は model tier と role-local bootstrap を持つ。
+- `reference` は詳細手順、判断基準、例外条件を持つ。
+- role sequence は推奨順序であり、hard gate にしない。
 
 ## When to add each artifact
 
@@ -76,19 +71,6 @@
 - role に閉じた詳細手順、判断基準、例外条件、短いテンプレ断片がある。
 - root skill に長い説明を載せず、必要時だけ読ませたい。
 
-### one root skill で足りる場合
-
-- workflow が単一の導線で完結し、導線と局所手順を分ける利得が小さい。
-- 追加の role 分割をしても、責務より重複の方が増える。
-- `AGENTS.md` から読む導線が 1 つで十分で、child agent role を経由させる理由が弱い。
-
-### `AGENTS.md` + `profile-level developer_instructions` + `root skill` + child agent roles が要る場合
-
-- root profile の共通規約と routing 契約と workflow 全体の導線と再利用可能な局所手順のすべてが必要である。
-- 既定では、複数責務を持つ workflow は `AGENTS.md` + profile-level `developer_instructions` + `root skill` + 必要な child agent roles の組で表現する。
-- 例外として、単なる durable 設定差分だけなら `config.toml` だけでよい。
-- 例外として、既存 `AGENTS.md` の共通規約で十分なら、root skill と child agent role だけでよい。
-
 ## Decomposition recipe
 
 1. workflow から mission、must-read、allowed modes、quality bar、衝突時の扱い、報告要件だけを抜き出し、`AGENTS.md` と profile-level `developer_instructions` に分けて入れる。
@@ -101,64 +83,14 @@
 8. root router contract が本当に必要かを最後に判断し、必要なときだけ profile-level `developer_instructions` を触る。router は起動導線だけを持ち、実作業は child agent に委ねる。
 9. validation の詳細は [`workflow-checklist.md`](workflow-checklist.md) を正本とする。
 
-## Default placement summary
+## Placement note
 
-### `AGENTS.md`
+- 置き場所の正本は [`references/config-and-rule-placement.md`](config-and-rule-placement.md) とする。
+- ここでは workflow を profile、root skill、child agent role、role config、references に切る観点だけを残す。
 
-- 共有規約だけを書く。
-- 実作業手順や編集手順は書かない。
-- 新しい workflow のために共通規約が本当に必要な場合だけ更新する。
+## Minimal templates
 
-### `~/.codex/config.toml`
-
-- `profiles.<name>` を追加する。
-- `agents.<role>.config_file` の対応を書く。
-- durable な sandbox、network、approval、model を置く。
-- profile-level `developer_instructions` を置いてよい。
-
-### `~/.agents/skills/<root-skill-name>/agent_roles/*.toml`
-
-- child agent role ごとの standalone custom agent config を置く。
-- `name`、`description`、`developer_instructions`、`model`、`model_reasoning_effort`、`model_verbosity`、`sandbox_mode` を置く。
-- `developer_instructions` には、その role が読む `references/` と bootstrap 条件を短く書く。
-- role config には選定結果と role-local の実行前提を置き、判断基準の本文は `references/` に逃がす。
-
-### `AGENTS.md` の shared rule
-
-- mission、must-read、allowed modes、quality bar、衝突時の扱い、最終報告要件だけを書く。
-- 既定では、must-read には `AGENTS.md` と root skill だけを明示する。
-- child agent role を直接 must-read に並べるのは例外であり、root skill を経由すると入口が壊れる場合だけに限る。
-- child agent role の read-first docs は role config 側に閉じ、root skill では再掲しない。
-- 詳細 workflow や長いテンプレ本文は書かない。
-
-### `profile-level developer_instructions`
-
-- root router contract だけを書く。
-- task framing、child role 選定、起動、最小 handoff、完了待機、最終統合を固定する。
-- root skill が長くなり始めたら、詳細手順は child agent role 側の `references/` へ移す。
-
-### `~/.agents/skills/<root-skill-name>/SKILL.md`
-
-- trigger 条件、目的、推奨 role sequence、child agent role の導線、reference map を置く。
-- child agent が root handoff の不足を local docs と local artifacts で埋められる前提を明示する。
-- 実作業の本文は置かない。
-- root router contract の本文にはならない。
-
-### `~/.agents/skills/<root-skill-name>/agent_roles/*.toml`
-
-- child agent role ごとの standalone custom agent config を置く。
-- `name`、`description`、`developer_instructions`、`model`、`model_reasoning_effort`、`model_verbosity`、`sandbox_mode` を置く。
-- 値は OpenAI config reference と関連 model docs の一般原則に従って決める。
-- Agents SDK の導入や SDK 前提の role 設計は置かない。
-- role-local の read-first docs と bootstrap 条件を `developer_instructions` に閉じる。
-
-### `~/.agents/skills/<name>/references/`
-
-- workflow routing、role contract、判断基準、テンプレ断片、variant ごとの差分を書く。
-- role ごとの局所判断基準は、その role が読む reference 側へ置く。
-- 役割ごとの bootstrap 条件や不足 context の復元方法も、ここに置いてよい。
-
-## Minimal profile template
+### profile-level template
 
 ```md
 - 常に <language> で回答する。
@@ -184,7 +116,7 @@ developer_instructions = """
 
 - profile-level の契約は `AGENTS.md` の共有規約と分け、`config.toml` には durable 設定と root router contract を残す。
 
-## Minimal role config template
+### role config template
 
 ```toml
 name = "<role-name>"
@@ -207,7 +139,7 @@ sandbox_mode = "<read-only|workspace-write>"
 - たとえば、`si_scope` / `si_design` / `si_audit` は `sandbox_mode = "read-only"`、`si_editor` は `sandbox_mode = "workspace-write"` にする。
 - `developer_instructions` には、その role が読む `references/` を短く明示する。
 
-## Minimal root skill template
+### root skill template
 
 ```markdown
 ---

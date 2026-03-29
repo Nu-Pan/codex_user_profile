@@ -27,10 +27,13 @@
     ```
 - プロンプト例
     ```
+    $codex-self-improvement が想定している典型的な使い方を教えてください
+    ```
+- プロンプト例
+    ```
     $codex-self-improvement 一般的な質問に答える汎用的なワークフローを追加してください
     ```
 - プロンプト例
     ```
     $codex-self-improvement を使って $codex-self-improvement 全体を改善してください
     ```
-

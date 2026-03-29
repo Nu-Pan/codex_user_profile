@@ -7,6 +7,7 @@
 - `AGENTS.md`
 - `~/.codex/config.toml`
 - 現在の root skill `codex-self-improvement`、必要な compatibility skill や child agent role 関連文書、今回触る参照文書
+- この repo では、repo root の `README.md` に列挙された 3 つの典型プロンプト例
 - 変更対象ファイルに既存の未コミット差分がある場合は、その内容
 
 必要な場合だけ確認する。
@@ -26,6 +27,7 @@
 - profile-level `developer_instructions` を更新したら、root router contract が `~/.codex/config.toml` にあることを確認する。
 - 既存 root skill を編集したら、その skill 単体で trigger、既定 route、読むべき reference、child agent role への導線が見え、正本語彙への導線が残っていることを確認する。
 - 既存 root skill を編集したら、child agent が root handoff の不足を local docs と local artifacts で復元できることも確認する。
+- この repo では、repo root の `README.md` に列挙された 3 つの典型プロンプト例のうち、今回の変更に対応する例を入口確認か自動 validation に使い、README の実例からでも同じ route に乗ることを確認する。
 - 既存 child agent role config を編集したら、その file 単体で name、description、developer_instructions、model、model_reasoning_effort、model_verbosity、sandbox_mode が見え、role-local の read-first docs が developer_instructions に閉じていることを確認する。
 - child agent の完了待機では timeout を使わず、完了まで待つ運用になっていることを確認する。
 - 既存 compatibility skill を編集したら、その skill 単体で legacy 名から canonical な root skill と child agent role へ handoff できることを確認する。
@@ -36,7 +38,7 @@
 - 新規 child agent role を追加したら、その role config と role contract から役割、入力条件、期待出力、読むべき reference が見えることを確認する。
 - profile と root skill を同時に追加したら、組み合わせたときの責務分離も確認する。
 - Codex CLI で自動実行する validation は、非 TTY で安全に回せる `codex exec` だけに限定する。
-- 自動 validation の model は既定で `codex_meta` profile の軽量 model を使う。現行設定では `gpt-5.4-mini` である。
+- 自動 validation の model は軽量 model を使う。例では `gpt-5.4-mini` を明示する。
 - 軽量 model で確認できる導線、局所責務、責務分離だけを対象にする。
 - `codex --ask-for-approval never ...` や `codex --cd ...` のような TTY 前提コマンドは、人間向け手動確認として案内し、Codex の自動 validation 候補には入れない。
 - 軽量 model で成立しない長い説明、深い推論、対話的 UI 操作は、自動 validation の対象に含めない。
@@ -46,11 +48,9 @@
 
 ### Automated non-TTY checks
 
-- `codex exec -m gpt-5.4-mini -p codex_meta "Summarize the current mission, allowed modes, and must-read documents in 3 bullets."`
-- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement Summarize the common rules, root router contract, and child role split in 4 bullets.'`
-- `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize the standalone role config shape for si_scope, si_design, si_editor, and si_audit in 4 bullets.'`
-- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement Explain how AGENTS.md, profile-level developer_instructions, standalone role configs, root skill, references, and config.toml divide responsibilities.'`
-- `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize the wait policy for child agents and whether timeout is allowed.'`
+- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement が想定している典型的な使い方を教えてください'`
+- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement 一般的な質問に答える汎用的なワークフローを追加してください。変更は行わず、想定 route と対象 artifact だけを 4 bullets で答えてください。'`
+- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement を使って $codex-self-improvement 全体を改善してください。変更は行わず、最小 role sequence と確認対象だけを 4 bullets で答えてください。'`
 
 ### Manual TTY checks for humans
 

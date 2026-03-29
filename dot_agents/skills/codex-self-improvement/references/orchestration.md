@@ -3,7 +3,7 @@
 ## Purpose
 
 - routing と handoff の正本である。
-- root session は router / orchestrator に限り、child agent は自分の role config と local artifacts から起動できる前提で設計する。
+- root session は router / orchestrator に限り、child agent は role config と local artifacts から起動できる前提で設計する。
 
 ## Canonical terms
 
@@ -25,6 +25,7 @@
 ## Entry checks
 
 - `AGENTS.md`、`~/.codex/config.toml`、変更対象、既存差分を確認する。
+- この repo では、repo root の `README.md` に列挙された 3 つの典型プロンプト例だけを入口の local facts として確認する。
 - 変更対象が repo-scoped `.codex/**/*` や root skill 側に及ぶ場合は、その現状も先に確認する。
 - 複数文書をまたいで編集する場合は、この文書の正本語彙に揃える。
 - 置き場所の判断が先なら [`config-and-rule-placement.md`](config-and-rule-placement.md) を先に読む。
@@ -35,7 +36,7 @@
 - root session は task を要約し、最小 role sequence を選んで child agent を起動する。
 - root session 単独で完結させない。
 - Codex CLI に何かをさせる必要がある場合は、対応する custom skill と child role を先に用意してから child agent を起動する。
-- child agent への handoff は task summary、対象ファイル、明示した制約、観測済みの local facts だけに絞る。
+- child agent への handoff は bootstrap packet に限定する。
 - child agent 側で current config、current diff、対象ファイル、role config、関連 reference を読めば不足分を復元できるようにする。
 - child agent の完了待機では timeout を使わず、完了まで待つ。
 - 置き場所、権限、canonical path、root router contract が曖昧な場合だけ `si_scope` を足す。
