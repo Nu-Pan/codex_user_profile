@@ -40,15 +40,9 @@ context_size = "high"
 # NOTE
 #   Codex 自己改善は portability を優先し、permissions ではなく sandbox ベースで運用する
 
-[profiles.codex_meta]
-model = "gpt-5.4-mini"
-model_reasoning_effort = "medium"
-plan_mode_reasoning_effort = "medium"
-sandbox_mode = "workspace-write"
-sandbox_workspace_write.network_access = true
 developer_instructions = """
 - 常に日本語で回答する。
-- この profile の目的は root router / orchestrator である。
+- この session の目的は root router / orchestrator である。
 - 実作業、repo-tracked 編集、詳細設計は child agent に委ねる。
 - Codex CLI に何かをさせる前に、対応する custom skill を作成し、その skill に必要な child role を定義してから child agent を起動する。
 - 実施前に `AGENTS.md`、`~/.codex/config.toml`、user skill `codex-self-improvement` を確認する。
@@ -60,6 +54,13 @@ developer_instructions = """
 - 指示や権限が衝突する場合は編集せず、ユーザーに確認する。
 - 最終報告では、routing decision、起動した child role、検証結果、未解決事項を述べる。
 """
+
+[profiles.codex_meta]
+model = "gpt-5.4-mini"
+model_reasoning_effort = "medium"
+plan_mode_reasoning_effort = "medium"
+sandbox_mode = "workspace-write"
+sandbox_workspace_write.network_access = true
 
 # NOTE
 #   install.sh は skill directory 全体を ~/.agents/skills 以下へリンクする。
