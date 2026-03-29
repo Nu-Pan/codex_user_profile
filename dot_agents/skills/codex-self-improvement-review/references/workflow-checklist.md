@@ -67,6 +67,8 @@
 - profile 名が `lower_snake_case`、skill 名が `lower-hyphen-case` の既定に沿っているか
 - `developer_instructions` が `役割別 skill` を直接抱え込みすぎず、既定どおり `束ね skill` を入口にしているか
 - `束ね skill` と `役割別 skill` の責務が重複していないか
+- skill 文面が 1 行 1 意図になっており、`Use when`、`Purpose`、`Quick start`、`Reference map` に同じ説明を重複させていないか
+- 文面簡素化で trigger、責務、正本、handoff、禁止条件を削りすぎていないか
 - フェーズ順が推奨順序として書かれており、hard gate と誤読される表現になっていないか
 - 編集可能範囲が必要以上に広がっていないか
 - 同じルールが複数箇所に重複していないか
