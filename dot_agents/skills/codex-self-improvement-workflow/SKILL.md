@@ -7,13 +7,13 @@ description: Use when Codex self-improvement work needs to decompose a reusable 
 
 ## Use when
 
-- ユーザーが示した再利用可能な workflow を profile と skill 群へ分解したいとき
-- `developer_instructions` に何を残し、bundle/component skills と `references/` に何を逃がすかを決めたいとき
+- ユーザーが示した再利用可能な workflow を `profile`、`bundle skill`、`component skill` へ分解したいとき
+- `developer_instructions` に何を残し、`bundle skill`、`component skills`、`references/` に何を逃がすかを決めたいとき
 - must-read、推奨フェーズ順、skill 間の責務分離を設計したいとき
 
 ## Purpose
 
-- この skill は reusable workflow を `profile`、`束ね skill`、`役割別 skill` に分解するための詳細手順と判断基準を定義する。
+- この skill は reusable workflow を `profile`、`bundle skill`、`component skill` に分解するための詳細手順と判断基準を定義する。
 - workflow 全体の導線は bundle skill `codex-self-improvement` を正本とする。
 
 ## Inputs

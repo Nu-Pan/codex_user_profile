@@ -4,6 +4,7 @@
 
 - `AGENTS.md`、`~/.codex/config.toml`、変更対象、必要なら既存差分を確認する。
 - 変更対象が repo-scoped `.codex/**/*` や user skill 側に及ぶ場合は、その現状も先に確認する。
+- 複数文書をまたいで編集する場合は、同じ概念の呼び方が既に揃っているか、どこを正本語彙にするかも先に確認する。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 
 ## Route by default
@@ -20,13 +21,13 @@
 - [`codex-self-improvement-workflow`](../codex-self-improvement-workflow/SKILL.md)
   - reusable workflow を `profile`、`bundle skill`、`component skill` に分解したいときに使う。
 - [`codex-self-improvement-skill-writing`](../codex-self-improvement-skill-writing/SKILL.md)
-  - skill を構成する文章を、責務を変えずに短く直接的な表現へ整理したいときに使う。
+  - skill を構成する文章を、責務を変えずに短く直接的な表現へ整理し、同じ概念の呼び方を揃えたいときに使う。
 - [`codex-self-improvement-review`](../codex-self-improvement-review/SKILL.md)
   - 編集前 checklist、validation、一般化判断、最終報告をまとめたいときに使う。
 
 ## Typical routes
 
-- 文面整理や bundle skill 自体の責務維持編集: `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
+- 文面整理や語彙統一、bundle skill 自体の責務維持編集: `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
 - 置き場所判断や責務分離が先に必要: `codex-self-improvement-placement` -> 必要なら `codex-self-improvement-workflow` または `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
 - reusable workflow を `profile` / `bundle skill` / `component skill` へ分解したい: `codex-self-improvement-placement` -> `codex-self-improvement-workflow` -> 必要なら `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
 

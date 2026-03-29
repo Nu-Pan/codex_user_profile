@@ -35,13 +35,14 @@
 ## Validation
 
 - `developer_instructions` を更新したら、少なくとも 1 回は instruction chain の見え方を確認する。
-- 既存 `束ね skill` を編集したら、その skill 単体で trigger、既定 route、読むべき reference、component skill への導線が見えることを確認する。
+- 既存 `bundle skill` を編集したら、その skill 単体で trigger、既定 route、読むべき reference、component skill への導線が見えることを確認する。
 - 既存 component skill を編集したら、その skill 単体で担当フェーズ、入力条件、期待出力、読むべき reference が見えることを確認する。
 - 既存 `references/` を編集したら、その文書単体で判断基準や例外条件が見え、bundle skill や component skill と入口説明を重複していないことを確認する。
+- 語彙統一を行ったら、同じ概念が bundle skill / component skills / `references/` で別名のまま残っていないか、正本語彙がどこか 1 か所で追えるかを確認する。
 - 新規 profile を追加したら、その profile 単体で mission、allowed modes、must-read が見えることを確認する。
-- 新規 `束ね skill` を追加したら、その skill 単体で trigger、推奨順序、読むべき reference、役割別 skill への導線が見えることを確認する。
-- 新規 `役割別 skill` を追加したら、その skill 単体で担当フェーズ、入力条件、期待出力、読むべき reference が見えることを確認する。
-- profile と `束ね skill` を同時に追加したら、組み合わせたときの責務分離も確認する。
+- 新規 `bundle skill` を追加したら、その skill 単体で trigger、推奨順序、読むべき reference、component skill への導線が見えることを確認する。
+- 新規 `component skill` を追加したら、その skill 単体で担当フェーズ、入力条件、期待出力、読むべき reference が見えることを確認する。
+- profile と `bundle skill` を同時に追加したら、組み合わせたときの責務分離も確認する。
 - 確認候補:
   - `codex exec -p <profile_name> "Summarize the current mission, allowed modes, and must-read documents."`
   - `codex exec '$<bundle-skill-name> Summarize this workflow, the recommended phases, and which component skills you would read.'`
@@ -63,14 +64,15 @@
 最低 1 回、以下を点検すること。
 
 - `developer_instructions`、`AGENTS.md`、permissions の責務分離が崩れていないか
-- 典型 workflow の session 契約が `developer_instructions` に閉じ、全体導線が `束ね skill` に、詳細手順が `役割別 skill` / `references/` に逃がされているか
+- 典型 workflow の session 契約が `developer_instructions` に閉じ、全体導線が `bundle skill` に、詳細手順が `component skill` / `references/` に逃がされているか
 - MCP rule の置き場所が `config.toml`、`AGENTS.md`、存在する場合の task 文書、`developer_instructions` のどれかで一意に説明できるか
 - `developer_instructions` を「正本そのもの」と誤解させる表現になっていないか
 - profile 名の自己認識を前提にしたルールが紛れ込んでいないか
 - profile 名が `lower_snake_case`、skill 名が `lower-hyphen-case` の既定に沿っているか
-- `developer_instructions` が `役割別 skill` を直接抱え込みすぎず、既定どおり `束ね skill` を入口にしているか
-- `束ね skill` と `役割別 skill` の責務が重複していないか
-- `束ね skill` には route の概要だけを残し、詳細な選択条件や例外は `references/` へ逃がせているか
+- `developer_instructions` が `component skill` を直接抱え込みすぎず、既定どおり `bundle skill` を入口にしているか
+- `bundle skill` と `component skill` の責務が重複していないか
+- `bundle skill` には route の概要だけを残し、詳細な選択条件や例外は `references/` へ逃がせているか
+- 同じ概念が bundle skill / component skills / `references/` で別名のまま共存していないか
 - skill 文面が 1 行 1 意図になっており、`Use when`、`Purpose`、`Quick start`、`Reference map` に同じ説明を重複させていないか
 - 文面簡素化で trigger、責務、正本、handoff、禁止条件を削りすぎていないか
 - フェーズ順が推奨順序として書かれており、hard gate と誤読される表現になっていないか
@@ -86,7 +88,8 @@
 - 何を変更したか
 - なぜその変更で Codex 自己改善の最小ハーネスとして成立すると判断したか
 - 実行した確認内容
-- 新規 profile、`束ね skill`、`役割別 skill` を追加した場合は、それぞれの単体確認と必要な組み合わせ確認の結果
+- 語彙統一を行った場合は、採用した正本語彙と対象範囲
+- 新規 profile、`bundle skill`、`component skill` を追加した場合は、それぞれの単体確認と必要な組み合わせ確認の結果
 - 残っている制約や未解決事項
 - 修正内容のエッセンスを `references/` へ引き上げたか、見送ったか、その判断
 - `AGENTS.md`、`~/.codex/config.toml`、存在する場合の repo-scoped `.codex/config.toml`、bundle skill と関連 component skills の間に矛盾があればその内容

@@ -81,16 +81,16 @@
 
 ### user skill の `SKILL.md`
 
-- `束ね skill` なら、再利用可能な workflow の trigger、目的、推奨順序、役割別 skill への導線、reference map を書く。
-- `役割別 skill` なら、担当フェーズの trigger、目的、入力条件、期待出力、局所判断基準、reference map を書く。
+- `bundle skill` なら、再利用可能な workflow の trigger、目的、推奨順序、component skill への導線、reference map を書く。
+- `component skill` なら、担当フェーズの trigger、目的、入力条件、期待出力、局所判断基準、reference map を書く。
 - session 契約や durable 設定の正本にはしない。
 - 長い手順や variant ごとの詳細は `references/` へ逃がす。
 
 ### user skill の `references/`
 
 - workflow の詳細手順、判断基準、テンプレ断片、variant ごとの差分を書く。
-- end-to-end の導線やフェーズ間の受け渡しは `束ね skill` 側の reference に置く。
-- フェーズ局所の深い判断基準は `役割別 skill` 側の reference に置く。
+- end-to-end の導線やフェーズ間の受け渡しは `bundle skill` 側の reference に置く。
+- フェーズ局所の深い判断基準は `component skill` 側の reference に置く。
 - SKILL.md から必要時にだけ読める構成にする。
 - 同じ詳細 rule を `developer_instructions` に再掲しない。
 
@@ -115,12 +115,12 @@
 
 ## When codifying a typical workflow
 
-- repo-wide router が必要かを最初に決め打ちしない。既定では `AGENTS.md` を増やさず、`profile` と `束ね skill` の組で表現し、必要なら `役割別 skill` をぶら下げる。
+- repo-wide router が必要かを最初に決め打ちしない。既定では `AGENTS.md` を増やさず、`profile` と `bundle skill` の組で表現し、必要なら `component skills` をぶら下げる。
 - workflow の session 契約は `profiles.<name>.developer_instructions` に置く。
 - workflow の durable 設定は `~/.codex/config.toml` の `profiles.<name>` に置く。
-- workflow の trigger、推奨順序、役割別 skill への短い導線は `束ね skill` の `SKILL.md` に置く。
-- workflow の局所手順、判断基準、テンプレ断片は `役割別 skill` の `SKILL.md` / `references/` に置く。
-- 同じ workflow を profile、`束ね skill`、`役割別 skill` に分解するときでも、同一 rule を複数箇所へ複写しない。
+- workflow の trigger、推奨順序、component skill への短い導線は `bundle skill` の `SKILL.md` に置く。
+- workflow の局所手順、判断基準、テンプレ断片は `component skill` の `SKILL.md` / `references/` に置く。
+- 同じ workflow を profile、`bundle skill`、`component skill` に分解するときでも、同一 rule を複数箇所へ複写しない。
 - discoverability を高めたい場合も、まず skill metadata と must-read の参照を使い、repo-wide router の追加は最後に検討する。
 
 ## When adding an MCP server
@@ -143,8 +143,8 @@
 
 - `developer_instructions` には、その session に必要な最小限の追加契約だけを書く。
 - `AGENTS.md` には、repo 全体の入口と文書ルーティングだけを書く。
-- 新しい典型 workflow は、既定では新規 profile、`束ね skill`、必要な `役割別 skill` に分解して扱う。
-- workflow を分解するときは、session 契約を `developer_instructions`、全体導線を `束ね skill`、詳細手順を `役割別 skill` と `references/`、durable 設定を `config.toml` へ置く。
+- 新しい典型 workflow は、既定では新規 profile、`bundle skill`、必要な `component skills` に分解して扱う。
+- workflow を分解するときは、session 契約を `developer_instructions`、全体導線を `bundle skill`、詳細手順を `component skill` と `references/`、durable 設定を `config.toml` へ置く。
 - phase-local な詳細ルールは対応する component skill の `references/` に集約し、`AGENTS.md` と `developer_instructions` に同じ細則を重複させない。
 - 個人設定として完結する profile や permissions は `~/.codex/config.toml` を優先し、repo 共有 override だけを `.codex/config.toml` に残す。可搬性を壊す HOME 配下の `permissions` は既定では共有設定に持ち込まない。
 - MCP rule は `config.toml`、`AGENTS.md`、存在する場合の task 文書、`developer_instructions` のうち最小スコープへ置く。

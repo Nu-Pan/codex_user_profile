@@ -34,7 +34,7 @@
 - 直接命令形で書く。
 - あいまいな努力目標ではなく、観測可能な行動に落とす。
 - 原則ではなく、その profile に必要な最小限の契約だけを書く。
-- 長くなるルールは `AGENTS.md` や `束ね skill` に逃がし、そこには参照だけを書く。
+- 長くなるルールは `AGENTS.md` や `bundle skill` に逃がし、そこには参照だけを書く。
 
 ## Canonical template
 
@@ -74,19 +74,19 @@
 ## When a workflow is implemented as profile + bundle skill
 
 - `developer_instructions` には session 契約だけを書く。
-- 既定では、must-read には `AGENTS.md` と `束ね skill` だけを入れる。
-- `役割別 skill` は `developer_instructions` から直接列挙せず、`束ね skill` から辿らせる。
-- 詳細な workflow、判断基準、テンプレ断片は `束ね skill`、必要に応じて `役割別 skill` とその `references/` へ逃がす。
+- 既定では、must-read には `AGENTS.md` と `bundle skill` だけを入れる。
+- `component skills` は `developer_instructions` から直接列挙せず、`bundle skill` から辿らせる。
+- 詳細な workflow、判断基準、テンプレ断片は `bundle skill`、必要に応じて `component skills` とその `references/` へ逃がす。
 - `developer_instructions` では、詳細が別文書にあることを 1 行で示せば十分である。
 
 例:
 
 ```text
 - 実施前に `AGENTS.md` と user skill `my-workflow` を確認し、そこを正本として扱う。
-- 詳細な workflow、推奨フェーズ順、役割別 skill への導線は user skill `my-workflow` と、そこから辿る関連 skill / `references/` を参照する。
+- 詳細な workflow、推奨フェーズ順、component skill への導線は user skill `my-workflow` と、そこから辿る関連 skill / `references/` を参照する。
 ```
 
-- 逆に、workflow 全文、variant ごとの差分、役割別 skill の一覧全文、長いテンプレ本文を `developer_instructions` に埋め込まない。
+- 逆に、workflow 全文、variant ごとの差分、component skills の一覧全文、長いテンプレ本文を `developer_instructions` に埋め込まない。
 
 ## Example profile lens
 
@@ -100,7 +100,7 @@
   - mission は「Codex 自己改善」。
   - must read は `AGENTS.md` と bundle skill `codex-self-improvement`。
   - allowed modes は「最小ハーネスから進める」。
-  - workflow を新しい profile + `束ね skill` + `役割別 skill` に分解する場合でも、詳細は関連 skill と `references/` に置く。
+  - workflow を新しい profile + `bundle skill` + `component skills` に分解する場合でも、詳細は関連 skill と `references/` に置く。
   - 条件付き追加項目として OpenAI developer docs MCP の行を持ってよい。
 - `spec_doc`
   - mission は「仕様策定」。
@@ -111,7 +111,7 @@
 
 - `常に日本語で回答する。`
 - `実施前に \`AGENTS.md\` と user skill \`codex-self-improvement\` を確認する。`
-- `詳細な workflow、推奨フェーズ順、役割別 skill への導線は user skill \`fix-workflow\` と、そこから辿る関連 skill / \`references/\` を参照する。`
+- `詳細な workflow、推奨フェーズ順、component skill への導線は user skill \`fix-workflow\` と、そこから辿る関連 skill / \`references/\` を参照する。`
 - `指示や権限が衝突する場合は編集せず、ユーザーに確認する。`
 - `最終報告では、変更内容、成立根拠、未解決事項、制約を述べる。`
 - `Codex 契約や repo から確認できない設定キーの意味を確認する必要があるなら OpenAI developer docs MCP を使う。`
