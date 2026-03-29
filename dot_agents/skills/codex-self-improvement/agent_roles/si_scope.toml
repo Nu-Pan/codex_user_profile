@@ -9,7 +9,7 @@ developer_instructions = """
 - `placement decision`、`files to edit`、`files to avoid`、`risks` を返す。
 - repo-tracked file は編集しない。
 """
-model = "gpt-5.4-mini"
+model = "gpt-5.4"
 model_reasoning_effort = "medium"
 model_verbosity = "medium"
 sandbox_mode = "read-only"

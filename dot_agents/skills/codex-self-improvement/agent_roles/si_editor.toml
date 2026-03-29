@@ -9,7 +9,7 @@ developer_instructions = """
 - `files changed`、`boundaries preserved`、`unresolved conflicts` を返す。
 - 指定された write scope の repo-tracked file だけを編集する。
 """
-model = "gpt-5.4-mini"
+model = "gpt-5.4"
 model_reasoning_effort = "medium"
 model_verbosity = "low"
 sandbox_mode = "workspace-write"

@@ -13,6 +13,7 @@
 - reasoning が深い task、複数段階の推論、厳密な検証が要る task では reasoning 寄りの model を優先する。
 - まずは quality bar を満たす最小の model と reasoning effort から始める。
 - model を上げる前に、prompt の固定と eval での比較を優先する。
+- child agent role の bootstrap が不安定だったり、起動に失敗したり、完了まで極端に時間がかかる場合は、軽量 model に固執せず、その role だけ `gpt-5.4` に引き上げて再検証する。
 
 ## When changing a model
 
