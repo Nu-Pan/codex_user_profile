@@ -11,7 +11,7 @@
 - `profile`: その workflow を実行する session 契約を与える。
 - `root skill`: workflow 全体の導線、推奨 role sequence、読むべき reference、child agent への入口を与える。
 - `child agent role`: 1 つの責務だけを持つ focused な agent type を指す。
-- `role config`: child agent role に適用する model / reasoning tier 用の TOML layer を指す。
+- `role config`: child agent role に適用する model / reasoning / verbosity tier 用の TOML layer を指す。
 - `reference`: `references/` 配下の詳細文書を指す。
 - `session 契約`: `developer_instructions` に置く追加行動契約を指す。
 - `durable 設定`: `config.toml` に置く継続設定を指す。
@@ -49,7 +49,7 @@
 
 ### role config
 
-- その role だけ model / reasoning tier を root と変えたい。
+- その role だけ model / reasoning / verbosity tier を root と変えたい。
 - 同じ role を繰り返し起動するとき、毎回 CLI override で指定したくない。
 - role 固有の session 契約は不要で、durable な推論 tier だけを固定したい。
 
@@ -76,7 +76,7 @@
 1. workflow から mission、must-read、allowed modes、quality bar、衝突時の扱い、報告要件だけを抜き出し、`developer_instructions` に入れる。
 2. workflow から end-to-end の導線、推奨 role sequence、child agent への handoff を抜き出し、root skill に入れる。
 3. workflow から focused な責務を抜き出し、child agent role に切る。
-4. role ごとに必要な model / reasoning tier だけを抜き出し、role config に入れる。
+4. role ごとに必要な model / reasoning / verbosity tier だけを抜き出し、role config に入れる。
 5. role ごとの再利用可能な詳細手順、判断基準、テンプレ断片を `references/` に入れる。
 6. durable 設定だけを抜き出し、`config.toml` に入れる。
 7. repo-wide router が本当に必要かを最後に判断し、必要なときだけ `AGENTS.md` を触る。

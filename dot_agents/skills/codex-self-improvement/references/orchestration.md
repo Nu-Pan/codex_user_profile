@@ -5,7 +5,7 @@
 - `root session`: `codex_meta` profile で起動し、routing、child agent 起動、最終統合を行う親 session。
 - `child agent`: root session が 1 つの責務だけを任せるために起動する agent。
 - `agent role`: `si_scope`、`si_design`、`si_editor`、`si_audit` のような child agent の責務名。
-- `role config`: `agents.<name>.config_file` から読む TOML layer。model と reasoning の tier を固定する。
+- `role config`: `agents.<name>.config_file` から読む TOML layer。model、reasoning、verbosity の tier を固定する。
 - `root skill`: workflow 全体の入口と導線を持つ skill。既定では `codex-self-improvement` を指す。
 - `reference`: `references/` 配下の詳細文書。入口説明の正本にはしない。
 - `session 契約`: `developer_instructions` に置く追加行動契約。
