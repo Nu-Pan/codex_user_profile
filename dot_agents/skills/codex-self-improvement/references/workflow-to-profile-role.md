@@ -23,7 +23,8 @@
 - session 契約は `profile` に閉じ、導線と role sequence は root skill に、局所判断は child agent role と `references/` に逃がす。
 - `profile` は session 契約だけを持ち、workflow の本文や role 分担を抱え込まない。
 - root skill は「最初に何を読み、どの順で child agent を起動するか」を示し、実作業は child agent role に寄せる。
-- child agent role は、その責務に必要な入力条件、期待出力、write policy だけに閉じる。
+- child agent role は、その責務に必要な入力条件、期待出力、write policy に加えて、root handoff が薄いときの local bootstrap 条件も明示する。
+- child agent role は、自分の read-first docs、current config、current diff、対象ファイルだけで起動できるように書く。
 - role config は、OpenAI 公式 docs の一般原則に従って、まず model、reasoning、verbosity の tier を中心に持たせる。
 - role の責務が読み取り専用か書き込み可かで明確に分かれるなら、`sandbox_mode` を最小限追加して capability を role contract に合わせる。
 - `reference` は、各 role から必要時にだけ読む詳細手順と例外条件を持つ。
@@ -83,11 +84,12 @@
 1. workflow から mission、must-read、allowed modes、quality bar、衝突時の扱い、報告要件だけを抜き出し、`developer_instructions` に入れる。
 2. workflow から end-to-end の導線、推奨 role sequence、child agent への handoff を抜き出し、root skill に入れる。
 3. workflow から focused な責務を抜き出し、child agent role に切る。
-4. role ごとに必要な model / reasoning / verbosity tier を中心に抜き出し、OpenAI 公式 docs の一般原則に沿う設定として role config に入れる。
-5. role ごとの再利用可能な詳細手順、判断基準、テンプレ断片を `references/` に入れる。
-6. durable 設定だけを抜き出し、`config.toml` に入れる。
-7. repo-wide router が本当に必要かを最後に判断し、必要なときだけ `AGENTS.md` を触る。router は起動導線だけを持ち、実作業は child agent に委ねる。
-8. validation の詳細は [`workflow-checklist.md`](workflow-checklist.md) を正本とする。
+4. child agent role の contract には、最低限の入力と local bootstrap 条件を必ず書く。root の handoff が不完全でも動く前提で分解する。
+5. role ごとに必要な model / reasoning / verbosity tier を中心に抜き出し、OpenAI 公式 docs の一般原則に沿う設定として role config に入れる。
+6. role ごとの再利用可能な詳細手順、判断基準、テンプレ断片を `references/` に入れる。
+7. durable 設定だけを抜き出し、`config.toml` に入れる。
+8. repo-wide router が本当に必要かを最後に判断し、必要なときだけ `AGENTS.md` を触る。router は起動導線だけを持ち、実作業は child agent に委ねる。
+9. validation の詳細は [`workflow-checklist.md`](workflow-checklist.md) を正本とする。
 
 ## Default placement summary
 
@@ -113,6 +115,7 @@
 ### `~/.agents/skills/<root-skill-name>/SKILL.md`
 
 - trigger 条件、目的、推奨 role sequence、child agent role の導線、reference map を置く。
+- child agent が root handoff の不足を local docs と local artifacts で埋められる前提を明示する。
 - 実作業の本文は置かない。
 - session 契約の正本にはならない。
 
@@ -127,6 +130,7 @@
 
 - workflow routing、role contract、判断基準、テンプレ断片、variant ごとの差分を書く。
 - role ごとの局所判断基準は、その role が読む reference 側へ置く。
+- 役割ごとの bootstrap 条件や不足 context の復元方法も、ここに置いてよい。
 
 ## Minimal profile template
 
@@ -175,6 +179,7 @@ description: Use when <trigger condition>. Use for <workflow>. Do not use for <o
 
 - この skill は <workflow> 全体の導線、推奨 role sequence、child agent role への入口を定義し、実作業は child agent role に委ねる。
 - session 契約の正本は対応 profile の `developer_instructions` とする。
+- child agent role は、root handoff が最小でも local docs と local artifacts から自己起動できる前提で扱う。
 
 ## Recommended flow
 
@@ -193,6 +198,7 @@ description: Use when <trigger condition>. Use for <workflow>. Do not use for <o
 
 - `AGENTS.md` と必要な reference を確認する。
 - まず <first orchestration step> を行う。
+- child agent に渡す handoff は task summary、対象ファイル、明示した制約、観測済みの local facts に絞る。
 
 ## Reference map
 
@@ -222,9 +228,15 @@ description: Use when <trigger condition>. Use for <phase responsibility>. Do no
 - この role は <phase responsibility> に必要な再利用可能な詳細手順と判断基準を定義する。
 - workflow 全体の導線は対応する root skill を正本とする。
 
+## Self-bootstrap
+
+- root handoff は最小でよい。足りない文脈は `Read first` の文書、対象ファイル、current config、current diff から復元する。
+- 追加確認は、欠けた情報が placement、権限、安全性、期待出力を変えるときだけ行う。
+
 ## Inputs
 
 - <required inputs or preconditions>
+- <local facts to inspect when handoff is thin>
 
 ## Outputs
 

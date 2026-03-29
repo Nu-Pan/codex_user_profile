@@ -1,4 +1,4 @@
-# Use the smaller model for placement analysis and other well-defined tasks.
+# Use the smaller model for placement analysis and self-bootstrapping from local repo state.
 model = "gpt-5-mini"
 model_reasoning_effort = "medium"
 model_verbosity = "medium"

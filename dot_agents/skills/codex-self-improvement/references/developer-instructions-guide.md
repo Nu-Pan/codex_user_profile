@@ -5,6 +5,7 @@
 - `developer_instructions` には、profile ごとの追加行動契約だけを書く。
 - `developer_instructions` は must-read の入口であり、workflow 本文の正本ではない。
 - repo 全体ルールや handbook の本体は `AGENTS.md` や、存在する場合の task 文書へ戻す。
+- child agent が root handoff の不足を local docs と local artifacts から埋められる前提は、root skill と role contract 側で明示する。
 
 ## `developer_instructions` should include
 
@@ -80,6 +81,7 @@
 - `developer_instructions` には session 契約だけを書く。
 - 既定では、must-read には `AGENTS.md` と root skill だけを入れる。
 - child agent roles は `developer_instructions` から直接列挙しすぎず、root skill と role contract から辿らせる。
+- child agent roles は、root handoff が不完全でも自分で起動できるよう、role contract と局所 reference 側で self-bootstrap 条件を持たせる。
 - 詳細な workflow、判断基準、テンプレ断片は root skill、必要に応じて role contract と関連 `references/` へ逃がす。
 - `developer_instructions` では、詳細が別文書にあることを 1 行で示せば十分である。
 

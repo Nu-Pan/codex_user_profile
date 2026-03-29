@@ -3,6 +3,7 @@
 ## Purpose
 
 - これは routing と handoff の正本である。
+- child agent は root の handoff が最小でも、自分の read-first docs と local artifacts から起動できる前提で設計する。
 
 ## Canonical terms
 
@@ -18,6 +19,7 @@
 - `local working path`: repo 内で mirror を編集するときの `dot_codex/...` / `dot_agents/...`。
 - `role sequence`: 今回使う child agent role の順序。
 - `wait policy`: child agent の完了を待つ運用規則。既定では timeout を置かず、完了まで待つ。
+- `bootstrap packet`: child agent に渡す最小 handoff。task summary、対象ファイル、明示した制約、観測済みの local facts を含める。
 
 ## Entry checks
 
@@ -30,6 +32,7 @@
 ## Default role sequence
 
 - root session は task を要約し、最小 role sequence を選んで child agent を起動する。root session 単独で完結させない。
+- child agent への handoff は最小に保ち、child agent 側で current config、current diff、対象ファイル、関連 reference を読めば不足分を復元できるようにする。
 - child agent の完了待機では timeout を使わず、完了まで待つ。途中で打ち切って次へ進めない。
 - 置き場所、権限、canonical path、session 契約が曖昧な場合だけ `si_scope` を足す。
 - reusable workflow、profile、role config の責務分離を再設計する場合だけ `si_design` を足す。
@@ -47,6 +50,9 @@
 ## Handoff rules
 
 - root session は routing、child agent 起動、最終統合だけを持ち、深い局所判断は child agent 側へ逃がす。
+- root session は task summary と local facts を短く渡し、child agent に背景説明を抱え込ませない。
+- child agent は handoff が薄い場合でも、自分の read-first docs、対象ファイル、現行 diff、現行 config から必要文脈を復元する。
+- 足りない情報が placement、権限、安全性、期待出力に影響する場合だけ、追加確認を返す。
 - `si_scope` は placement decision と edit scope を返し、repo-tracked patch は返さない。
 - `si_design` は architecture decision と target artifact list を返し、repo-tracked patch は返さない。
 - `si_editor` は承認済み write scope の repo-tracked patch を担当する。

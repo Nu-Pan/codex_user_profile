@@ -11,6 +11,7 @@
 - session 契約や root skill の routing の正本がどこか
 - 同じ概念に複数の呼び方がある場合は、その正本語彙がどこで定義されているか
 - role contract の `Inputs`、`Outputs`、`Write policy`
+- role が root handoff の不足を local facts で復元できるか
 - `only if`、`do not`、`例外` のような境界を表す語
 - 必要な参照先と、正本への導線
 
@@ -20,6 +21,7 @@
 - 抽象名詞より、観測可能な行動や判断を表す動詞を使う。
 - まず重複を削除し、その後に言い換える。削除で足りる箇所に新しい説明を足さない。
 - root skill は入口と spawn policy だけを持ち、実作業は child agent に逃がす。詳細手順は role contract や `references/` に逃がす。
+- child role の contract は、root handoff が薄いときの local bootstrap 条件まで含めて書く。
 - legacy compatibility skill は handoff だけを書き、canonical な本文を抱え込まない。
 - reference は深い判断基準、変換ルール、例外条件だけを持ち、入口説明を繰り返さない。
 - OpenAI 公式 docs で足りる一般的な内容は、skill family に再掲せず、公式 docs への導線に置き換える。
@@ -51,8 +53,8 @@
 
 - `Use when`: 具体的な trigger だけを書く。
 - `Purpose`: その skill が何の入口かと、正本がどこかを 1-2 bullet で示す。
-- `Recommended flow`: role sequence と利用条件だけを書く。
-- `Child agent roles`: 各 role の責務を 1 行で書く。
+- `Recommended flow`: role sequence と利用条件だけを書く。child role は local docs で自己起動できる前提を含める。
+- `Child agent roles`: 各 role の責務を 1 行で書き、必要な local bootstrap 条件も短く添える。
 - `Quick start`: 最初に読む文書と最初の行動だけを書く。
 
 ## Section lens for compatibility shims
@@ -90,5 +92,6 @@
 - 長い説明を root skill に置き続けるくらいなら、概要だけ残して `references/` へ渡す。
 - `この legacy skill は <canonical role> への handoff を定義する compatibility entrypoint である。` の型を優先する。
 - `まず <primary reference> を読む。必要なら関連 reference を辿る。` のように、最初の一手を明示する。
+- `root handoff は最小でよい。足りない文脈は <docs>、<files>、<config> から復元する。` のように、self-bootstrap 条件を明示する。
 - 語彙統一が主題なら、`<canonical term> を正本とし、<alias> はこの scope では使わない。` のように判断結果を短く残す。
 - `OpenAI 公式 docs で足りるので、詳細は <official docs> を参照する。` のように、外部の正本へ逃がす。

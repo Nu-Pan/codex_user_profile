@@ -38,6 +38,7 @@
 - この文書を validation の正本として扱う。
 - `developer_instructions` を更新したら、少なくとも 1 回は instruction chain の見え方を確認する。
 - 既存 root skill を編集したら、その skill 単体で trigger、既定 route、読むべき reference、child agent role への導線が見え、正本語彙への導線が残っていることを確認する。
+- 既存 root skill を編集したら、child agent が root handoff の不足を local docs と local artifacts で復元できることも確認する。
 - child agent の完了待機では timeout を使わず、完了まで待つ運用になっていることを確認する。
 - 既存 compatibility skill を編集したら、その skill 単体で legacy 名から canonical な root skill と child agent role へ handoff できることを確認する。
 - 既存 `references/` を編集したら、その文書単体で判断基準や例外条件が見え、root skill や role contract と入口説明を重複していないことを確認する。
@@ -58,6 +59,7 @@
 
 - `codex exec -m gpt-5.4-mini -p codex_meta "Summarize the current mission, allowed modes, and must-read documents in 3 bullets."`
 - `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize the canonical root skill, child agent roles, and default spawn policy in 4 bullets.'`
+- `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize the local bootstrap conditions for si_scope, si_design, si_editor, and si_audit in 4 bullets.'`
 - `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement Explain how developer_instructions, root skill, child agent roles, references, and config.toml divide responsibilities.'`
 - `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize the wait policy for child agents and whether timeout is allowed.'`
 
@@ -87,6 +89,7 @@
 - profile 名の自己認識を前提にしたルールが紛れ込んでいないか
 - profile 名が `lower_snake_case`、skill 名が `lower-hyphen-case` の既定に沿っているか
 - `developer_instructions` が child agent role を直接抱え込みすぎず、既定どおり root skill を入口にし、child agent 起動が原則必須になっているか
+- child agent role が root handoff を前提にしすぎず、local bootstrap 条件を明示しているか
 - root skill、role contract、compatibility skill の責務が重複していないか
 - root skill には route の概要だけを残し、詳細な選択条件や例外は `references/` や role contract へ逃がせているか
 - 同じ概念が root skill / compatibility skills / `references/` / role contract で別名のまま共存していないか

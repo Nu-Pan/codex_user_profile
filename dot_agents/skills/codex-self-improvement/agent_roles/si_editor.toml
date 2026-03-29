@@ -1,4 +1,4 @@
-# Use the smaller model for bounded edits where latency and cost matter.
+# Use the smaller model for bounded edits that must bootstrap from target files and adjacent references.
 model = "gpt-5-mini"
 model_reasoning_effort = "medium"
 model_verbosity = "low"

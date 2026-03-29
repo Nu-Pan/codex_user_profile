@@ -1,4 +1,4 @@
-# Use the flagship model for decomposition and architecture decisions.
+# Use the flagship model for decomposition, architecture decisions, and reconstructing thin handoffs.
 model = "gpt-5.4"
 model_reasoning_effort = "medium"
 model_verbosity = "medium"

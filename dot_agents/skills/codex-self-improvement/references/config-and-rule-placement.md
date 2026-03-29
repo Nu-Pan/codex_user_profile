@@ -89,6 +89,7 @@
 ### user skill の `SKILL.md`
 
 - root skill なら、再利用可能な workflow の trigger、目的、推奨 role sequence、child agent role への導線、reference map を書く。
+- root skill なら、child agent が root handoff の不足を local docs と local artifacts で埋められる前提も明示する。
 - compatibility skill なら、旧 skill 名から canonical な root skill と child agent role へ handoff する導線を書く。
 - session 契約や durable 設定の正本にはしない。
 - 長い手順や variant ごとの詳細は `references/` と role contract へ逃がす。
@@ -98,6 +99,7 @@
 - workflow の詳細手順、判断基準、テンプレ断片、variant ごとの差分を書く。
 - end-to-end の導線や role 間の受け渡しは root skill 側の reference に置く。
 - role 局所の深い判断基準は対応する reference や role contract に置く。
+- role が自力で再開するための local bootstrap 条件も、必要ならここに置く。
 - SKILL.md から必要時にだけ読める構成にする。
 - 同じ詳細 rule を `developer_instructions` に再掲しない。
 
@@ -152,6 +154,7 @@
 - `AGENTS.md` には、repo 全体の入口と文書ルーティングだけを書く。
 - 新しい典型 workflow は、既定では新規 profile、root skill、必要な child agent roles に分解して扱う。
 - workflow を分解するときは、session 契約を `developer_instructions`、全体導線を root skill、詳細手順を `references/` と role contract、durable 設定を `config.toml` へ置く。
+- child agent role には、root handoff が薄くても動ける最小 bootstrap 情報を必ず含める。
 - role-local な詳細ルールは対応する `references/` や role contract に集約し、`AGENTS.md` と `developer_instructions` に同じ細則を重複させない。
 - 個人設定として完結する profile や permissions は `~/.codex/config.toml` を優先し、repo 共有 override だけを `.codex/config.toml` に残す。可搬性を壊す HOME 配下の `permissions` は既定では共有設定に持ち込まない。
 - MCP rule は `config.toml`、`AGENTS.md`、存在する場合の task 文書、`developer_instructions` のうち最小スコープへ置く。

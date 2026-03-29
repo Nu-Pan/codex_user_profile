@@ -20,6 +20,7 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 ## Purpose
 
 - この root skill は Codex 自己改善 workflow の入口であり、root session は task framing、role selection、child agent 起動、最終統合だけを担当し、実作業は child agent に委ねる。
+- child agent は root の handoff が薄くても、自分の read-first docs、対象ファイル、現行 config、現行 diff から不足文脈を復元して動けるように書く。
 - session 契約の正本は `profiles.codex_meta.developer_instructions`、routing と handoff の正本は `references/orchestration.md`、role ごとの入出力と write policy の正本は `references/role-contracts.md` である。
 - ここには入口と導線だけを置き、手順の本文は `references/` に逃がす。
 
@@ -28,9 +29,10 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 1. `AGENTS.md`、`~/.codex/config.toml`、変更対象、既存差分を確認する。
 2. [`references/orchestration.md`](references/orchestration.md) と [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を読み、最小 role sequence と置き場所を決める。
 3. 少なくとも 1 つの child agent role を起動する。使い分けと必要条件は [`references/orchestration.md`](references/orchestration.md) と [`references/role-contracts.md`](references/role-contracts.md) を読む。
-4. child agent の完了待機は timeout を使わず、完了まで待つ。待機の詳細は `references/orchestration.md`、確認観点は `references/workflow-checklist.md` を読む。
-5. Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。child agent role の `.toml` は `references/model-selection.md` と config reference に従って埋め、Agents SDK は使わない。
-6. OpenAI 公式 docs を読めば足りる内容は、この skill family に書き足さず、公式 docs への参照に置き換える。
+4. child agent への handoff は task summary、対象ファイル、明示した制約、観測済みの local facts までに絞る。背景説明を root session に抱え込ませない。
+5. child agent の完了待機は timeout を使わず、完了まで待つ。待機の詳細は `references/orchestration.md`、確認観点は `references/workflow-checklist.md` を読む。
+6. Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。child agent role の `.toml` は `references/model-selection.md` と config reference に従って埋め、Agents SDK は使わない。
+7. OpenAI 公式 docs を読めば足りる内容は、この skill family に書き足さず、公式 docs への参照に置き換える。
 
 ## Child agent roles
 
