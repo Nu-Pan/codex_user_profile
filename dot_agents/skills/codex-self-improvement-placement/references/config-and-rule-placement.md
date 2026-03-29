@@ -13,7 +13,7 @@
 - profile 名の自己認識に依存しない。
 - repo 全体の入口、作業分類、文書ルーティングは `AGENTS.md` を正本とする。
 - `developer_instructions` は profile ごとの追加行動契約として扱う。
-- durable な個人設定は `~/.codex/config.toml` を基点にし、repo 共有 override が必要な場合だけ `.codex/config.toml` を使う。
+- durable 設定は `~/.codex/config.toml` を基点にし、repo 共有 override が必要な場合だけ `.codex/config.toml` を使う。
 - repo-scoped `.codex/config.toml` や task 文書は、存在する repo でだけ前提にする。
 - `permissions` は、実際の編集可能範囲を hard gate で強制したいときだけ採用する。
 - 可搬性と HOME 配下の `permissions` が衝突する場合は、sandbox ベース運用への切り替えを先に検討する。
@@ -48,7 +48,7 @@
 
 ### `~/.codex/config.toml`
 
-- 個人設定として持つ durable preferences を置く。
+- 個人設定として持つ durable 設定を置く。
 - 個人用 profile、permissions、MCP server inventory の正本候補とする。
 - 新しい MCP server を追加しただけなら、まず `mcp_servers` の更新可否をここで確認する。
 
@@ -72,7 +72,7 @@
 ### `config.toml` の `mcp_servers`
 
 - MCP server の実設定を書く。
-- server の有無、`command`、`args`、`url`、`env`、timeout、enabled state など durable preferences を置く。
+- server の有無、`command`、`args`、`url`、`env`、timeout、enabled state など durable 設定を置く。
 
 ### task 文書（存在する場合）
 
@@ -105,7 +105,7 @@
 
 ## MCP rule placement
 
-- `~/.codex/config.toml` に durable preferences と server inventory を置く。
+- `~/.codex/config.toml` に durable 設定と server inventory を置く。
 - `.codex/config.toml` には repo 共有 override だけを置く。
 - `AGENTS.md` には repo-wide に常時有効な MCP 利用方針だけを書く。
 - task 文書がある repo では、その文書に特定作業タイプだけに必要な判断基準を書く。

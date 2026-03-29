@@ -35,7 +35,7 @@
 ## Validation
 
 - `developer_instructions` を更新したら、少なくとも 1 回は instruction chain の見え方を確認する。
-- 既存 `bundle skill` を編集したら、その skill 単体で trigger、既定 route、読むべき reference、component skill への導線が見えることを確認する。
+- 既存 `bundle skill` を編集したら、その skill 単体で trigger、既定 route、読むべき reference、component skill への導線が見え、正本語彙への導線が残っていることを確認する。
 - 既存 component skill を編集したら、その skill 単体で担当フェーズ、入力条件、期待出力、読むべき reference が見えることを確認する。
 - 既存 `references/` を編集したら、その文書単体で判断基準や例外条件が見え、bundle skill や component skill と入口説明を重複していないことを確認する。
 - 語彙統一を行ったら、同じ概念が bundle skill / component skills / `references/` で別名のまま残っていないか、正本語彙がどこか 1 か所で追えるかを確認する。

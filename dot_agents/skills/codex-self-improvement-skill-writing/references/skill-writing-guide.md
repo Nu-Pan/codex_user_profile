@@ -26,6 +26,18 @@
 - 例が責務や境界の理解に寄与しないなら削る。
 - 文量を減らすために重要な境界語を落とさない。
 
+## Canonical terms for this bundle
+
+- `bundle skill`
+- `component skill`
+- `reference`
+- `session 契約`
+- `durable 設定`
+- `canonical path`
+- `local working path`
+
+- この bundle では、上の語を正本語彙として扱い、不要な別名を増やさない。
+
 ## Terminology normalization
 
 - まず、同じ概念を指している別名を洗い出す。

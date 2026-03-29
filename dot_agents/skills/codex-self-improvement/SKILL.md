@@ -20,19 +20,17 @@ description: Use when improving Codex itself rather than product code, especiall
 
 ## Purpose
 
-- この bundle skill は Codex 自己改善 workflow の入口であり、route を選んで必要な component skill へ渡す。
-- session 契約の正本は `profiles.codex_meta.developer_instructions`、repo-wide の入口は `AGENTS.md`、phase-local な詳細は component skills と `references/` を正本とする。
+- この bundle skill は Codex 自己改善 workflow の入口であり、route 選定、正本語彙、component skill への導線を定義する。
+- session 契約の正本は `profiles.codex_meta.developer_instructions`、repo-wide の入口は `AGENTS.md`、phase-local な詳細は関連 component skills と `references/` とする。
 
 ## Recommended flow
 
 1. `AGENTS.md`、`~/.codex/config.toml`、変更対象、必要なら既存差分を確認する。
-2. [`references/orchestration.md`](references/orchestration.md) で最小 route を選ぶ。
-3. 選んだ component skill と必要な `references/` だけを読む。
+2. [`references/orchestration.md`](references/orchestration.md) で正本語彙を合わせ、最小 route を 1 つ選ぶ。
+3. 選んだ route に必要な component skills と `references/` だけを読む。
 4. 編集後は `codex-self-improvement-review` で validation と最終報告観点を確認する。
 
-- 文面整理や語彙統一だけなら既定は `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`。
-- 置き場所や責務分離が曖昧な場合だけ `codex-self-improvement-placement` を先に足す。
-- reusable workflow や `developer_instructions` を変える場合だけ `codex-self-improvement-workflow` を足す。
+- route を広げるのは、置き場所判断が要るときの `codex-self-improvement-placement` と、workflow 分解や `developer_instructions` 設計が要るときの `codex-self-improvement-workflow` だけに留める。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 
 ## Component skills
@@ -45,8 +43,8 @@ description: Use when improving Codex itself rather than product code, especiall
 ## Quick start
 
 - `AGENTS.md`、`~/.codex/config.toml`、この bundle skill を確認する。
-- [`references/orchestration.md`](references/orchestration.md) で今回の route を 1 つ選ぶ。
-- その route に必要な component skill と `references/` だけを読む。
+- [`references/orchestration.md`](references/orchestration.md) で今回の route と正本語彙を確認する。
+- その route に必要な component skills と `references/` だけを読む。
 
 ## Repo path notes
 
@@ -55,4 +53,4 @@ description: Use when improving Codex itself rather than product code, especiall
 ## Reference map
 
 - [`references/orchestration.md`](references/orchestration.md)
-  - 推奨順序、component skill の選び方、往復条件を確認するときに読む。
+  - 推奨順序、route の広げ方、正本語彙、往復条件を確認するときに読む。

@@ -14,7 +14,7 @@ description: Use when Codex self-improvement work needs to simplify prose inside
 
 ## Purpose
 
-- この skill は Codex 自己改善タスクにおいて、skill を構成する文章を簡素化し、語彙を正本へ揃え、責務境界を保ったまま読みやすくするための再利用可能な判断基準を定義する。
+- この skill は Codex 自己改善タスクにおいて、skill を構成する文章を簡素化し、正本語彙を揃え、責務境界を保ったまま読みやすくする判断基準を定義する。
 - workflow 全体の導線は bundle skill `codex-self-improvement` を正本とする。
 
 ## Inputs
@@ -33,7 +33,7 @@ description: Use when Codex self-improvement work needs to simplify prose inside
 ## Quick start
 
 - bundle skill `codex-self-improvement` を確認する。
-- まず [`references/skill-writing-guide.md`](references/skill-writing-guide.md) と変更対象文書を読み、責務を変えずに削れる重複、長文、語彙の揺れを洗い出す。
+- まず [`references/skill-writing-guide.md`](references/skill-writing-guide.md) と変更対象文書を読み、責務を変えずに削れる重複、長文、語彙の揺れを印付ける。
 
 ## Reference map
 

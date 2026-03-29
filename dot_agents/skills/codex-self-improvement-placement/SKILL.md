@@ -13,7 +13,7 @@ description: Use when Codex self-improvement work needs a placement decision for
 
 ## Purpose
 
-- この skill は Codex 自己改善における rule placement と config placement の再利用可能な判断基準を定義する。
+- この skill は Codex 自己改善における rule placement、config placement、path visibility の判断基準を定義する。
 - workflow 全体の導線は bundle skill `codex-self-improvement` を正本とする。
 
 ## Inputs
@@ -26,12 +26,12 @@ description: Use when Codex self-improvement work needs a placement decision for
 
 - どの rule をどのファイルへ置くかの判断
 - 編集対象と非編集対象の切り分け
-- 可搬性、permissions、MCP 利用方針に関する注意点
+- 可搬性、permissions、MCP 利用方針、path 表示に関する注意点
 
 ## Quick start
 
 - bundle skill `codex-self-improvement` と現在の `AGENTS.md`、`~/.codex/config.toml` を確認する。
-- まず [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を読み、今回の変更がどの層の責務かを判定する。
+- まず [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を読み、今回の変更を repo-wide router、session 契約、durable 設定、hard gate、task-local guidance のどれへ置くべきか判定する。
 
 ## Reference map
 

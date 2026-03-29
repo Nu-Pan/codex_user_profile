@@ -34,6 +34,7 @@
 - 直接命令形で書く。
 - あいまいな努力目標ではなく、観測可能な行動に落とす。
 - 原則ではなく、その profile に必要な最小限の契約だけを書く。
+- この skill family では `bundle skill`、`component skill`、`reference` を正本語彙として使い、独自の言い換えを増やさない。
 - 長くなるルールは `AGENTS.md` や `bundle skill` に逃がし、そこには参照だけを書く。
 
 ## Canonical template

@@ -13,7 +13,7 @@ description: Use when Codex self-improvement work needs to decompose a reusable 
 
 ## Purpose
 
-- この skill は reusable workflow を `profile`、`bundle skill`、`component skill` に分解するための詳細手順と判断基準を定義する。
+- この skill は reusable workflow を `profile`、`bundle skill`、`component skill`、`reference`、durable 設定に分解する判断基準を定義する。
 - workflow 全体の導線は bundle skill `codex-self-improvement` を正本とする。
 
 ## Inputs
@@ -25,13 +25,14 @@ description: Use when Codex self-improvement work needs to decompose a reusable 
 ## Outputs
 
 - profile / bundle skill / component skills の構成案
-- `developer_instructions` の最小契約
-- reference の置き場所、must-read、validation 観点
+- `developer_instructions` の最小 session 契約
+- `references/` と durable 設定の置き場所、must-read、validation 観点
 
 ## Quick start
 
 - bundle skill `codex-self-improvement` を確認する。
-- まず [`references/workflow-to-profile-skill.md`](references/workflow-to-profile-skill.md) で分解方針を確認し、`developer_instructions` の文面が絡む場合は [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md) も読む。
+- まず [`references/workflow-to-profile-skill.md`](references/workflow-to-profile-skill.md) で workflow を session 契約、bundle skill、component skill、reference、durable 設定へ切り分ける。
+- `developer_instructions` の文面が絡む場合は [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md) も読む。
 - skill の責務分離は固まっていて文面だけを整えたい task は `codex-self-improvement-skill-writing` へ渡す。
 
 ## Reference map

@@ -13,7 +13,7 @@ description: Use when Codex self-improvement work needs checklist-driven review 
 
 ## Purpose
 
-- この skill は Codex 自己改善タスクの checklist、validation、self review、final reporting の判断基準を定義する。
+- この skill は Codex 自己改善タスクの checklist-driven review、validation、reference への一般化、final reporting の判断基準を定義する。
 - workflow 全体の導線は bundle skill `codex-self-improvement` を正本とする。
 
 ## Inputs
@@ -31,7 +31,7 @@ description: Use when Codex self-improvement work needs checklist-driven review 
 ## Quick start
 
 - bundle skill `codex-self-improvement` を確認する。
-- まず [`references/workflow-checklist.md`](references/workflow-checklist.md) を読み、今回の task で必要な validation と reporting items を確定する。
+- まず [`references/workflow-checklist.md`](references/workflow-checklist.md) を読み、今回の task で必要な checklist、validation、reporting items を確定する。
 
 ## Reference map
 

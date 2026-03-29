@@ -13,6 +13,12 @@
   - workflow 全体の導線、推奨フェーズ順、読むべき reference、component skill への入口を与える。
 - `component skill`
   - 1 つのフェーズ、観点、責務に閉じた詳細手順、判断基準、テンプレ断片を与える。
+- `reference`
+  - `references/` 配下の詳細文書を指す。
+- `session 契約`
+  - `developer_instructions` に置く追加行動契約を指す。
+- `durable 設定`
+  - `config.toml` に置く継続設定を指す。
 - workflow で繰り返し使う概念名は、bundle skill または対応 reference のどこかで正本語彙を固定し、component skills 側で別名を増やさない。
 
 ## Default story
@@ -22,6 +28,7 @@
 - `profile` は session 契約だけを持ち、workflow の本文や役割分担を抱え込まない。
 - `bundle skill` は「最初に何を読み、どの順で進め、必要ならどの skill へ降りるか」を示す。
 - `component skill` は、その責務に必要な入力条件、期待出力、判断基準だけに閉じる。
+- `reference` は、各 skill から必要時にだけ読む詳細手順と例外条件を持つ。
 - フェーズ順は既定では推奨順序であり、hard gate にはしない。往復や省略があり得る場合は `bundle skill` 側で条件を説明する。
 - 同じ workflow を profile だけで表現しようとして `developer_instructions` が長くなるなら、詳細は `bundle skill` と `component skill` に逃がす。
 - 同じ workflow を skills だけで表現しようとして sandbox、報告基準、must-read、allowed modes が曖昧になるなら、対応 profile を追加する。
