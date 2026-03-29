@@ -3,7 +3,6 @@
 ## Purpose
 
 - これは routing と handoff の正本である。
-- `agent-routing.md` はこの文書の互換サマリとして扱う。
 
 ## Canonical terms
 

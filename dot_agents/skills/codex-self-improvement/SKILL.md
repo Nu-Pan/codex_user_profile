@@ -30,7 +30,7 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 3. 少なくとも 1 つの child agent role を起動し、task summary、対象ファイル、期待出力だけを渡す。
 4. repo-tracked な編集は `si_editor` に寄せ、編集後は `si_audit` で validation と残余リスクを点検する。
 
-- 既定 role sequence、sequence を広げる条件、spawn policy は [`references/orchestration.md`](references/orchestration.md) を正本とし、[`references/agent-routing.md`](references/agent-routing.md) は互換サマリとして読む。
+- 既定 role sequence、sequence を広げる条件、spawn policy は [`references/orchestration.md`](references/orchestration.md) を正本とする。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 - 迷ったら `si_scope` で置き場所と責務境界を確定し、必要なときだけ後続 role を足す。
 
@@ -57,8 +57,6 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 
 - [`references/orchestration.md`](references/orchestration.md)
   - root/child の routing、推奨 role sequence、handoff の正本を確認するときに読む。
-- [`references/agent-routing.md`](references/agent-routing.md)
-  - routing の短い互換サマリを確認するときに読む。
 - [`references/role-contracts.md`](references/role-contracts.md)
   - `si_scope`、`si_design`、`si_editor`、`si_audit` に渡す入力、期待出力、write policy を確認するときに読む。
 - [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md)
