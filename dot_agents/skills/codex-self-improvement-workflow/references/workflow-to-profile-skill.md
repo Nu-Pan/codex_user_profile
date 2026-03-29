@@ -242,8 +242,12 @@ description: Use when <trigger condition>. Use for <phase responsibility>. Do no
 
 ## Validation defaults
 
-- `codex exec -p <profile_name> "Summarize the current mission, allowed modes, and must-read documents."` で profile の見え方を確認する。
-- `codex exec '$<bundle-skill-name> Summarize this workflow, the recommended phases, and which component skills you would read.'` で `bundle skill` の導線を確認する。
-- `codex exec '$<component-skill-name> Summarize your phase, inputs, outputs, local decision criteria, and reference map.'` で `component skill` の局所責務を確認する。
-- `codex exec -p <profile_name> '$<bundle-skill-name> Explain how this workflow is split between developer_instructions, bundle skill, component skills, references, and config.toml.'` で責務分離を確認する。
+- 自動 validation は、既定で非 TTY の `codex exec` だけを使う。
+- 自動 validation の model は、既定で `gpt-5.4-mini` を指定する。
+- 軽量 model で確認できる導線、局所責務、責務分離だけを自動 validation の対象にする。
+- TTY 前提の対話的確認は人間向け手動確認として別扱いにし、Codex の自動 validation 候補には入れない。
+- `codex exec -m gpt-5.4-mini -p <profile_name> "Summarize the current mission, allowed modes, and must-read documents in 3 bullets."` で profile の見え方を確認する。
+- `codex exec -m gpt-5.4-mini '$<bundle-skill-name> Summarize this workflow, the recommended phases, and which component skills you would read.'` で `bundle skill` の導線を確認する。
+- `codex exec -m gpt-5.4-mini '$<component-skill-name> Summarize your phase, inputs, outputs, local decision criteria, and reference map in 4 bullets.'` で `component skill` の局所責務を確認する。
+- `codex exec -m gpt-5.4-mini -p <profile_name> '$<bundle-skill-name> Summarize how this workflow is split between developer_instructions, bundle skill, component skills, references, and config.toml in 4 bullets.'` で責務分離を確認する。
 - instruction や skill が古く見える場合は、Codex を対象 directory で再起動して確認する。

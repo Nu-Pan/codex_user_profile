@@ -44,16 +44,26 @@
 - 新規 `bundle skill` を追加したら、その skill 単体で trigger、推奨順序、読むべき reference、component skill への導線が見えることを確認する。
 - 新規 `component skill` を追加したら、その skill 単体で担当フェーズ、入力条件、期待出力、読むべき reference が見えることを確認する。
 - profile と `bundle skill` を同時に追加したら、組み合わせたときの責務分離も確認する。
+- Codex CLI で自動実行する validation は、非 TTY で安全に回せる `codex exec` だけに限定する。
+- 自動 validation の model は既定で `gpt-5.4-mini` を使い、軽量 model で確認できる導線、局所責務、責務分離だけを対象にする。
+- `codex --ask-for-approval never ...` や `codex --cd ...` のような TTY 前提コマンドは、人間向け手動確認として案内し、Codex の自動 validation 候補には入れない。
+- 軽量 model で成立しない長い説明、深い推論、対話的 UI 操作は、自動 validation の対象に含めない。
 - instruction や skill が古く見える場合は、Codex を対象 directory で再起動して確認する。
 
 ## Validation command candidates
 
-- `codex exec -p <profile_name> "Summarize the current mission, allowed modes, and must-read documents."`
-- `codex exec '$<bundle-skill-name> Summarize this workflow, the recommended phases, and which component skills you would read.'`
-- `codex exec '$<component-skill-name> Summarize your phase, inputs, outputs, local decision criteria, and reference map.'`
-- `codex exec -p <profile_name> '$<bundle-skill-name> Explain how this workflow is split between developer_instructions, bundle skill, component skills, references, and config.toml.'`
+### Automated non-TTY checks
+
+- `codex exec -m gpt-5.4-mini -p <profile_name> "Summarize the current mission, allowed modes, and must-read documents in 3 bullets."`
+- `codex exec -m gpt-5.4-mini '$<bundle-skill-name> Summarize this workflow, the recommended phases, and which component skills you would read.'`
+- `codex exec -m gpt-5.4-mini '$<component-skill-name> Summarize your phase, inputs, outputs, local decision criteria, and reference map in 4 bullets.'`
+- `codex exec -m gpt-5.4-mini -p <profile_name> '$<bundle-skill-name> Summarize how this workflow is split between developer_instructions, bundle skill, component skills, references, and config.toml in 4 bullets.'`
+
+### Manual TTY checks for humans
+
 - `codex --ask-for-approval never "Summarize the current instructions."`
 - `codex --cd <subdir> --ask-for-approval never "Show which instruction files are active."`
+- これらは TTY 前提なので、Codex は自動実行せず、人間に手動確認として案内する。
 
 ## Generalize to references
 
@@ -91,6 +101,7 @@
 - 何を変更したか
 - なぜその変更で Codex 自己改善の最小ハーネスとして成立すると判断したか
 - 実行した確認内容
+- TTY 前提の確認が必要だった場合は、人間へ案内した手動確認内容と、自動 validation に入れなかった理由
 - 語彙統一を行った場合は、採用した正本語彙と対象範囲
 - 新規 profile、`bundle skill`、`component skill` を追加した場合は、それぞれの単体確認と必要な組み合わせ確認の結果
 - 残っている制約や未解決事項
