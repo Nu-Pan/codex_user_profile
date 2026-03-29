@@ -6,7 +6,7 @@
 
 - `AGENTS.md`
 - `~/.codex/config.toml`
-- 現在の `codex-self-improvement` skill と、今回触る参照文書
+- 現在の bundle skill `codex-self-improvement`、必要な component skills、今回触る参照文書
 - 変更対象ファイルに既存の未コミット差分がある場合は、その内容
 
 必要な場合だけ確認する。
@@ -21,7 +21,7 @@
 - `AGENTS.md`
 - `~/.codex/config.toml`
 - 存在する場合の repo-scoped `.codex/**/*`
-- `~/.agents/skills/codex-self-improvement/**/*`
+- `~/.agents/skills/codex-self-improvement*/**/*`
 
 ## Usually do not edit
 
@@ -36,12 +36,14 @@
 
 - `developer_instructions` を更新したら、少なくとも 1 回は instruction chain の見え方を確認する。
 - 新規 profile を追加したら、その profile 単体で mission、allowed modes、must-read が見えることを確認する。
-- 新規 skill を追加したら、その skill 単体で trigger、目的、読むべき reference が見えることを確認する。
-- profile と対応 skill を同時に追加したら、組み合わせたときの責務分離も確認する。
+- 新規 `束ね skill` を追加したら、その skill 単体で trigger、推奨順序、読むべき reference、役割別 skill への導線が見えることを確認する。
+- 新規 `役割別 skill` を追加したら、その skill 単体で担当フェーズ、入力条件、期待出力、読むべき reference が見えることを確認する。
+- profile と `束ね skill` を同時に追加したら、組み合わせたときの責務分離も確認する。
 - 確認候補:
   - `codex exec -p <profile_name> "Summarize the current mission, allowed modes, and must-read documents."`
-  - `codex exec '$<skill-name> Summarize this workflow and which references you would read first.'`
-  - `codex exec -p <profile_name> '$<skill-name> Explain how this workflow is split between developer_instructions, SKILL.md, references, and config.toml.'`
+  - `codex exec '$<bundle-skill-name> Summarize this workflow, the recommended phases, and which component skills you would read.'`
+  - `codex exec '$<component-skill-name> Summarize your phase, inputs, outputs, and review criteria.'`
+  - `codex exec -p <profile_name> '$<bundle-skill-name> Explain how this workflow is split between developer_instructions, bundle skill, component skills, references, and config.toml.'`
   - `codex --ask-for-approval never "Summarize the current instructions."`
   - `codex --cd <subdir> --ask-for-approval never "Show which instruction files are active."`
 - instruction や skill が古く見える場合は、Codex を対象 directory で再起動して確認する。
@@ -58,11 +60,14 @@
 最低 1 回、以下を点検すること。
 
 - `developer_instructions`、`AGENTS.md`、permissions の責務分離が崩れていないか
-- 典型 workflow の session 契約が `developer_instructions` に閉じ、詳細手順が skill / `references/` に逃がされているか
+- 典型 workflow の session 契約が `developer_instructions` に閉じ、全体導線が `束ね skill` に、詳細手順が `役割別 skill` / `references/` に逃がされているか
 - MCP rule の置き場所が `config.toml`、`AGENTS.md`、存在する場合の task 文書、`developer_instructions` のどれかで一意に説明できるか
 - `developer_instructions` を「正本そのもの」と誤解させる表現になっていないか
 - profile 名の自己認識を前提にしたルールが紛れ込んでいないか
 - profile 名が `lower_snake_case`、skill 名が `lower-hyphen-case` の既定に沿っているか
+- `developer_instructions` が `役割別 skill` を直接抱え込みすぎず、既定どおり `束ね skill` を入口にしているか
+- `束ね skill` と `役割別 skill` の責務が重複していないか
+- フェーズ順が推奨順序として書かれており、hard gate と誤読される表現になっていないか
 - 編集可能範囲が必要以上に広がっていないか
 - 同じルールが複数箇所に重複していないか
 - `instructions` や `model_instructions_file` と責務が混線していないか
@@ -75,7 +80,7 @@
 - 何を変更したか
 - なぜその変更で Codex 自己改善の最小ハーネスとして成立すると判断したか
 - 実行した確認内容
-- 新規 profile / skill を追加した場合は、それぞれ単体確認と組み合わせ確認の結果
+- 新規 profile、`束ね skill`、`役割別 skill` を追加した場合は、それぞれの単体確認と必要な組み合わせ確認の結果
 - 残っている制約や未解決事項
 - 修正内容のエッセンスを `references/` へ引き上げたか、見送ったか、その判断
-- `AGENTS.md`、`~/.codex/config.toml`、存在する場合の repo-scoped `.codex/config.toml`、この skill の間に矛盾があればその内容
+- `AGENTS.md`、`~/.codex/config.toml`、存在する場合の repo-scoped `.codex/config.toml`、bundle skill と関連 component skills の間に矛盾があればその内容
