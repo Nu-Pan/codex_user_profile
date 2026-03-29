@@ -22,6 +22,7 @@
 - `~/.codex/config.toml`
 - 存在する場合の repo-scoped `.codex/**/*`
 - `~/.agents/skills/codex-self-improvement*/**/*`
+- mirror checkout を編集している場合の対応する local working path。例: `dot_codex/**/*`、`dot_agents/skills/codex-self-improvement*/**/*`
 
 ## Usually do not edit
 
@@ -43,14 +44,16 @@
 - 新規 `bundle skill` を追加したら、その skill 単体で trigger、推奨順序、読むべき reference、component skill への導線が見えることを確認する。
 - 新規 `component skill` を追加したら、その skill 単体で担当フェーズ、入力条件、期待出力、読むべき reference が見えることを確認する。
 - profile と `bundle skill` を同時に追加したら、組み合わせたときの責務分離も確認する。
-- 確認候補:
-  - `codex exec -p <profile_name> "Summarize the current mission, allowed modes, and must-read documents."`
-  - `codex exec '$<bundle-skill-name> Summarize this workflow, the recommended phases, and which component skills you would read.'`
-  - `codex exec '$<component-skill-name> Summarize your phase, inputs, outputs, and review criteria.'`
-  - `codex exec -p <profile_name> '$<bundle-skill-name> Explain how this workflow is split between developer_instructions, bundle skill, component skills, references, and config.toml.'`
-  - `codex --ask-for-approval never "Summarize the current instructions."`
-  - `codex --cd <subdir> --ask-for-approval never "Show which instruction files are active."`
 - instruction や skill が古く見える場合は、Codex を対象 directory で再起動して確認する。
+
+## Validation command candidates
+
+- `codex exec -p <profile_name> "Summarize the current mission, allowed modes, and must-read documents."`
+- `codex exec '$<bundle-skill-name> Summarize this workflow, the recommended phases, and which component skills you would read.'`
+- `codex exec '$<component-skill-name> Summarize your phase, inputs, outputs, and review criteria.'`
+- `codex exec -p <profile_name> '$<bundle-skill-name> Explain how this workflow is split between developer_instructions, bundle skill, component skills, references, and config.toml.'`
+- `codex --ask-for-approval never "Summarize the current instructions."`
+- `codex --cd <subdir> --ask-for-approval never "Show which instruction files are active."`
 
 ## Generalize to references
 

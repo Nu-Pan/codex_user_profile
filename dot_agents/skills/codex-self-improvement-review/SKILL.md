@@ -1,6 +1,6 @@
 ---
 name: codex-self-improvement-review
-description: Use when Codex self-improvement work needs checklist-driven review before or after edits. Use for validation planning, reference generalization, self-review, and final reporting. Do not use for placement decisions or workflow decomposition by itself.
+description: Use when Codex self-improvement work needs checklist-driven review before or after edits. Use for validation planning, self-review, reference generalization, and final reporting. Do not use for placement decisions or workflow decomposition by itself.
 ---
 
 # Codex Self Improvement Review
@@ -24,14 +24,15 @@ description: Use when Codex self-improvement work needs checklist-driven review 
 
 ## Outputs
 
-- 編集前後に確認すべき checklist
-- 実行すべき validation とその観点
-- 最終報告へ載せる変更内容、制約、未解決事項
+- 編集前に確認すべき checklist と editable scope
+- 編集後に実行すべき validation、self-review、reference への一般化判断
+- 最終報告へ載せる変更内容、成立根拠、制約、未解決事項
 
 ## Quick start
 
 - bundle skill `codex-self-improvement` を確認する。
-- まず [`references/workflow-checklist.md`](references/workflow-checklist.md) を読み、今回の task で必要な checklist、validation、reporting items を確定する。
+- 編集前なら [`references/workflow-checklist.md`](references/workflow-checklist.md) の `Before editing` と `Preferred editable scope` を確認する。
+- 編集後なら同じ文書の `Validation`、`Self review`、`Final reporting` を確認する。
 
 ## Reference map
 

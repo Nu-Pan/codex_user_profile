@@ -1,6 +1,6 @@
 ---
 name: codex-self-improvement-placement
-description: Use when Codex self-improvement work needs a placement decision for `AGENTS.md`, `config.toml`, permissions, MCP rules, or canonical paths. Use for deciding where a rule belongs and how to keep the minimal harness small. Do not use for workflow decomposition or final reporting by itself.
+description: Use when Codex self-improvement work needs to decide whether a rule belongs in `AGENTS.md`, `developer_instructions`, `config.toml`, permissions, MCP settings, or path guidance. Use for placement and scope decisions. Do not use for workflow decomposition, prose cleanup, or final reporting by itself.
 ---
 
 # Codex Self Improvement Placement
@@ -24,14 +24,15 @@ description: Use when Codex self-improvement work needs a placement decision for
 
 ## Outputs
 
-- どの rule をどのファイルへ置くかの判断
+- 変更対象を repo-wide router、session 契約、durable 設定、hard gate、task-local guidance のどれへ置くかの判断
 - 編集対象と非編集対象の切り分け
-- 可搬性、permissions、MCP 利用方針、path 表示に関する注意点
+- canonical path / local working path、可搬性、permissions、MCP 利用方針に関する注意点
 
 ## Quick start
 
-- bundle skill `codex-self-improvement` と現在の `AGENTS.md`、`~/.codex/config.toml` を確認する。
+- bundle skill `codex-self-improvement`、現在の `AGENTS.md`、`~/.codex/config.toml`、変更対象を確認する。
 - まず [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を読み、今回の変更を repo-wide router、session 契約、durable 設定、hard gate、task-local guidance のどれへ置くべきか判定する。
+- file placement が固まったら、必要に応じて `codex-self-improvement-workflow` または `codex-self-improvement-skill-writing` へ handoff する。
 
 ## Reference map
 

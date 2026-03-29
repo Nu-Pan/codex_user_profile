@@ -1,6 +1,6 @@
 # Config And Rule Placement
 
-## Contract checkpoints
+## Contract facts
 
 - `developer_instructions` は Codex の session に追加で注入される developer instructions であり、optional な文字列である。
 - `AGENTS.md` は別系統の project guidance であり、Codex は起動時に project root から current working directory まで instruction chain を構築して読む。
@@ -8,7 +8,7 @@
 - `instructions` は reserved for future use なので、この repo の運用ルール置き場として使わない。
 - `model_instructions_file` は built-in instructions を置き換える強い設定であり、通常の repo 運用では使わない。
 
-## Baseline defaults
+## Default stance
 
 - profile 名の自己認識に依存しない。
 - repo 全体の入口、作業分類、文書ルーティングは `AGENTS.md` を正本とする。
@@ -21,13 +21,20 @@
 - まずは Codex が自己改善を始められる最小ハーネスを優先し、周辺自動化へ広げない。
 - ユーザーの明示的な許可が無い限り、対象範囲を広げない。
 
+## Placement order
+
+1. その変更が repo-wide router、session 契約、durable 設定、hard gate、task-local guidance のどれかを決める。
+2. 共有範囲が repo-wide か、profile-local か、user-local か、task-local かを決める。
+3. path を説明するときは canonical path か local working path かを切り分ける。
+4. 可搬性と hard gate が衝突するなら、まず `permissions` 撤廃か sandbox ベース運用を検討する。
+
 ## Path visibility rule
 
 - guidance、最終報告、他のリポジトリから参照される説明で path を示すときは、deploy 後に見える `~/.codex/...` / `~/.agents/...` を canonical path とする。
 - `dot_codex/...` / `dot_agents/...` は、HOME 配下設定を mirror した checkout 上で実ファイルを編集するときだけ使う local working path であり、一般 guidance の正本にはしない。
 - repo 固有の mirror path を、cross-repo の guidance や path 契約へ持ち出さない。
 
-## Where each rule belongs
+## Placement matrix
 
 ### `AGENTS.md`
 
@@ -139,7 +146,7 @@
 - Codex CLI、設定キー、`developer_instructions`、permissions の意味を repo からだけでは確定できないときだけ OpenAI developer docs MCP を使う。
 - 記憶だけで設定キーや契約を断定しない。
 
-## Implementation principles
+## Guardrails
 
 - `developer_instructions` には、その session に必要な最小限の追加契約だけを書く。
 - `AGENTS.md` には、repo 全体の入口と文書ルーティングだけを書く。

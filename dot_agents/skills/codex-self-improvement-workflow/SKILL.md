@@ -1,6 +1,6 @@
 ---
 name: codex-self-improvement-workflow
-description: Use when Codex self-improvement work needs to decompose a reusable workflow into a profile, a bundle skill, and component skills. Use for `developer_instructions` design, workflow routing, and reusable skill structure. Do not use for config placement alone, skill wording simplification alone, or for final reporting alone.
+description: Use when Codex self-improvement work needs to decompose a reusable workflow into a profile, a bundle skill, component skills, references, and durable settings. Use for `developer_instructions` design and workflow routing. Do not use for placement decisions alone, simple wording cleanup, or final reporting alone.
 ---
 
 # Codex Self Improvement Workflow
@@ -24,13 +24,14 @@ description: Use when Codex self-improvement work needs to decompose a reusable 
 
 ## Outputs
 
-- profile / bundle skill / component skills の構成案
-- `developer_instructions` の最小 session 契約
-- `references/` と durable 設定の置き場所、must-read、validation 観点
+- `developer_instructions` に残す session 契約の最小集合
+- bundle skill / component skill / `references/` / durable 設定への切り分け
+- must-read、推奨フェーズ順、validation 観点
 
 ## Quick start
 
-- bundle skill `codex-self-improvement` を確認する。
+- bundle skill `codex-self-improvement` と変更対象を確認する。
+- file placement が曖昧なら、先に `codex-self-improvement-placement` を使う。
 - まず [`references/workflow-to-profile-skill.md`](references/workflow-to-profile-skill.md) で workflow を session 契約、bundle skill、component skill、reference、durable 設定へ切り分ける。
 - `developer_instructions` の文面が絡む場合は [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md) も読む。
 - skill の責務分離は固まっていて文面だけを整えたい task は `codex-self-improvement-skill-writing` へ渡す。

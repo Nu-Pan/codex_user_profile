@@ -3,6 +3,7 @@
 ## Purpose
 
 - `developer_instructions` には、profile ごとの追加行動契約だけを書く。
+- `developer_instructions` は must-read の入口であり、workflow 本文の正本ではない。
 - repo 全体ルールや handbook の本体は `AGENTS.md` や、存在する場合の task 文書へ戻す。
 
 ## `developer_instructions` should include
@@ -19,6 +20,7 @@
 
 - `AGENTS.md` にある repo 全体ルールの丸写し
 - `doc/spec/*.md` や `doc/tech/*.md` の内容の丸写し
+- `bundle skill` の `Recommended flow` や component skill 一覧の丸写し
 - permissions の path 一覧や writable roots の詳細再掲
 - MCP server の一覧、接続設定、認証設定
 - 長大な実装規約、網羅的な workflow マニフェスト、恒久的な project handbook
@@ -34,6 +36,7 @@
 - 直接命令形で書く。
 - あいまいな努力目標ではなく、観測可能な行動に落とす。
 - 原則ではなく、その profile に必要な最小限の契約だけを書く。
+- 既定では must-read を `AGENTS.md` と `bundle skill` に留め、component skills は bundle skill から辿らせる。
 - この skill family では `bundle skill`、`component skill`、`reference` を正本語彙として使い、独自の言い換えを増やさない。
 - 長くなるルールは `AGENTS.md` や `bundle skill` に逃がし、そこには参照だけを書く。
 

@@ -4,24 +4,19 @@
 
 - ユーザーが提示した再利用可能な workflow を、Codex が繰り返し扱える `profile`、`bundle skill`、`component skill` に分解するときの基準を定義する。
 - この文書は「どこに何を書くか」と「最小テンプレ」を定め、複数 skill を前提にした設計の迷いを減らす。
+- file placement 自体が曖昧な場合は、この文書だけで決め切らず `codex-self-improvement-placement` 側の reference へ戻る。
 
 ## Terms
 
-- `profile`
-  - その workflow を実行する session 契約を与える。
-- `bundle skill`
-  - workflow 全体の導線、推奨フェーズ順、読むべき reference、component skill への入口を与える。
-- `component skill`
-  - 1 つのフェーズ、観点、責務に閉じた詳細手順、判断基準、テンプレ断片を与える。
-- `reference`
-  - `references/` 配下の詳細文書を指す。
-- `session 契約`
-  - `developer_instructions` に置く追加行動契約を指す。
-- `durable 設定`
-  - `config.toml` に置く継続設定を指す。
+- `profile`: その workflow を実行する session 契約を与える。
+- `bundle skill`: workflow 全体の導線、推奨フェーズ順、読むべき reference、component skill への入口を与える。
+- `component skill`: 1 つのフェーズ、観点、責務に閉じた詳細手順、判断基準、テンプレ断片を与える。
+- `reference`: `references/` 配下の詳細文書を指す。
+- `session 契約`: `developer_instructions` に置く追加行動契約を指す。
+- `durable 設定`: `config.toml` に置く継続設定を指す。
 - workflow で繰り返し使う概念名は、bundle skill または対応 reference のどこかで正本語彙を固定し、component skills 側で別名を増やさない。
 
-## Default story
+## Default model
 
 - 既定では、新しい典型 workflow は `profile` と 1 つの `bundle skill` で表現する。
 - workflow に複数の責務やレビュー観点がある場合は、`bundle skill` の下に複数の `component skills` を置く。
@@ -33,41 +28,55 @@
 - 同じ workflow を profile だけで表現しようとして `developer_instructions` が長くなるなら、詳細は `bundle skill` と `component skill` に逃がす。
 - 同じ workflow を skills だけで表現しようとして sandbox、報告基準、must-read、allowed modes が曖昧になるなら、対応 profile を追加する。
 
-## When to add a profile
+## When to add each artifact
+
+### `profile`
 
 - session の mission が既存 profile と明確に異なる。
 - allowed modes、quality bar、報告基準、must-read が既存 profile では不足する。
 - sandbox、network、approval、model など durable な実行前提を workflow ごとに切り替えたい。
 - その workflow を呼ぶたびに、同じ追加行動契約を毎回 prompt に書かせたくない。
 
-## When to add a bundle skill
+### `bundle skill`
 
 - workflow 全体の導線を 1 つの入口で示したい。
 - 同じ workflow で複数のフェーズ、観点、役割を使い分ける。
 - `developer_instructions` から複数 skill を直接列挙するより、1 つの入口に集約したい。
 - 途中で読むべき reference や、component skill の選び方を再利用したい。
 
-## When to add component skills
+### `component skill`
 
 - planner、checker、executor、reviewer のように責務が明確に分かれる。
 - そのフェーズだけで再利用できる手順、判断基準、テンプレ断片がある。
 - 入力条件と期待出力を、その skill 単体で短く説明できる。
 - workflow 全体を繰り返さず、局所責務だけに閉じた説明へ分割できる。
 
-## When one skill is enough
+### one skill で足りる場合
 
 - workflow が単一フェーズで完結し、導線と局所手順を分ける利得が小さい。
 - 追加の役割分割をしても、責務より重複の方が増える。
 - `developer_instructions` から読ませる入口が 1 つで十分で、component skill を経由させる理由が弱い。
 
-## When to add profile + multiple skills
+### `profile` + 複数 skill が要る場合
 
 - session 契約の追加と、workflow 全体の導線と、再利用可能な局所手順のすべてが必要である。
 - 既定では、複数責務を持つ workflow は `profile` + `bundle skill` + 必要な `component skills` の組で表現する。
 - 例外として、単なる durable 設定差分だけなら profile だけでよい。
 - 例外として、既存 profile の行動契約で十分なら、`bundle skill` と `component skill` だけでよい。
 
-## Default placement
+## Decomposition recipe
+
+1. workflow から mission、must-read、allowed modes、quality bar、衝突時の扱い、報告要件だけを抜き出し、`developer_instructions` に入れる。
+2. workflow から end-to-end の導線、推奨フェーズ順、component skill への handoff を抜き出し、`bundle skill` に入れる。
+3. workflow から再利用可能な局所手順、判断基準、テンプレ断片を抜き出し、`component skill` と `references/` に入れる。
+4. workflow 全体で使う概念名は、bundle skill または対応 reference で正本化し、component skills と `references/` で別名を増やさない。
+5. durable 設定だけを抜き出し、`config.toml` に入れる。
+6. repo-wide router が本当に必要かを最後に判断し、必要なときだけ `AGENTS.md` を触る。
+7. 同じ rule を `developer_instructions`、`bundle skill`、`component skill` に重複させない。
+
+## Default placement summary
+
+- file placement の詳細ルールは `codex-self-improvement-placement` 側を正本とし、ここでは workflow 分解に必要な既定だけを扱う。
 
 ### `AGENTS.md`
 
@@ -109,16 +118,6 @@
 - end-to-end の段取りやフェーズ間の受け渡しは `bundle skill` 側の reference に置く。
 - フェーズ局所の深い判断基準は `component skill` 側の reference に置く。
 - 既存 reference で受けきれないときだけ新規ファイルを足す。
-
-## Workflow decomposition checklist
-
-- workflow から session 契約だけを抜き出し、`developer_instructions` に入れる。
-- workflow から end-to-end の導線、推奨フェーズ順、役割分担を抜き出し、`bundle skill` に入れる。
-- workflow から再利用可能な局所手順と判断基準を抜き出し、`component skill` と `references/` に入れる。
-- workflow 全体で使う概念名は、bundle skill または対応 reference で正本化し、component skills と `references/` で別名を増やさない。
-- durable 設定だけを抜き出し、`config.toml` に入れる。
-- repo-wide router が本当に必要かを最後に判断し、必要なときだけ `AGENTS.md` を触る。
-- 同じ rule を `developer_instructions`、`bundle skill`、`component skill` の複数箇所へ重複させない。
 
 ## Minimal profile template
 

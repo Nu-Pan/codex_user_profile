@@ -1,6 +1,6 @@
 ---
 name: codex-self-improvement-skill-writing
-description: Use when Codex self-improvement work needs to simplify prose inside bundle skills, component skills, or their references without changing responsibilities. Use for wording simplification, terminology normalization, duplicate removal, and section-level compression in skill documents. Do not use for workflow decomposition, config placement, or final reporting by itself.
+description: Use when Codex self-improvement work needs to simplify prose inside bundle skills, component skills, or references without changing responsibilities. Use for wording cleanup, terminology normalization, duplicate removal, and section compression. Do not use for workflow decomposition, placement decisions, or final reporting by itself.
 ---
 
 # Codex Self Improvement Skill Writing
@@ -27,13 +27,13 @@ description: Use when Codex self-improvement work needs to simplify prose inside
 
 - 簡素化後の文面、またはその書き換え方針
 - 採用した正本語彙と、置換または残置した別名の整理
-- 削除した重複、参照へ逃がした詳細、維持した責務の整理
-- 誤読を防ぐために残した境界条件や明示事項
+- 削除した重複、`references/` へ逃がした詳細、維持した責務の整理
+- 誤読を防ぐために残した境界条件、禁止条件、明示事項
 
 ## Quick start
 
 - bundle skill `codex-self-improvement` を確認する。
-- まず [`references/skill-writing-guide.md`](references/skill-writing-guide.md) と変更対象文書を読み、責務を変えずに削れる重複、長文、語彙の揺れを印付ける。
+- まず [`references/skill-writing-guide.md`](references/skill-writing-guide.md) と変更対象文書を読み、`Use when` / `Purpose` / `Quick start` / `Reference map` にまたがる重複と語彙の揺れを印付ける。
 
 ## Reference map
 
