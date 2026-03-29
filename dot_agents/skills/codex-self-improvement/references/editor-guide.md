@@ -22,6 +22,7 @@
 - まず重複を削除し、その後に言い換える。削除で足りる箇所に新しい説明を足さない。
 - root skill は入口と spawn policy だけを持ち、実作業は child agent に逃がす。詳細手順は role contract や `references/` に逃がす。
 - child role の contract は、root handoff が薄いときの local bootstrap 条件まで含めて書く。
+- role config の `developer_instructions` は role-local read-first docs を閉じる場所として扱い、root skill は再掲しない。
 - legacy compatibility skill は handoff だけを書き、canonical な本文を抱え込まない。
 - reference は深い判断基準、変換ルール、例外条件だけを持ち、入口説明を繰り返さない。
 - OpenAI 公式 docs で足りる一般的な内容は、skill family に再掲せず、公式 docs への導線に置き換える。
@@ -54,7 +55,7 @@
 - `Use when`: 具体的な trigger だけを書く。
 - `Purpose`: その skill が何の入口かと、正本がどこかを 1-2 bullet で示す。
 - `Recommended flow`: role sequence と利用条件だけを書く。child role は local docs で自己起動できる前提を含める。
-- `Child agent roles`: 各 role の責務を 1 行で書き、必要な local bootstrap 条件も短く添える。
+- `Child agent roles`: 各 role の責務を 1 行で書き、必要な local bootstrap 条件は role config に閉じる前提で短く添える。
 - `Quick start`: 最初に読む文書と最初の行動だけを書く。
 
 ## Section lens for compatibility shims

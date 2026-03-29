@@ -3,6 +3,7 @@
 ## Contract facts
 
 - `developer_instructions` は session に追加で注入される developer instructions であり、optional な文字列である。
+- `agent_roles/*.toml` の `developer_instructions` も、child agent role の role-local bootstrap contract として扱う。
 - `AGENTS.md` は project guidance であり、Codex は起動時に instruction chain を構築して読む。
 - `permissions` と `default_permissions` は、使う場合は文章上のルールではなく hard gate である。
 - `instructions` は reserved for future use なので、この repo の運用ルール置き場として使わない。
@@ -12,6 +13,7 @@
 
 - repo 全体の入口、作業分類、文書ルーティングは `AGENTS.md` を正本とする。
 - `developer_instructions` は profile ごとの追加行動契約として扱う。
+- child agent role の `developer_instructions` は `agent_roles/*.toml` に置く role-local bootstrap contract として扱う。
 - durable 設定は `~/.codex/config.toml` を基点にし、repo 共有 override が必要な場合だけ `.codex/config.toml` を使う。
 - repo-scoped `.codex/config.toml` や task 文書は、存在する repo でだけ前提にする。
 - `permissions` は、実際の編集可能範囲を hard gate で強制したいときだけ採用する。
@@ -59,6 +61,13 @@
 - 個人用 profile、permissions、MCP server inventory の正本候補とする。
 - 新しい MCP server を追加しただけなら、まず `mcp_servers` の更新可否をここで確認する。
 
+### `~/.agents/skills/<root-skill-name>/agent_roles/*.toml`
+
+- child agent role の standalone custom agent config を置く。
+- `name`、`description`、`developer_instructions`、`model`、`model_reasoning_effort`、`model_verbosity`、`sandbox_mode` を置く。
+- role-local の read-first docs と bootstrap 条件はここに閉じる。
+- role-local な詳細判断の本文は `references/` に逃がす。
+
 ### `.codex/config.toml`
 
 - repo 共有 override だけを書く。
@@ -99,7 +108,7 @@
 - workflow の詳細手順、判断基準、テンプレ断片、variant ごとの差分を書く。
 - end-to-end の導線や role 間の受け渡しは root skill 側の reference に置く。
 - role 局所の深い判断基準は対応する reference や role contract に置く。
-- role が自力で再開するための local bootstrap 条件も、必要ならここに置く。
+- role が自力で再開するための local bootstrap 条件は、必要なら agent_roles/*.toml の developer_instructions に置く。
 - SKILL.md から必要時にだけ読める構成にする。
 - 同じ詳細 rule を `developer_instructions` に再掲しない。
 
@@ -128,6 +137,7 @@
 - workflow の session 契約は `profiles.<name>.developer_instructions` に置く。
 - workflow の durable 設定は `~/.codex/config.toml` の `profiles.<name>` に置く。
 - workflow の trigger、推奨 role sequence、child agent role への短い導線は root skill の `SKILL.md` に置く。
+- child agent role の read-first docs と bootstrap 条件は role config の `developer_instructions` に置く。
 - workflow の局所手順、判断基準、テンプレ断片は関連 `references/` と role contract に置く。
 - 同じ workflow を profile、root skill、child agent role、`references/` に分解するときでも、同一 rule を複数箇所へ複写しない。
 - discoverability を高めたい場合も、まず skill metadata と must-read の参照を使い、repo-wide router の追加は最後に検討する。
@@ -151,6 +161,7 @@
 ## Guardrails
 
 - `developer_instructions` には、その session に必要な最小限の追加契約だけを書く。
+- child agent role の role-local bootstrap contract は `agent_roles/*.toml` の `developer_instructions` に置く。
 - `AGENTS.md` には、repo 全体の入口と文書ルーティングだけを書く。
 - 新しい典型 workflow は、既定では新規 profile、root skill、必要な child agent roles に分解して扱う。
 - workflow を分解するときは、session 契約を `developer_instructions`、全体導線を root skill、詳細手順を `references/` と role contract、durable 設定を `config.toml` へ置く。

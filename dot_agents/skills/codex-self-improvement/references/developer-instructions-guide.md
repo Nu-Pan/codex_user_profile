@@ -2,7 +2,7 @@
 
 ## Purpose
 
-- `developer_instructions` には、profile ごとの追加行動契約だけを書く。
+- `developer_instructions` には、profile ごとの追加行動契約だけを書く。`agent_roles/*.toml` で使う `developer_instructions` は role-local bootstrap contract として別扱いにする。
 - `developer_instructions` は must-read の入口であり、workflow 本文の正本ではない。
 - repo 全体ルールや handbook の本体は `AGENTS.md` や、存在する場合の task 文書へ戻す。
 - child agent が root handoff の不足を local docs と local artifacts から埋められる前提は、root skill と role contract 側で明示する。
@@ -75,6 +75,13 @@
 ```
 
 - この条件付き項目は `codex_meta` のような Codex 自己改善 profile には有効だが、`question` や `spec_doc` の共通要件にはしない。
+
+## Role config lens
+
+- `agent_roles/*.toml` の `developer_instructions` には、その role が読む `references/` と bootstrap 条件を短く書く。
+- そこには role-local の mission、期待出力、read-first docs を閉じる。
+- root skill 側に同じ詳細を再掲しない。
+- 1 role 1 purpose、1 行 1 意図を守る。
 
 ## When a workflow is implemented as profile + root skill + child roles
 

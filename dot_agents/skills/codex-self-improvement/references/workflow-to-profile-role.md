@@ -11,7 +11,7 @@
 - `profile`: その workflow を実行する session 契約を与える。
 - `root skill`: workflow 全体の導線、推奨 role sequence、読むべき reference、child agent への入口を与える。
 - `child agent role`: 1 つの責務だけを持つ focused な agent type を指す。
-- `role config`: child agent role に適用する TOML layer を指す。
+- `role config`: child agent role に適用する standalone custom agent TOML layer を指す。`name`、`description`、`developer_instructions`、`model`、`model_reasoning_effort`、`model_verbosity`、`sandbox_mode` を置く。
 - `reference`: `references/` 配下の詳細文書を指す。
 - `session 契約`: `developer_instructions` に置く追加行動契約を指す。
 - `durable 設定`: `config.toml` に置く継続設定を指す。
@@ -24,8 +24,9 @@
 - `profile` は session 契約だけを持ち、workflow の本文や role 分担を抱え込まない。
 - root skill は「最初に何を読み、どの順で child agent を起動するか」を示し、実作業は child agent role に寄せる。
 - child agent role は、その責務に必要な入力条件、期待出力、write policy に加えて、root handoff が薄いときの local bootstrap 条件も明示する。
-- child agent role は、自分の read-first docs、current config、current diff、対象ファイルだけで起動できるように書く。
+- child agent role は、自分の role config、current config、current diff、対象ファイルだけで起動できるように書く。
 - role config は、OpenAI 公式 docs の一般原則に従って、まず model、reasoning、verbosity の tier を中心に持たせる。
+- role config は standalone custom agent config として持ち、role-local な session contract と read-first docs もここに閉じる。
 - role の責務が読み取り専用か書き込み可かで明確に分かれるなら、`sandbox_mode` を最小限追加して capability を role contract に合わせる。
 - `reference` は、各 role から必要時にだけ読む詳細手順と例外条件を持つ。
 - role sequence は既定では推奨順序であり、hard gate にはしない。往復や省略があり得る場合は root skill 側で条件を説明する。
@@ -55,11 +56,12 @@
 
 - その role だけ model / reasoning / verbosity tier を root と変えたい。
 - その role だけ sandbox_mode のような capability も root と変えたい。
+- その role だけの developer_instructions、read-first docs、bootstrap 条件を role-local に閉じたい。
 - 同じ role を繰り返し起動するとき、毎回 CLI override で指定したくない。
-- role 固有の session 契約は不要で、durable な推論 tier だけを固定したい。
+- role 固有の session 契約は不要で、durable な推論 tier と role-local contract を固定したい。
 - model / reasoning / verbosity tier の選定原則は [`references/model-selection.md`](model-selection.md) を正本とする。
 - child agent role の `.toml` は OpenAI 公式 docs の一般原則に従って埋める。Agents SDK 前提の構成はこの path では使わない。
-- role config には選定結果だけを置き、判断基準の本文は置かない。
+- role config には選定結果と role-local contract を置き、判断基準の本文は置かない。
 
 ### `reference`
 
@@ -102,14 +104,22 @@
 ### `~/.codex/config.toml`
 
 - `profiles.<name>` を追加する。
-- `agents.<role>` と `config_file` の対応を書く。
+- `agents.<role>.config_file` の対応を書く。
 - durable な sandbox、network、approval、model、`developer_instructions` を置く。
+
+### `~/.agents/skills/<root-skill-name>/agent_roles/*.toml`
+
+- child agent role ごとの standalone custom agent config を置く。
+- `name`、`description`、`developer_instructions`、`model`、`model_reasoning_effort`、`model_verbosity`、`sandbox_mode` を置く。
+- `developer_instructions` には、その role が読む `references/` と bootstrap 条件を短く書く。
+- role config には選定結果と role-local の実行前提を置き、判断基準の本文は `references/` に逃がす。
 
 ### `profiles.<name>.developer_instructions`
 
 - mission、must-read、allowed modes、quality bar、衝突時の扱い、最終報告要件だけを書く。
 - 既定では、must-read には `AGENTS.md` と root skill だけを明示する。
 - child agent role を直接 must-read に並べるのは例外であり、root skill を経由すると入口が壊れる場合だけに限る。
+- child agent role の read-first docs は role config 側に閉じ、root skill では再掲しない。
 - 詳細 workflow や長いテンプレ本文は書かない。
 
 ### `~/.agents/skills/<root-skill-name>/SKILL.md`
@@ -121,10 +131,11 @@
 
 ### `~/.agents/skills/<root-skill-name>/agent_roles/*.toml`
 
-- child agent role ごとの model / reasoning / verbosity tier を基本に置く。
+- child agent role ごとの standalone custom agent config を置く。
+- `name`、`description`、`developer_instructions`、`model`、`model_reasoning_effort`、`model_verbosity`、`sandbox_mode` を置く。
 - 値は OpenAI config reference と関連 model docs の一般原則に従って決める。
 - Agents SDK の導入や SDK 前提の role 設計は置かない。
-- role 固有の session 契約は置かない。
+- role-local の read-first docs と bootstrap 条件を `developer_instructions` に閉じる。
 
 ### `~/.agents/skills/<name>/references/`
 
@@ -152,6 +163,16 @@ developer_instructions = """
 ## Minimal role config template
 
 ```toml
+name = "<role-name>"
+description = "<one-line mission>"
+developer_instructions = """
+- 常に <language> で回答する。
+- この role の目的は <mission> である。
+- 実施前に <read-first docs> を読む。
+- root handoff が薄い前提で <bootstrap steps> を行う。
+- <output contract> を返す。
+- repo-tracked file は編集しない。
+"""
 model = "<model>"
 model_reasoning_effort = "<effort>"
 model_verbosity = "<verbosity>"
@@ -160,6 +181,7 @@ sandbox_mode = "<read-only|workspace-write>"
 
 - これは基本形であり、role config には OpenAI 公式 docs の一般原則に沿う必要最小限の追加設定を置いてよい。
 - たとえば、`si_scope` / `si_design` / `si_audit` は `sandbox_mode = "read-only"`、`si_editor` は `sandbox_mode = "workspace-write"` にする。
+- `developer_instructions` には、その role が読む `references/` を短く明示する。
 
 ## Minimal root skill template
 
@@ -179,6 +201,7 @@ description: Use when <trigger condition>. Use for <workflow>. Do not use for <o
 
 - この skill は <workflow> 全体の導線、推奨 role sequence、child agent role への入口を定義し、実作業は child agent role に委ねる。
 - session 契約の正本は対応 profile の `developer_instructions` とする。
+- child agent role の read-first docs は各 role config に閉じる。
 - child agent role は、root handoff が最小でも local docs と local artifacts から自己起動できる前提で扱う。
 
 ## Recommended flow
@@ -193,6 +216,7 @@ description: Use when <trigger condition>. Use for <workflow>. Do not use for <o
 
 - `<child-agent-role-a>`: <phase or responsibility>
 - `<child-agent-role-b>`: <phase or responsibility>
+- child agent role の具体的な read-first docs は各 role config に閉じる。
 
 ## Quick start
 
@@ -209,51 +233,27 @@ description: Use when <trigger condition>. Use for <workflow>. Do not use for <o
 - root skill は、workflow 全文の置き場所ではなく、入口と導線の置き場所として使う。
 - root skill が長くなり始めたら、詳細手順は child agent role 側の `references/` へ移す。
 
-## Minimal child agent role template
+## Minimal child agent role config template
 
-```markdown
----
-name: <child-agent-role-name>
-description: Use when <trigger condition>. Use for <phase responsibility>. Do not use for <out-of-scope>.
----
-
-# <Child Agent Role Title>
-
-## Use when
-
-- <trigger condition>
-
-## Purpose
-
-- この role は <phase responsibility> に必要な再利用可能な詳細手順と判断基準を定義する。
-- workflow 全体の導線は対応する root skill を正本とする。
-
-## Self-bootstrap
-
-- root handoff は最小でよい。足りない文脈は `Read first` の文書、対象ファイル、current config、current diff から復元する。
-- 追加確認は、欠けた情報が placement、権限、安全性、期待出力を変えるときだけ行う。
-
-## Inputs
-
-- <required inputs or preconditions>
-- <local facts to inspect when handoff is thin>
-
-## Outputs
-
-- <expected deliverables>
-
-## Quick start
-
-- 必要な reference を確認する。
-- まず <first local step> を行う。
-
-## Reference map
-
-- [`references/<doc>.md`](references/<doc>.md)
-  - <when to read>
+```toml
+name = "<child-agent-role-name>"
+description = "<one-line mission>"
+developer_instructions = """
+- 常に <language> で回答する。
+- この role の目的は <phase responsibility> である。
+- 実施前に <role-specific references> を読む。
+- root handoff が薄い前提で <bootstrap steps> を行う。
+- <expected deliverables> を返す。
+- repo-tracked file は編集しない。
+"""
+model = "<model>"
+model_reasoning_effort = "<effort>"
+model_verbosity = "<verbosity>"
+sandbox_mode = "<read-only|workspace-write>"
 ```
 
 - child agent role は、他 role の段取りや session 契約を再掲しない。
+- role-local の参照先はこの `developer_instructions` に閉じる。
 
 ## Representative example
 

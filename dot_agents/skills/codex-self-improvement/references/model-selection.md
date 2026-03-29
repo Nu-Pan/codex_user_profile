@@ -4,7 +4,7 @@
 
 - OpenAI 公式 docs に沿って、Codex self-improvement workflow で model / reasoning effort / verbosity を選ぶ基準をまとめる。
 - この文書は model の「重さ」を選ぶ判断基準の正本であり、個別 role config の値そのものは置かない。
-- child agent role の `.toml` を埋めるときも、この文書と OpenAI config reference を使う。Agents SDK は使わない。
+- child agent role の standalone custom agent config (`agent_roles/*.toml`) を埋めるときも、この文書と OpenAI config reference を使う。Agents SDK は使わない。
 
 ## Default stance
 
@@ -24,7 +24,7 @@
 ## Official docs to consult
 
 - [Codex config reference - config.toml](https://developers.openai.com/codex/config-reference/#configtoml)
-  - `agents.<name>.config_file` と `model_reasoning_effort`、`model_verbosity` の位置づけを確認するときに読む。
+  - `agents.<name>.config_file` と standalone role config の `model_reasoning_effort`、`model_verbosity` の位置づけを確認するときに読む。
 - [Choosing models and APIs](https://developers.openai.com/api/docs/guides/text/#choosing-models-and-apis)
   - reasoning model と chat model の違い、Responses API の推奨を確認するときに読む。
 - [Migrating from other models to GPT-5.4](https://developers.openai.com/api/docs/guides/latest-model/#migrating-from-other-models-to-gpt-54)
