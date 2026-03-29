@@ -25,7 +25,7 @@
 - root skill は「最初に何を読み、どの順で child agent を起動するか」を示し、実作業は child agent role に寄せる。
 - child agent role は、その責務に必要な入力条件、期待出力、write policy に加えて、root handoff が薄いときの local bootstrap 条件も明示する。
 - child agent role は、自分の role config、current config、current diff、対象ファイルだけで起動できるように書く。
-- role config は、OpenAI 公式 docs の一般原則に従って、まず model、reasoning、verbosity の tier を中心に持たせる。
+- role config は、OpenAI 公式 docs の一般原則に従って、まず `model`、`model_reasoning_effort`、`model_verbosity` の tier を中心に持たせる。
 - role config は standalone custom agent config として持ち、role-local な read-first docs と bootstrap 条件もここに閉じる。
 - role の責務が読み取り専用か書き込み可かで明確に分かれるなら、`sandbox_mode` を最小限追加して capability を role contract に合わせる。
 - `reference` は、各 role から必要時にだけ読む詳細手順と例外条件を持つ。
@@ -62,12 +62,12 @@
 
 ### role config
 
-- その role だけ model / reasoning / verbosity tier を root と変えたい。
+- その role だけ `model` / `model_reasoning_effort` / `model_verbosity` tier を root と変えたい。
 - その role だけ sandbox_mode のような capability も root と変えたい。
 - その role だけの developer_instructions、read-first docs、bootstrap 条件を role-local に閉じたい。
 - 同じ role を繰り返し起動するとき、毎回 CLI override で指定したくない。
 - role 固有の router contract は不要で、durable な推論 tier と role-local contract を固定したい。
-- model / reasoning / verbosity tier の選定原則は [`references/model-selection.md`](model-selection.md) を正本とする。
+- `model` / `model_reasoning_effort` / `model_verbosity` tier の選定原則は [`references/model-selection.md`](model-selection.md) を正本とする。
 - child agent role の `.toml` は OpenAI 公式 docs の一般原則に従って埋める。Agents SDK 前提の構成はこの path では使わない。
 - role config には選定結果と role-local contract を置き、判断基準の本文は置かない。
 
@@ -95,7 +95,7 @@
 2. workflow から end-to-end の導線、推奨 role sequence、child agent への handoff を抜き出し、root skill に入れる。
 3. workflow から focused な責務を抜き出し、child agent role に切る。
 4. child agent role の contract には、最低限の入力と local bootstrap 条件を必ず書く。root の handoff が不完全でも動く前提で分解する。
-5. role ごとに必要な model / reasoning / verbosity tier を中心に抜き出し、OpenAI 公式 docs の一般原則に沿う設定として role config に入れる。
+5. role ごとに必要な `model` / `model_reasoning_effort` / `model_verbosity` tier を中心に抜き出し、OpenAI 公式 docs の一般原則に沿う設定として role config に入れる。
 6. role ごとの再利用可能な詳細手順、判断基準、テンプレ断片を `references/` に入れる。
 7. durable 設定だけを抜き出し、`config.toml` に入れる。
 8. root router contract が本当に必要かを最後に判断し、必要なときだけ profile-level `developer_instructions` を触る。router は起動導線だけを持ち、実作業は child agent に委ねる。
@@ -163,9 +163,9 @@
 ```md
 - 常に <language> で回答する。
 - この session の目的は <mission> である。
-- 実施前に `AGENTS.md` と user skill `<root-skill-name>` を確認し、`~/.codex/config.toml` の profile-level `developer_instructions` を共通の root router contract として扱う。
+- 実施前に `AGENTS.md` と root skill `<root-skill-name>` を確認し、`~/.codex/config.toml` の profile-level `developer_instructions` を共通の root router contract として扱う。
 - この session では <allowed_modes> だけを扱う。
-- 詳細な workflow、role sequence、spawn policy は user skill `<root-skill-name>` と、そこから辿る関連 `references/` を参照する。
+- 詳細な workflow、role sequence、spawn policy は root skill `<root-skill-name>` と、そこから辿る関連 `references/` を参照する。
 - <quality_bar> を満たすまで作業を打ち切らない。
 - 指示や権限が衝突する場合は編集せず、ユーザーに確認する。
 - 最終報告では <reporting_items> を述べる。

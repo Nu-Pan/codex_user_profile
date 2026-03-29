@@ -100,7 +100,7 @@
 - 特定の作業タイプでだけ必要な MCP 利用判断基準を書く。
 - 例: Codex 自己改善時だけ契約確認で OpenAI developer docs MCP を再確認する。
 
-### user skill の `SKILL.md`
+### root skill の `SKILL.md`
 
 - root skill なら、再利用可能な workflow の trigger、目的、推奨 role sequence、child agent role への導線、reference map を書く。
 - root skill なら、child agent が root handoff の不足を local docs と local artifacts で埋められる前提も明示する。
@@ -108,7 +108,7 @@
 - root router contract や durable 設定の正本にはしない。
 - 長い手順や variant ごとの差分は `references/` と role contract へ逃がす。
 
-### user skill の `references/`
+### root skill の `references/`
 
 - workflow の詳細手順、判断基準、テンプレ断片、variant ごとの差分を書く。
 - end-to-end の導線や role 間の受け渡しは root skill 側の reference に置く。

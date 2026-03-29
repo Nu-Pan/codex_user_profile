@@ -2,8 +2,8 @@
 
 ## Purpose
 
-- これは routing と handoff の正本である。
-- child agent は root の handoff が最小でも、自分の role config と local artifacts から起動できる前提で設計する。
+- routing と handoff の正本である。
+- root session は router / orchestrator に限り、child agent は自分の role config と local artifacts から起動できる前提で設計する。
 
 ## Canonical terms
 
@@ -12,7 +12,7 @@
 - `root router contract`: `~/.codex/config.toml` の `[profiles.codex_meta].developer_instructions` に書く、root session 専用の追加行動契約。
 - `child agent`: root session が 1 つの責務だけを任せるために起動する agent。
 - `child agent role`: `si_scope`、`si_design`、`si_editor`、`si_audit` のような child agent の責務名。
-- `role config`: `agents.<name>.config_file` から読む standalone custom agent TOML layer。child agent role ごとの `name`、`description`、`developer_instructions`、model、reasoning、verbosity、sandbox_mode を置く。
+- `role config`: `agents.<name>.config_file` から読む standalone custom agent TOML layer。child agent role ごとの `name`、`description`、`developer_instructions`、`model`、`model_reasoning_effort`、`model_verbosity`、`sandbox_mode` を置く。
 - `root skill`: workflow 全体の入口と導線を持つ skill。既定では `codex-self-improvement` を指す。
 - `reference`: `references/` 配下の詳細文書。入口説明の正本にはしない。
 - `durable 設定`: `config.toml` に置く継続設定。
@@ -25,22 +25,23 @@
 ## Entry checks
 
 - `AGENTS.md`、`~/.codex/config.toml`、変更対象、既存差分を確認する。
-- 変更対象が repo-scoped `.codex/**/*` や user skill 側に及ぶ場合は、その現状も先に確認する。
+- 変更対象が repo-scoped `.codex/**/*` や root skill 側に及ぶ場合は、その現状も先に確認する。
 - 複数文書をまたいで編集する場合は、この文書の正本語彙に揃える。
 - 置き場所の判断が先なら [`config-and-rule-placement.md`](config-and-rule-placement.md) を先に読む。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 
 ## Default role sequence
 
-- root session は task を要約し、最小 role sequence を選んで child agent を起動する。root session 単独で完結させない。
-- root session は、Codex CLI に何かをさせる必要がある場合、対応する custom skill と child role を先に用意してから child agent を起動する。ad hoc な作業を直接依頼しない。
-- child agent への handoff は最小に保ち、child agent 側で current config、current diff、対象ファイル、role config、関連 reference を読めば不足分を復元できるようにする。
-- child agent の完了待機では timeout を使わず、完了まで待つ。途中で打ち切って次へ進めない。
+- root session は task を要約し、最小 role sequence を選んで child agent を起動する。
+- root session 単独で完結させない。
+- Codex CLI に何かをさせる必要がある場合は、対応する custom skill と child role を先に用意してから child agent を起動する。
+- child agent への handoff は task summary、対象ファイル、明示した制約、観測済みの local facts だけに絞る。
+- child agent 側で current config、current diff、対象ファイル、role config、関連 reference を読めば不足分を復元できるようにする。
+- child agent の完了待機では timeout を使わず、完了まで待つ。
 - 置き場所、権限、canonical path、root router contract が曖昧な場合だけ `si_scope` を足す。
 - reusable workflow、profile、role config の責務分離を再設計する場合だけ `si_design` を足す。
 - repo-tracked な prose / config 編集は `si_editor` へ寄せる。
 - repo-tracked な編集を行った後は、既定で `si_audit` を最後に足す。
-- 同時に複数 role を広げすぎず、必要条件が出たときだけ前段または後段を足す。
 
 ## Choosing child agent roles
 

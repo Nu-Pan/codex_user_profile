@@ -2,17 +2,17 @@
 
 ## Common rules
 
-- Routing と spawn policy の正本は [`orchestration.md`](orchestration.md) にある。
+- routing と spawn policy の正本は [`orchestration.md`](orchestration.md) にある。
 - child agent role は 1 つの責務だけを担当する。
 - child agent role は root の handoff が最小でも、自分の role config と current repo state から起動できるように書く。
 - 具体の read-first docs は role config の `developer_instructions` に閉じる。
 - `AGENTS.md` は root / child 共通の規約に閉じ、codex_meta の root router contract は `~/.codex/config.toml` の profile-level `developer_instructions` に置く。
 - root session は task summary を渡すだけでなく、対象ファイル、明示した制約、観測済みの local facts も渡す。
-- child agent は不足分を canonical files、current config、current diff、関連 reference から復元し、必要なときだけ確認を返す。
-- 確認が必要なのは、欠けた情報が placement、権限、安全性、期待出力を変える場合に限る。
 - 出力は root session が次の role へ短く handoff できる粒度にする。
 - 出力は `summary`、`decision`、`next action` の形で圧縮する。
 - repo-tracked な編集権限は `si_editor` に集約する。
+- child agent は不足分を canonical files、current config、current diff、関連 reference から復元し、必要なときだけ確認を返す。
+- 確認が必要なのは、欠けた情報が placement、権限、安全性、期待出力を変える場合に限る。
 - root session は実作業を持たず、child agent の output を受けて routing と統合だけを行う。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 

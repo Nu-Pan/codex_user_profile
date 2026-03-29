@@ -16,22 +16,7 @@
 - task 文書がある repo なら対応する task 文書
 - Codex 契約や repo から確認できない設定キーの意味を確認する必要がある場合だけ、OpenAI developer docs MCP
 
-## Preferred editable scope
-
-- `AGENTS.md`
-- `~/.codex/config.toml`
-- 存在する場合の repo-scoped `.codex/**/*`
-- `~/.agents/skills/codex-self-improvement*/**/*`
-- mirror checkout を編集している場合の対応する local working path。例: `dot_codex/**/*`、`dot_agents/skills/codex-self-improvement*/**/*`
-
-## Usually do not edit
-
-- `README.md`
-- 上記以外の `doc/**/*.md`
-- プロダクト本体コード
-- テストコード
-- 依存関係や開発環境設定
-- hooks、周辺自動化の追加実装
+配置や editable scope の判断が必要なら [`config-and-rule-placement.md`](config-and-rule-placement.md) を読む。
 
 ## Validation
 
@@ -41,7 +26,7 @@
 - profile-level `developer_instructions` を更新したら、root router contract が `~/.codex/config.toml` にあることを確認する。
 - 既存 root skill を編集したら、その skill 単体で trigger、既定 route、読むべき reference、child agent role への導線が見え、正本語彙への導線が残っていることを確認する。
 - 既存 root skill を編集したら、child agent が root handoff の不足を local docs と local artifacts で復元できることも確認する。
-- 既存 child agent role config を編集したら、その file 単体で name、description、developer_instructions、model、reasoning、verbosity、sandbox_mode が見え、role-local の read-first docs が developer_instructions に閉じていることを確認する。
+- 既存 child agent role config を編集したら、その file 単体で name、description、developer_instructions、model、model_reasoning_effort、model_verbosity、sandbox_mode が見え、role-local の read-first docs が developer_instructions に閉じていることを確認する。
 - child agent の完了待機では timeout を使わず、完了まで待つ運用になっていることを確認する。
 - 既存 compatibility skill を編集したら、その skill 単体で legacy 名から canonical な root skill と child agent role へ handoff できることを確認する。
 - 既存 `references/` を編集したら、その文書単体で判断基準や例外条件が見え、root skill や role contract と入口説明を重複していないことを確認する。
@@ -51,7 +36,8 @@
 - 新規 child agent role を追加したら、その role config と role contract から役割、入力条件、期待出力、読むべき reference が見えることを確認する。
 - profile と root skill を同時に追加したら、組み合わせたときの責務分離も確認する。
 - Codex CLI で自動実行する validation は、非 TTY で安全に回せる `codex exec` だけに限定する。
-- 自動 validation の model は既定で `gpt-5.4-mini` を使い、軽量 model で確認できる導線、局所責務、責務分離だけを対象にする。
+- 自動 validation の model は既定で `codex_meta` profile の軽量 model を使う。現行設定では `gpt-5.4-mini` である。
+- 軽量 model で確認できる導線、局所責務、責務分離だけを対象にする。
 - `codex --ask-for-approval never ...` や `codex --cd ...` のような TTY 前提コマンドは、人間向け手動確認として案内し、Codex の自動 validation 候補には入れない。
 - 軽量 model で成立しない長い説明、深い推論、対話的 UI 操作は、自動 validation の対象に含めない。
 - instruction や skill が古く見える場合は、Codex を対象 directory で再起動して確認する。

@@ -2,23 +2,25 @@
 
 ## Purpose
 
-- OpenAI 公式 docs に沿って、Codex self-improvement workflow で model / reasoning effort / verbosity を選ぶ基準をまとめる。
+- OpenAI 公式 docs に沿って、Codex self-improvement workflow で `model` / `model_reasoning_effort` / `model_verbosity` を選ぶ基準をまとめる。
 - この文書は model の「重さ」を選ぶ判断基準の正本であり、個別 role config の値そのものは置かない。
 - child agent role の standalone custom agent config (`agent_roles/*.toml`) を埋めるときも、この文書と OpenAI config reference を使う。Agents SDK は使わない。
 
 ## Default stance
 
-- まず OpenAI の最新 model guide と各 model の API docs を確認する。
+- まず OpenAI の最新 models page と各 model docs を確認する。
 - task fit を先に見る。general-purpose、reasoning、coding-agent のどれに寄るかを切り分ける。
+- routing、配置判断、文面監査のような局所 task は、まず小さい model で十分かを確認する。
 - reasoning が深い task、複数段階の推論、厳密な検証が要る task では reasoning 寄りの model を優先する。
-- まずは quality bar を満たす最小の model と reasoning effort から始める。
+- agentic coding が主目的なら、GPT-5.4 や GPT-5.3-Codex のような coding 向けモデルを優先する。
+- まずは quality bar を満たす最小の model と `model_reasoning_effort` から始める。
 - model を上げる前に、prompt の固定と eval での比較を優先する。
-- child agent role の bootstrap が不安定だったり、起動に失敗したり、完了まで極端に時間がかかる場合は、軽量 model に固執せず、その role だけ `gpt-5.4` に引き上げて再検証する。
+- child agent role の bootstrap が不安定だったり、起動に失敗したり、完了まで極端に時間がかかる場合は、その role だけ GPT-5.4 に引き上げて再検証する。
 
 ## When changing a model
 
 1. まず既存 prompt と task 条件をできるだけ固定する。
-2. model と reasoning effort を同時に大きく変えない。
+2. `model` と `model_reasoning_effort` を同時に大きく変えない。
 3. 変更後は eval や再現可能な確認で差分を見る。
 4. latency、cost、quality のどれを優先したかを残す。
 
@@ -26,11 +28,11 @@
 
 - [Codex config reference - config.toml](https://developers.openai.com/codex/config-reference/#configtoml)
   - `agents.<name>.config_file` と standalone role config の `model_reasoning_effort`、`model_verbosity` の位置づけを確認するときに読む。
+- [All models](https://developers.openai.com/api/docs/models/all)
+  - GPT-5.4、GPT-5 mini、GPT-5.3-Codex などの現行モデル一覧を確認するときに読む。
 - [Choosing models and APIs](https://developers.openai.com/api/docs/guides/text/#choosing-models-and-apis)
-  - reasoning model と chat model の違い、Responses API の推奨を確認するときに読む。
-- [Migrating from other models to GPT-5.4](https://developers.openai.com/api/docs/guides/latest-model/#migrating-from-other-models-to-gpt-54)
-  - 既存 model から移行するときの reasoning level の当て方を確認するときに読む。
+  - reasoning model と general-purpose model の違い、Responses API の推奨を確認するときに読む。
 - [GPT-5.4 Model](https://developers.openai.com/api/docs/models/gpt-5.4)
-  - gpt-5.4 の reasoning.effort 対応値を確認するときに読む。
+  - GPT-5.4 の reasoning.effort 対応値を確認するときに読む。
 - [Practical Guide for Model Selection for Real‑World Use Cases](https://developers.openai.com/cookbook/examples/partners/model_selection_guide/model_selection_guide/)
   - 現実の use case に対する model 選定の考え方を確認するときに読む。
