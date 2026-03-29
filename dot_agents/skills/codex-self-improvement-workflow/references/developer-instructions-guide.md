@@ -20,7 +20,7 @@
 
 - `AGENTS.md` にある repo 全体ルールの丸写し
 - `doc/spec/*.md` や `doc/tech/*.md` の内容の丸写し
-- `bundle skill` の `Recommended flow` や component skill 一覧の丸写し
+- root skill の `Recommended flow` や child agent role 一覧の丸写し
 - permissions の path 一覧や writable roots の詳細再掲
 - MCP server の一覧、接続設定、認証設定
 - 長大な実装規約、網羅的な workflow マニフェスト、恒久的な project handbook
@@ -36,9 +36,9 @@
 - 直接命令形で書く。
 - あいまいな努力目標ではなく、観測可能な行動に落とす。
 - 原則ではなく、その profile に必要な最小限の契約だけを書く。
-- 既定では must-read を `AGENTS.md` と `bundle skill` に留め、component skills は bundle skill から辿らせる。
-- この skill family では `bundle skill`、`component skill`、`reference` を正本語彙として使い、独自の言い換えを増やさない。
-- 長くなるルールは `AGENTS.md` や `bundle skill` に逃がし、そこには参照だけを書く。
+- 既定では must-read を `AGENTS.md` と root skill に留め、child agent roles や詳細 reference はそこから辿らせる。
+- この skill family では `root skill`、`child agent role`、`reference`、`role config` を正本語彙として使い、独自の言い換えを増やさない。
+- 長くなるルールは `AGENTS.md` や root skill に逃がし、そこには参照だけを書く。
 
 ## Canonical template
 
@@ -75,22 +75,22 @@
 
 - この条件付き項目は `codex_meta` のような Codex 自己改善 profile には有効だが、`question` や `spec_doc` の共通要件にはしない。
 
-## When a workflow is implemented as profile + bundle skill
+## When a workflow is implemented as profile + root skill + child roles
 
 - `developer_instructions` には session 契約だけを書く。
-- 既定では、must-read には `AGENTS.md` と `bundle skill` だけを入れる。
-- `component skills` は `developer_instructions` から直接列挙せず、`bundle skill` から辿らせる。
-- 詳細な workflow、判断基準、テンプレ断片は `bundle skill`、必要に応じて `component skills` とその `references/` へ逃がす。
+- 既定では、must-read には `AGENTS.md` と root skill だけを入れる。
+- child agent roles は `developer_instructions` から直接列挙しすぎず、root skill と role contract から辿らせる。
+- 詳細な workflow、判断基準、テンプレ断片は root skill、必要に応じて role contract と関連 `references/` へ逃がす。
 - `developer_instructions` では、詳細が別文書にあることを 1 行で示せば十分である。
 
 例:
 
 ```text
 - 実施前に `AGENTS.md` と user skill `my-workflow` を確認し、そこを正本として扱う。
-- 詳細な workflow、推奨フェーズ順、component skill への導線は user skill `my-workflow` と、そこから辿る関連 skill / `references/` を参照する。
+- 詳細な workflow、推奨 role sequence、child agent role への導線は user skill `my-workflow` と、そこから辿る関連 `references/` を参照する。
 ```
 
-- 逆に、workflow 全文、variant ごとの差分、component skills の一覧全文、長いテンプレ本文を `developer_instructions` に埋め込まない。
+- 逆に、workflow 全文、variant ごとの差分、child agent role の一覧全文、長いテンプレ本文を `developer_instructions` に埋め込まない。
 
 ## Example profile lens
 
@@ -102,9 +102,9 @@
   - quality bar は「事実・推測・未確認事項を分ける」。
 - `codex_meta`
   - mission は「Codex 自己改善」。
-  - must read は `AGENTS.md` と bundle skill `codex-self-improvement`。
-  - allowed modes は「最小ハーネスから進める」。
-  - workflow を新しい profile + `bundle skill` + `component skills` に分解する場合でも、詳細は関連 skill と `references/` に置く。
+  - must read は `AGENTS.md` と root skill `codex-self-improvement`。
+  - allowed modes は「root は軽量 orchestrator として振る舞い、深い判断は child agent へ逃がす」。
+  - workflow を新しい profile + root skill + child agent roles に分解する場合でも、詳細は関連 `references/` に置く。
   - 条件付き追加項目として OpenAI developer docs MCP の行を持ってよい。
 - `spec_doc`
   - mission は「仕様策定」。
@@ -115,7 +115,7 @@
 
 - `常に日本語で回答する。`
 - `実施前に \`AGENTS.md\` と user skill \`codex-self-improvement\` を確認する。`
-- `詳細な workflow、推奨フェーズ順、component skill への導線は user skill \`fix-workflow\` と、そこから辿る関連 skill / \`references/\` を参照する。`
+- `詳細な workflow、推奨 role sequence、child agent role への導線は user skill \`fix-workflow\` と、そこから辿る関連 \`references/\` を参照する。`
 - `指示や権限が衝突する場合は編集せず、ユーザーに確認する。`
 - `最終報告では、変更内容、成立根拠、未解決事項、制約を述べる。`
 - `Codex 契約や repo から確認できない設定キーの意味を確認する必要があるなら OpenAI developer docs MCP を使う。`

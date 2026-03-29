@@ -1,20 +1,19 @@
 ---
 name: codex-self-improvement-placement
-description: Use when Codex self-improvement work needs to decide whether a rule belongs in `AGENTS.md`, `developer_instructions`, `config.toml`, permissions, MCP settings, or path guidance. Use for placement and scope decisions. Do not use for workflow decomposition, prose cleanup, or final reporting by itself.
+description: Legacy compatibility entrypoint for the old placement component-skill name. Use when older prompts or docs mention this name. Use for handing off to root skill `codex-self-improvement` and child role `si_scope`. Do not use as the canonical source for new self-improvement work.
 ---
 
 # Codex Self Improvement Placement
 
 ## Use when
 
-- `AGENTS.md`、`developer_instructions`、`config.toml`、permissions、MCP rule のどこへ置くべきかを判断したいとき
-- canonical path と local working path の使い分けで迷うとき
-- 可搬性、hard gate、最小 writable scope の衝突を整理したいとき
+- 既存の prompt や文書がこの旧 skill 名を参照しているとき
+- placement、canonical path、session 契約の置き場所判断が必要で、canonical な担当 role を知りたいとき
 
 ## Purpose
 
-- この skill は Codex 自己改善における rule placement、config placement、path visibility の判断基準を定義する。
-- workflow 全体の導線は bundle skill `codex-self-improvement` を正本とする。
+- この legacy skill は旧 component-skill 名から root skill `codex-self-improvement` と child role `si_scope` へ handoff する compatibility entrypoint である。
+- canonical な placement rule 自体は関連 reference を正本とし、この skill 自体は新規 workflow の正本にはしない。
 
 ## Inputs
 
@@ -24,17 +23,19 @@ description: Use when Codex self-improvement work needs to decide whether a rule
 
 ## Outputs
 
-- 変更対象を repo-wide router、session 契約、durable 設定、hard gate、task-local guidance のどれへ置くかの判断
-- 編集対象と非編集対象の切り分け
-- canonical path / local working path、可搬性、permissions、MCP 利用方針に関する注意点
+- `si_scope` が返す placement decision の期待 shape
+- root skill と関連 reference への handoff 導線
 
 ## Quick start
 
-- bundle skill `codex-self-improvement`、現在の `AGENTS.md`、`~/.codex/config.toml`、変更対象を確認する。
-- まず [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を読み、今回の変更を repo-wide router、session 契約、durable 設定、hard gate、task-local guidance のどれへ置くべきか判定する。
-- file placement が固まったら、必要に応じて `codex-self-improvement-workflow` または `codex-self-improvement-skill-writing` へ handoff する。
+- 軽量 self-improvement session を使う場合は `codex_meta` profile で root skill 側から開始する。
+- まず root skill [`codex-self-improvement`](../codex-self-improvement/SKILL.md) を確認する。
+- 次に [`../codex-self-improvement/references/role-contracts.md`](../codex-self-improvement/references/role-contracts.md) を読み、canonical role が `si_scope` であることを確認する。
+- placement rule 自体は [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を読む。
 
 ## Reference map
 
+- [`../codex-self-improvement/references/role-contracts.md`](../codex-self-improvement/references/role-contracts.md)
+  - `si_scope` の入力と期待出力を確認するときに読む。
 - [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md)
   - path 表記の canonical rule、`AGENTS.md` / `developer_instructions` / `config.toml` / permissions / MCP の責務分離で迷ったときに読む。

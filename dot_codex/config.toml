@@ -41,22 +41,47 @@ context_size = "high"
 #   Codex 自己改善は portability を優先し、permissions ではなく sandbox ベースで運用する
 
 [profiles.codex_meta]
+model = "gpt-5.4-mini"
+model_reasoning_effort = "medium"
+plan_mode_reasoning_effort = "medium"
 sandbox_mode = "workspace-write"
 sandbox_workspace_write.network_access = true
 developer_instructions = """
 - 常に日本語で回答する。
 - この session の目的は Codex 自己改善である。
 - 実施前に有効な `AGENTS.md` と user skill `codex-self-improvement` を確認し、そこを正本として扱う。
-- この session では Codex 自己改善に必要な設定・導線・最小ハーネス改善だけを扱う。
-- 詳細な workflow、推奨フェーズ順、component skill への導線は user skill `codex-self-improvement` と、そこから辿る関連 skill / `references/` を参照する。
-- 再利用可能な workflow を Codex に取り込む場合は、新規 profile、必要な `bundle skill`、必要に応じた `component skills` に分解する。
-- 詳細な workflow、局所判断基準、テンプレ断片は `developer_instructions` に埋め込まず、関連 skill と `references/` に置く。
+- この session では Codex 自己改善に必要な設定・導線・reference・最小ハーネス改善だけを扱う。
+- root session は task を要約し、必要な child agent role を最小限だけ起動し、結果を統合する。
+- 深い cross-doc reasoning、責務分離判断、diff 監査は root に抱え込まず、必要な child agent へ逃がす。
+- child agent へは full history ではなく、task summary、対象ファイル、期待出力だけを渡すことを既定にする。
+- 詳細な workflow、agent role ごとの責務、spawn policy は user skill `codex-self-improvement` と、そこから辿る関連 `references/` を参照する。
 - Codex 契約や repo から確認できない設定キーの意味を確認する必要があるなら OpenAI developer docs MCP を使う。
 - ユーザーの明示的な許可が無い限り、対象範囲を広げない。
 - 責務分離と validation の整合が取れるまで作業を打ち切らない。
 - 指示や権限が衝突する場合は編集せず、ユーザーに確認する。
-- 最終報告では、変更内容、成立根拠、未解決事項、制約、関連文書との矛盾を述べる。
+- 最終報告では、変更内容、成立根拠、実行した確認、未解決事項、制約、関連文書との矛盾を述べる。
 """
+
+# NOTE
+#   install.sh は skill directory 全体を ~/.agents/skills 以下へリンクする。
+#   config_file の相対解決起点が symlink 経由で揺れる可能性を避けるため、
+#   child agent role の config は canonical absolute path を使う。
+
+[agents.si_scope]
+description = "Placement and session-contract analyst for Codex self-improvement."
+config_file = "/home/happy/.agents/skills/codex-self-improvement/agent_roles/si_scope.toml"
+
+[agents.si_design]
+description = "Workflow and role decomposition architect for Codex self-improvement."
+config_file = "/home/happy/.agents/skills/codex-self-improvement/agent_roles/si_design.toml"
+
+[agents.si_editor]
+description = "Bounded editor for Codex self-improvement prose and config changes."
+config_file = "/home/happy/.agents/skills/codex-self-improvement/agent_roles/si_editor.toml"
+
+[agents.si_audit]
+description = "Diff auditor for validation, consistency, and final reporting in Codex self-improvement."
+config_file = "/home/happy/.agents/skills/codex-self-improvement/agent_roles/si_audit.toml"
 
 # ----
 # OpenAI Docs MCP

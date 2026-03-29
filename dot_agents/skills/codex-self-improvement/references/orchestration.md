@@ -2,14 +2,17 @@
 
 ## Canonical terms
 
-- `bundle skill`: workflow 全体の入口と導線を持つ skill。`束ね skill` のような別名はこの scope では使わない。
-- `component skill`: 1 つの phase や責務に閉じた skill。`役割別 skill` のような別名はこの scope では使わない。
+- `root session`: `codex_meta` profile で起動し、routing、child agent 起動、最終統合を行う親 session。
+- `child agent`: root session が 1 つの責務だけを任せるために起動する agent。
+- `agent role`: `si_scope`、`si_design`、`si_editor`、`si_audit` のような child agent の責務名。
+- `role config`: `agents.<name>.config_file` から読む TOML layer。model と reasoning の tier を固定する。
+- `root skill`: workflow 全体の入口と導線を持つ skill。既定では `codex-self-improvement` を指す。
 - `reference`: `references/` 配下の詳細文書。入口説明の正本にはしない。
 - `session 契約`: `developer_instructions` に置く追加行動契約。
 - `durable 設定`: `config.toml` に置く継続設定。
 - `canonical path`: deploy 後に見える `~/.codex/...` / `~/.agents/...`。
 - `local working path`: repo 内で mirror を編集するときの `dot_codex/...` / `dot_agents/...`。
-- `route`: 今回読む component skills の組み合わせ。
+- `role sequence`: 今回使う child agent role の順序。
 
 ## Entry checks
 
@@ -18,47 +21,49 @@
 - 複数文書をまたいで編集する場合は、この文書の正本語彙に揃える。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 
-## Route selection
+## Default role sequence
 
-- まず最小 route を 1 つ選ぶ。既定は `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`。
-- 置き場所、責務境界、canonical path、permissions / MCP の扱いが曖昧な場合だけ `codex-self-improvement-placement` を前に足す。
-- reusable workflow や `developer_instructions` を変える場合だけ `codex-self-improvement-workflow` を前に足す。
-- bundle skill と component skill 群をまとめて総点検する場合は `codex-self-improvement-placement` -> `codex-self-improvement-workflow` -> `codex-self-improvement-skill-writing` -> `codex-self-improvement-review` を既定にする。
-- 同時に複数 route を広げず、必要条件が出たときだけ前段へ足す。
-- route を広げた後でも、その task に不要な component skill までは読まない。
+- まず root session だけで task を要約し、spawn が本当に必要かを判断する。
+- `AGENTS.md` / `config.toml` / permissions / MCP / canonical path / session 契約の置き場所が曖昧な場合だけ `si_scope` を足す。
+- reusable workflow、profile、role config、互換 shim の責務分離を設計する場合だけ `si_design` を足す。
+- repo-tracked な非自明編集や複数文書の文面整理は `si_editor` へ寄せる。
+- repo-tracked な編集を行った後は、既定で `si_audit` を最後に足す。
+- 同時に複数 role を広げすぎず、必要条件が出たときだけ前段または後段を足す。
 
-## Choosing component skills
+## Choosing child agent roles
 
-- [`codex-self-improvement-placement`](../codex-self-improvement-placement/SKILL.md)
-  - `AGENTS.md` / `config.toml` / permissions / MCP / canonical path の置き場所判断が必要なときに使う。
-- [`codex-self-improvement-workflow`](../codex-self-improvement-workflow/SKILL.md)
-  - reusable workflow を `profile`、`bundle skill`、`component skill`、`reference`、durable 設定に分解したいときに使う。
-- [`codex-self-improvement-skill-writing`](../codex-self-improvement-skill-writing/SKILL.md)
-  - skill 文面を責務を変えずに短く直接的にし、正本語彙へ揃えたいときに使う。
-- [`codex-self-improvement-review`](../codex-self-improvement-review/SKILL.md)
+- `si_scope`
+  - `AGENTS.md` / `config.toml` / permissions / MCP / canonical path / `developer_instructions` の置き場所判断が必要なときに使う。
+- `si_design`
+  - reusable workflow を `profile`、root skill、child agent roles、`reference`、durable 設定へ分解したいときに使う。
+- `si_editor`
+  - prose / config を bounded scope で更新し、責務を変えずに整理したいときに使う。
+- `si_audit`
   - 編集前 checklist、validation、一般化判断、最終報告をまとめたいときに使う。
 
-## Typical routes
+## Typical sequences
 
-- 文面整理や語彙統一、bundle skill 自体の責務維持編集: `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
-- 置き場所判断や責務分離が先に必要: `codex-self-improvement-placement` -> 必要なら `codex-self-improvement-workflow` または `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
-- reusable workflow を `profile` / `bundle skill` / `component skill` へ分解したい: `codex-self-improvement-placement` -> `codex-self-improvement-workflow` -> 必要なら `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
-- 既存 bundle skill と component skill 群をまとめて総点検したい: `codex-self-improvement-placement` -> `codex-self-improvement-workflow` -> `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
+- 文面整理や語彙統一、bounded config 編集: `si_editor` -> `si_audit`
+- 置き場所判断や責務分離が先に必要: `si_scope` -> 必要なら `si_design` または `si_editor` -> `si_audit`
+- reusable workflow を `profile` / root skill / child agent roles へ分解したい: `si_scope` -> `si_design` -> 必要なら `si_editor` -> `si_audit`
+- 既存 self-improvement 文書群をまとめて総点検したい: `si_scope` -> `si_design` -> `si_editor` -> `si_audit`
 
 ## Recommended sequence
 
 1. 現状確認と既存差分の把握を行う。
-2. `Route selection` に従って最小 route を選ぶ。
-3. route を広げる条件が出た場合だけ `placement` または `workflow` を足す。
-4. 実際の編集後に `review` で validation と最終報告観点を確認する。
+2. `Choosing child agent roles` に従って最小 role sequence を選ぶ。
+3. role sequence を広げる条件が出た場合だけ `si_scope` または `si_design` を足す。
+4. 実際の編集後に `si_audit` 相当の観点で validation と最終報告観点を確認する。
 
 - placement 判断が変わったら、workflow 設計や編集方針へ戻ってよい。
-- 新規 profile と bundle skill / component skills を同時に足した場合は、最後に責務分離をまとめて見直す。
+- 新規 profile、root skill、role config を同時に足した場合は、最後に責務分離をまとめて見直す。
 
 ## Handoff rules
 
-- bundle skill は入口と導線だけを持ち、phase-local な詳細は component skill 側へ逃がす。
-- component skill は自分の責務に必要な reference だけを読む。
-- skill 文面の簡素化ルールは `skill-writing` 側へ集約し、他 skill に同じ書き方 rule を重複させない。
-- component skill 側で route や用語の判断に迷ったら、この文書へ戻る。
+- root session は routing、child agent 起動、最終統合だけを持ち、深い局所判断は child agent 側へ逃がす。
+- `si_scope` は placement decision と edit scope を返し、repo-tracked patch は返さない。
+- `si_design` は architecture decision と target artifact list を返し、repo-tracked patch は返さない。
+- `si_editor` は承認済み write scope の repo-tracked patch を担当する。
+- `si_audit` は findings、validation、残余リスクを返し、repo-tracked patch は返さない。
+- spawn policy や role ごとの入力条件で迷ったら [`agent-routing.md`](agent-routing.md) と [`role-contracts.md`](role-contracts.md) へ戻る。
 - 一般化できる原則が見えたら、task 固有の説明を増やす前に対応する `references/` へ引き上げる。

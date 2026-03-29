@@ -1,20 +1,19 @@
 ---
 name: codex-self-improvement-workflow
-description: Use when Codex self-improvement work needs to decompose a reusable workflow into a profile, a bundle skill, component skills, references, and durable settings. Use for `developer_instructions` design and workflow routing. Do not use for placement decisions alone, simple wording cleanup, or final reporting alone.
+description: Legacy compatibility entrypoint for the old workflow component-skill name. Use when older prompts or docs mention this name. Use for handing off to root skill `codex-self-improvement` and child role `si_design`. Do not use as the canonical source for new self-improvement work.
 ---
 
 # Codex Self Improvement Workflow
 
 ## Use when
 
-- ユーザーが示した再利用可能な workflow を `profile`、`bundle skill`、`component skill` へ分解したいとき
-- `developer_instructions` に何を残し、`bundle skill`、`component skills`、`references/` に何を逃がすかを決めたいとき
-- must-read、推奨フェーズ順、skill 間の責務分離を設計したいとき
+- 既存の prompt や文書がこの旧 skill 名を参照しているとき
+- reusable workflow の再分解が必要で、canonical な担当 role を知りたいとき
 
 ## Purpose
 
-- この skill は reusable workflow を `profile`、`bundle skill`、`component skill`、`reference`、durable 設定に分解する判断基準を定義する。
-- workflow 全体の導線は bundle skill `codex-self-improvement` を正本とする。
+- この legacy skill は旧 component-skill 名から root skill `codex-self-improvement` と child role `si_design` へ handoff する compatibility entrypoint である。
+- canonical な workflow decomposition は関連 reference を正本とし、この skill 自体は新規 workflow の正本にはしない。
 
 ## Inputs
 
@@ -24,21 +23,22 @@ description: Use when Codex self-improvement work needs to decompose a reusable 
 
 ## Outputs
 
-- `developer_instructions` に残す session 契約の最小集合
-- bundle skill / component skill / `references/` / durable 設定への切り分け
-- must-read、推奨フェーズ順、validation 観点
+- `si_design` が返す architecture decision の期待 shape
+- root skill と関連 reference への handoff 導線
 
 ## Quick start
 
-- bundle skill `codex-self-improvement` と変更対象を確認する。
-- file placement が曖昧なら、先に `codex-self-improvement-placement` を使う。
-- まず [`references/workflow-to-profile-skill.md`](references/workflow-to-profile-skill.md) で workflow を session 契約、bundle skill、component skill、reference、durable 設定へ切り分ける。
-- `developer_instructions` の文面が絡む場合は [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md) も読む。
-- skill の責務分離は固まっていて文面だけを整えたい task は `codex-self-improvement-skill-writing` へ渡す。
+- 軽量 self-improvement session を使う場合は `codex_meta` profile で root skill 側から開始する。
+- まず root skill [`codex-self-improvement`](../codex-self-improvement/SKILL.md) を確認する。
+- 次に [`../codex-self-improvement/references/role-contracts.md`](../codex-self-improvement/references/role-contracts.md) を読み、canonical role が `si_design` であることを確認する。
+- workflow decomposition rule 自体は [`references/workflow-to-profile-role.md`](references/workflow-to-profile-role.md) を読む。
+- `developer_instructions` の責務分離が絡む場合は [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md) も読む。
 
 ## Reference map
 
-- [`references/workflow-to-profile-skill.md`](references/workflow-to-profile-skill.md)
-  - 典型 workflow を新規 profile、bundle skill、component skills に分解するときの判断基準、最小テンプレ、文書配置を確認するときに読む。
+- [`../codex-self-improvement/references/role-contracts.md`](../codex-self-improvement/references/role-contracts.md)
+  - `si_design` の入力と期待出力を確認するときに読む。
+- [`references/workflow-to-profile-role.md`](references/workflow-to-profile-role.md)
+  - 典型 workflow を新規 profile、root skill、child agent roles、role config、references に分解するときの判断基準、最小テンプレ、文書配置を確認するときに読む。
 - [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md)
-  - `developer_instructions` に何を書くか、bundle skill を入口にして component skills をどう逃がすかを決めるときに読む。
+  - `developer_instructions` に何を書くか、root skill を入口にして child agent roles をどう逃がすかを決めるときに読む。

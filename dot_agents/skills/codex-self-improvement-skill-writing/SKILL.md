@@ -1,41 +1,41 @@
 ---
 name: codex-self-improvement-skill-writing
-description: Use when Codex self-improvement work needs to simplify prose inside bundle skills, component skills, or references without changing responsibilities. Use for wording cleanup, terminology normalization, duplicate removal, and section compression. Do not use for workflow decomposition, placement decisions, or final reporting by itself.
+description: Legacy compatibility entrypoint for the old skill-writing component-skill name. Use when older prompts or docs mention this name. Use for handing off to root skill `codex-self-improvement` and child role `si_editor`. Do not use as the canonical source for new self-improvement work.
 ---
 
 # Codex Self Improvement Skill Writing
 
 ## Use when
 
-- `SKILL.md` や skill `references/` の文面が長く、同じ説明が複数箇所へ重複しているとき
-- skill の責務は維持したまま、短く直接的で誤読しにくい文章へ整えたいとき
-- 同じ概念に複数の呼び方があり、bundle skill / component skill / reference のあいだで正本語彙へ揃えたいとき
-- bundle skill / component skill / reference のどこへ何を残すかは概ね決まっており、主に書き方を改善したいとき
+- 既存の prompt や文書がこの旧 skill 名を参照しているとき
+- bounded な prose / config 編集が必要で、canonical な担当 role を知りたいとき
 
 ## Purpose
 
-- この skill は Codex 自己改善タスクにおいて、skill を構成する文章を簡素化し、正本語彙を揃え、責務境界を保ったまま読みやすくする判断基準を定義する。
-- workflow 全体の導線は bundle skill `codex-self-improvement` を正本とする。
+- この legacy skill は旧 component-skill 名から root skill `codex-self-improvement` と child role `si_editor` へ handoff する compatibility entrypoint である。
+- canonical な文面整理 rule は関連 reference を正本とし、この skill 自体は新規 workflow の正本にはしない。
 
 ## Inputs
 
 - 変更対象の `SKILL.md` または skill `references/`
 - その文書が担う責務、残すべき意味、削ってはいけない制約
-- 必要なら関連 bundle skill / component skill / `AGENTS.md`
+- 必要なら関連 root skill / compatibility skill / `AGENTS.md`
 
 ## Outputs
 
-- 簡素化後の文面、またはその書き換え方針
-- 採用した正本語彙と、置換または残置した別名の整理
-- 削除した重複、`references/` へ逃がした詳細、維持した責務の整理
-- 誤読を防ぐために残した境界条件、禁止条件、明示事項
+- `si_editor` が返す bounded edit の期待 shape
+- root skill と関連 reference への handoff 導線
 
 ## Quick start
 
-- bundle skill `codex-self-improvement` を確認する。
-- まず [`references/skill-writing-guide.md`](references/skill-writing-guide.md) と変更対象文書を読み、`Use when` / `Purpose` / `Quick start` / `Reference map` にまたがる重複と語彙の揺れを印付ける。
+- 軽量 self-improvement session を使う場合は `codex_meta` profile で root skill 側から開始する。
+- まず root skill [`codex-self-improvement`](../codex-self-improvement/SKILL.md) を確認する。
+- 次に [`../codex-self-improvement/references/role-contracts.md`](../codex-self-improvement/references/role-contracts.md) を読み、canonical role が `si_editor` であることを確認する。
+- 文面整理 rule 自体は [`references/editor-guide.md`](references/editor-guide.md) を読む。
 
 ## Reference map
 
-- [`references/skill-writing-guide.md`](references/skill-writing-guide.md)
-  - skill を構成する文章を簡素化し、語彙を正本へ揃えるときの rewrite rules、section ごとの残し方、過剰な省略を避ける観点を確認するときに読む。
+- [`../codex-self-improvement/references/role-contracts.md`](../codex-self-improvement/references/role-contracts.md)
+  - `si_editor` の入力と期待出力を確認するときに読む。
+- [`references/editor-guide.md`](references/editor-guide.md)
+  - prose / config を bounded scope で整理し、正本語彙を揃えるときの rewrite rules、section ごとの残し方、過剰な省略を避ける観点を確認するときに読む。
