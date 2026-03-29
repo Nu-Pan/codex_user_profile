@@ -86,8 +86,8 @@
 例:
 
 ```text
-- 実施前に `AGENTS.md` と user skill `my-workflow` を確認し、そこを正本として扱う。
-- 詳細な workflow、推奨 role sequence、child agent role への導線は user skill `my-workflow` と、そこから辿る関連 `references/` を参照する。
+- 実施前に `AGENTS.md` と user skill `codex-self-improvement` を確認し、そこを正本として扱う。
+- 詳細な workflow、推奨 role sequence、child agent role への導線は user skill `codex-self-improvement` と、そこから辿る関連 `references/` を参照する。
 ```
 
 - 逆に、workflow 全文、variant ごとの差分、child agent role の一覧全文、長いテンプレ本文を `developer_instructions` に埋め込まない。
@@ -115,7 +115,7 @@
 
 - `常に日本語で回答する。`
 - `実施前に \`AGENTS.md\` と user skill \`codex-self-improvement\` を確認する。`
-- `詳細な workflow、推奨 role sequence、child agent role への導線は user skill \`fix-workflow\` と、そこから辿る関連 \`references/\` を参照する。`
+- `詳細な workflow、推奨 role sequence、child agent role への導線は user skill \`codex-self-improvement\` と、そこから辿る関連 \`references/\` を参照する。`
 - `指示や権限が衝突する場合は編集せず、ユーザーに確認する。`
 - `最終報告では、変更内容、成立根拠、未解決事項、制約を述べる。`
 - `Codex 契約や repo から確認できない設定キーの意味を確認する必要があるなら OpenAI developer docs MCP を使う。`

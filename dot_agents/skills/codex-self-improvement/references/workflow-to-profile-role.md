@@ -247,7 +247,7 @@ description: Use when <trigger condition>. Use for <phase responsibility>. Do no
 - 自動 validation は、既定で非 TTY の `codex exec` だけを使う。
 - 自動 validation の model は、既定で `gpt-5.4-mini` を指定する。
 - 軽量 model で確認できる導線、局所責務、責務分離だけを自動 validation の対象にする。
-- `codex exec -m gpt-5.4-mini -p <profile_name> "Summarize the current mission, allowed modes, and must-read documents in 3 bullets."` で profile の見え方を確認する。
-- `codex exec -m gpt-5.4-mini -p <profile_name> '$<root-skill-name> Summarize the canonical roles, default spawn policy, and recommended role sequence in 4 bullets.'` で root skill の導線を確認する。
-- `codex exec -m gpt-5.4-mini -p <profile_name> '$<root-skill-name> Given a request that changes placement rules, state which child roles you would use and in what order.'` で role routing を確認する。
+- `codex exec -m gpt-5.4-mini -p codex_meta "Summarize the current mission, allowed modes, and must-read documents in 3 bullets."` で profile の見え方を確認する。
+- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement Summarize the canonical roles, default spawn policy, and recommended role sequence in 4 bullets.'` で root skill の導線を確認する。
+- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement Given a request that changes placement rules, state which child roles you would use and in what order.'` で role routing を確認する。
 - instruction や skill が古く見える場合は、Codex を対象 directory で再起動して確認する。

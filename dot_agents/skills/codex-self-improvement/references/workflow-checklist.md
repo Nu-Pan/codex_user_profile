@@ -54,10 +54,10 @@
 
 ### Automated non-TTY checks
 
-- `codex exec -m gpt-5.4-mini -p <profile_name> "Summarize the current mission, allowed modes, and must-read documents in 3 bullets."`
-- `codex exec -m gpt-5.4-mini '$<root-skill-name> Summarize this workflow, the recommended role sequence, and which references you would read.'`
-- `codex exec -m gpt-5.4-mini '$<legacy-skill-name> Summarize which canonical root skill and child agent role you hand off to.'`
-- `codex exec -m gpt-5.4-mini -p <profile_name> '$<root-skill-name> Summarize how this workflow is split between developer_instructions, root skill, child agent roles, references, and config.toml in 4 bullets.'`
+- `codex exec -m gpt-5.4-mini -p codex_meta "Summarize the current mission, allowed modes, and must-read documents in 3 bullets."`
+- `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize this workflow, the recommended role sequence, and which references you would read.'`
+- `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize which canonical root skill and child agent role you hand off to.'`
+- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement Summarize how this workflow is split between developer_instructions, root skill, child agent roles, references, and config.toml in 4 bullets.'`
 
 ### Manual TTY checks for humans
 

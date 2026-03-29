@@ -18,6 +18,7 @@
 - child agent は必要な責務が出たときだけ起動する。既定では root session だけで開始する。
 - `fork_context = false` を既定にする。
 - child agent へは full history を渡さず、`task summary`、`files in scope`、`expected output` だけを渡す。
+- child agent の入力に追加するのは、判断に必要な制約だけに絞る。
 - 非 docs child agent は同時に 1 体までを既定にする。
 - OpenAI developer docs の参照は専用 role に分けず、必要な role が直接行う。
 - repo-tracked な非自明編集は `si_editor` に寄せる。

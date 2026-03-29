@@ -19,12 +19,12 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 
 ## Purpose
 
-- この root skill は Codex 自己改善 workflow の入口であり、正本語彙、default spawn policy、child agent role 選定を定義する。
+- この root skill は Codex 自己改善 workflow の入口であり、正本語彙、最小の role sequence、child agent role 選定を定義する。
 - この workflow の session 契約の正本は `profiles.codex_meta.developer_instructions`、repo-wide の入口は `AGENTS.md`、詳細判断の正本は関連 `references/` と child agent role contract とする。
 
 ## Recommended flow
 
-1. `AGENTS.md`、`~/.codex/config.toml`、変更対象、必要なら既存差分を確認する。
+1. `AGENTS.md`、`~/.codex/config.toml`、変更対象、既存差分を確認する。
 2. [`references/orchestration.md`](references/orchestration.md) で正本語彙と最小 role sequence を確認する。
 3. 必要な child agent role だけを起動し、task summary、対象ファイル、期待出力だけを渡す。
 4. repo-tracked な非自明編集は `si_editor` へ寄せる。
@@ -32,7 +32,7 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 
 - 既定 role sequence、sequence を広げる条件、spawn policy は [`references/orchestration.md`](references/orchestration.md) と [`references/agent-routing.md`](references/agent-routing.md) を正本とする。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
-- 旧 skill 名は compatibility entrypoint として残すが、canonical な入口にはしない。
+- 迷ったら `si_scope` で置き場所と責務境界を確定し、必要なときだけ後続 role を足す。
 
 ## Child agent roles
 
@@ -43,7 +43,7 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 
 ## Quick start
 
-- 軽量 root session と child role tier を使う場合は `codex_meta` profile で開始する。
+- `codex_meta` profile で開始する。
 - `AGENTS.md`、`~/.codex/config.toml`、この root skill を確認する。
 - [`references/orchestration.md`](references/orchestration.md) の `Choosing child agent roles` と `Typical sequences` を見て最小 role sequence を決める。
 - child agent の起動方針で迷うときは [`references/agent-routing.md`](references/agent-routing.md) を読む。

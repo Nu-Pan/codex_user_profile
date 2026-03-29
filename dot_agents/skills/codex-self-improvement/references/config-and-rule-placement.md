@@ -2,15 +2,14 @@
 
 ## Contract facts
 
-- `developer_instructions` は Codex の session に追加で注入される developer instructions であり、optional な文字列である。
-- `AGENTS.md` は別系統の project guidance であり、Codex は起動時に project root から current working directory まで instruction chain を構築して読む。
+- `developer_instructions` は session に追加で注入される developer instructions であり、optional な文字列である。
+- `AGENTS.md` は project guidance であり、Codex は起動時に instruction chain を構築して読む。
 - `permissions` と `default_permissions` は、使う場合は文章上のルールではなく hard gate である。
 - `instructions` は reserved for future use なので、この repo の運用ルール置き場として使わない。
 - `model_instructions_file` は built-in instructions を置き換える強い設定であり、通常の repo 運用では使わない。
 
 ## Default stance
 
-- profile 名の自己認識に依存しない。
 - repo 全体の入口、作業分類、文書ルーティングは `AGENTS.md` を正本とする。
 - `developer_instructions` は profile ごとの追加行動契約として扱う。
 - durable 設定は `~/.codex/config.toml` を基点にし、repo 共有 override が必要な場合だけ `.codex/config.toml` を使う。
@@ -38,7 +37,7 @@
 
 ### `AGENTS.md`
 
-- repo 全体のブートストラップ兼ルータだけを書く。
+- repo 全体の bootstrapping と router だけを書く。
 - 作業分類、必読文書、禁止事項、仕様文書の入口を置く。
 - Codex 自己改善タスクの導線は示してよい。
 - repo-wide に常時有効な MCP 利用方針だけを置く。

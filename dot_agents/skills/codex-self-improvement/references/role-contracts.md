@@ -4,6 +4,7 @@
 
 - child agent role は 1 つの責務だけを担当する。
 - 出力は root session が次の role へ短く handoff できる粒度にする。
+- 出力は `summary`、`decision`、`next action` の形で圧縮する。
 - repo-tracked な編集権限は `si_editor` に集約する。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 
@@ -77,4 +78,5 @@
   - `findings`
   - `validation commands`
   - `residual risks`
+- 返答は findings first にし、validation commands は必要なときだけ添える。
 - Write policy: repo-tracked file は編集しない。

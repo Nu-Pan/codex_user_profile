@@ -2,7 +2,7 @@
 
 ## Canonical terms
 
-- `root session`: `codex_meta` profile で起動し、routing、child agent 起動、最終統合を行う親 session。
+- `root session`: `codex_meta` profile で起動し、task summary、role selection、最終統合を担当する親 session。
 - `child agent`: root session が 1 つの責務だけを任せるために起動する agent。
 - `agent role`: `si_scope`、`si_design`、`si_editor`、`si_audit` のような child agent の責務名。
 - `role config`: `agents.<name>.config_file` から読む TOML layer。model、reasoning、verbosity の tier を固定する。
@@ -16,7 +16,7 @@
 
 ## Entry checks
 
-- `AGENTS.md`、`~/.codex/config.toml`、変更対象、必要なら既存差分を確認する。
+- `AGENTS.md`、`~/.codex/config.toml`、変更対象、既存差分を確認する。
 - 変更対象が repo-scoped `.codex/**/*` や user skill 側に及ぶ場合は、その現状も先に確認する。
 - 複数文書をまたいで編集する場合は、この文書の正本語彙に揃える。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
@@ -24,8 +24,8 @@
 ## Default role sequence
 
 - まず root session だけで task を要約し、spawn が本当に必要かを判断する。
-- `AGENTS.md` / `config.toml` / permissions / MCP / canonical path / session 契約の置き場所が曖昧な場合だけ `si_scope` を足す。
-- reusable workflow、profile、role config、互換 shim の責務分離を設計する場合だけ `si_design` を足す。
+- 置き場所、権限、canonical path、session 契約が曖昧な場合だけ `si_scope` を足す。
+- reusable workflow、profile、role config、互換 shim の責務分離を再設計する場合だけ `si_design` を足す。
 - repo-tracked な非自明編集や複数文書の文面整理は `si_editor` へ寄せる。
 - repo-tracked な編集を行った後は、既定で `si_audit` を最後に足す。
 - 同時に複数 role を広げすぎず、必要条件が出たときだけ前段または後段を足す。
@@ -37,9 +37,9 @@
 - `si_design`
   - reusable workflow を `profile`、root skill、child agent roles、`reference`、durable 設定へ分解したいときに使う。
 - `si_editor`
-  - prose / config を bounded scope で更新し、責務を変えずに整理したいときに使う。
+  - 承認済み write scope の prose / config を更新し、責務を変えずに整理したいときに使う。
 - `si_audit`
-  - 編集前 checklist、validation、一般化判断、最終報告をまとめたいときに使う。
+  - diff の妥当性、責務分離、validation、残余リスクを点検したいときに使う。
 
 ## Typical sequences
 
