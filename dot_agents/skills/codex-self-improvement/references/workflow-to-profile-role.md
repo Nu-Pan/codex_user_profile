@@ -55,6 +55,7 @@
 - 同じ role を繰り返し起動するとき、毎回 CLI override で指定したくない。
 - role 固有の session 契約は不要で、durable な推論 tier だけを固定したい。
 - model / reasoning / verbosity tier の選定原則は [`references/model-selection.md`](model-selection.md) を正本とする。
+- child agent role の `.toml` は OpenAI 公式 docs を正本にして埋める。Agents SDK 前提の構成はこの path では使わない。
 - role config には選定結果だけを置き、判断基準の本文は置かない。
 
 ### `reference`
@@ -116,6 +117,8 @@
 ### `~/.agents/skills/<root-skill-name>/agent_roles/*.toml`
 
 - child agent role ごとの model / reasoning / verbosity tier だけを置く。
+- 値は OpenAI config reference と関連 model docs に従って決める。
+- Agents SDK の導入や SDK 前提の role 設計は置かない。
 - role 固有の session 契約は置かない。
 
 ### `~/.agents/skills/<name>/references/`

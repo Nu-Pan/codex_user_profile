@@ -29,7 +29,7 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 2. [`references/orchestration.md`](references/orchestration.md) と [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を読み、最小 role sequence と置き場所を決める。
 3. 少なくとも 1 つの child agent role を起動する。使い分けと必要条件は [`references/orchestration.md`](references/orchestration.md) と [`references/role-contracts.md`](references/role-contracts.md) を読む。
 4. child agent の完了待機は timeout を使わず、完了まで待つ。待機の詳細は `references/orchestration.md`、確認観点は `references/workflow-checklist.md` を読む。
-5. Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
+5. Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。child agent role の `.toml` は `references/model-selection.md` と config reference に従って埋め、Agents SDK は使わない。
 6. OpenAI 公式 docs を読めば足りる内容は、この skill family に書き足さず、公式 docs への参照に置き換える。
 
 ## Child agent roles
