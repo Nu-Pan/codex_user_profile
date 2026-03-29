@@ -17,6 +17,13 @@
 - [`codex-self-improvement-review`](../codex-self-improvement-review/SKILL.md)
   - 編集前 checklist、validation、一般化判断、最終報告をまとめたいときに使う。
 
+## Typical routes
+
+- 文面整理だけをしたい: `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
+- 置き場所判断や責務分離が先に必要: `codex-self-improvement-placement` -> 必要なら `codex-self-improvement-workflow` または `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
+- reusable workflow を profile / skills へ分解したい: `codex-self-improvement-placement` -> `codex-self-improvement-workflow` -> 必要なら `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
+- bundle skill 自体を直すが責務は変えない: `codex-self-improvement-skill-writing` -> `codex-self-improvement-review`
+
 ## Recommended sequence
 
 1. 現状確認と既存差分の把握を行う。
@@ -32,5 +39,6 @@
 
 - bundle skill は入口と導線だけを持ち、phase-local な詳細は component skill 側へ逃がす。
 - component skill は自分の責務に必要な reference だけを読む。
+- route が決まったら、その task に不要な component skill までは読まない。
 - skill 文面の簡素化ルールは `skill-writing` 側へ集約し、他 skill に同じ書き方 rule を重複させない。
 - 一般化できる原則が見えたら、task 固有の説明を増やす前に対応する `references/` へ引き上げる。

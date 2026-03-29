@@ -1,17 +1,16 @@
 ---
 name: codex-self-improvement
-description: Use when improving Codex itself rather than product code, especially when editing `AGENTS.md`, `~/.codex/config.toml`, repo-scoped `.codex/**/*`, this bundle skill, or related `~/.agents/skills/codex-self-improvement-*` component skills. Use for Codex self-improvement workflow orchestration, skill prose simplification, minimal-harness rules, config responsibility splitting, workflow decomposition into profiles plus bundle/component skills, or Codex/OpenAI docs contract checks. Do not use for product implementation, ordinary tests, or environment setup.
+description: Use when improving Codex itself rather than product code, especially when editing `AGENTS.md`, `~/.codex/**/*`, repo-scoped `.codex/**/*`, this bundle skill, or related `~/.agents/skills/codex-self-improvement-*` skills. Use as the entry point for workflow routing, wording cleanup, config placement, workflow decomposition, and Codex/OpenAI docs contract checks. Do not use for product implementation, ordinary tests, or environment setup.
 ---
 
 # Codex Self Improvement
 
 ## Use when
 
-- `AGENTS.md`、`~/.codex/**/*`、repo-scoped `.codex/**/*`、この bundle skill、または関連 `~/.agents/skills/codex-self-improvement-*` component skills を追加・変更するとき
-- skill を構成する文章を、責務を変えずに短く直接的な表現へ整えたいとき
-- `profiles`、`developer_instructions`、permissions、MCP 設定など Codex の挙動設定を改善するとき
-- `~/.codex/config.toml` と repo-scoped `.codex/config.toml` の責務分離を見直すとき
-- ユーザーが示した再利用可能な workflow を、新規 profile、束ね skill、役割別 skill に分解して Codex に実装するとき
+- `AGENTS.md`、`~/.codex/**/*`、repo-scoped `.codex/**/*`、この bundle skill、または関連 `~/.agents/skills/codex-self-improvement-*` skills を追加・変更するとき
+- skill 文面を、責務を変えずに短く直接的な表現へ整えたいとき
+- `profiles`、`developer_instructions`、permissions、MCP 設定など Codex の挙動設定を改善したいとき
+- ユーザーが示した reusable workflow を profile、bundle skill、component skills へ分解して Codex に取り込みたいとき
 
 ## Do not use when
 
@@ -20,20 +19,20 @@ description: Use when improving Codex itself rather than product code, especiall
 
 ## Purpose
 
-- この skill は Codex 自己改善 workflow 全体の入口、推奨フェーズ順、関連 component skill への導線を定義する。
+- この skill は Codex 自己改善 workflow の入口であり、読むべき component skill を選ぶための導線だけを持つ。
 - session 契約の正本は `profiles.codex_meta.developer_instructions` とする。
-- repo-wide の入口は `AGENTS.md`、durable settings は `config.toml`、phase-local な詳細ルールは関連 component skills とその `references/` を正本とする。
-- workflow を Codex に取り込むときは、session 契約、durable 設定、全体導線、役割別の詳細手順を分解し、どれを profile、束ね skill、役割別 skill に置くかをここから判断する。
+- repo-wide の入口は `AGENTS.md`、durable settings は `config.toml`、phase-local な詳細ルールは component skills とその `references/` を正本とする。
 
 ## Recommended flow
 
 1. `AGENTS.md`、`~/.codex/config.toml`、変更対象、必要なら既存差分を確認する。
-2. ルールや設定の置き場所判断が必要なら `codex-self-improvement-placement` を使う。
-3. reusable workflow の分解や `developer_instructions` 設計が必要なら `codex-self-improvement-workflow` を使う。
-4. skill を構成する文章を責務を変えずに短く整理したいなら `codex-self-improvement-skill-writing` を使う。
+2. 置き場所や責務分離で迷うなら `codex-self-improvement-placement` を使う。
+3. reusable workflow や `developer_instructions` を変えるなら `codex-self-improvement-workflow` を使う。
+4. skill 文面を責務そのままで整理するなら `codex-self-improvement-skill-writing` を使う。
 5. 編集前後の checklist、validation、最終報告は `codex-self-improvement-review` で確認する。
 
 - フェーズ順は推奨順序であり、必要に応じて往復してよい。
+- 文面整理だけの task は `codex-self-improvement-skill-writing` と `codex-self-improvement-review` だけで足りることが多い。責務や置き場所が変わる場合だけ `codex-self-improvement-placement` / `codex-self-improvement-workflow` へ広げる。
 - Codex 契約や repo から確認できない設定キーの意味を確定する必要がある場合だけ OpenAI developer docs MCP を使う。
 
 ## Component skills
@@ -46,8 +45,8 @@ description: Use when improving Codex itself rather than product code, especiall
 ## Quick start
 
 - `AGENTS.md`、`~/.codex/config.toml`、この skill を確認する。
-- まず [`references/orchestration.md`](references/orchestration.md) を見て、今回の task に必要な component skill を選ぶ。
-- phase-local な判断基準は、選んだ component skill の `SKILL.md` と `references/` だけを追加で読む。
+- [`references/orchestration.md`](references/orchestration.md) を見て、今回の route を 1 つ選ぶ。
+- 選んだ component skill の `SKILL.md` と必要な `references/` だけを読む。
 
 ## Repo path notes
 
