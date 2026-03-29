@@ -17,6 +17,7 @@
 - `canonical path`: deploy 後に見える `~/.codex/...` / `~/.agents/...`。
 - `local working path`: repo 内で mirror を編集するときの `dot_codex/...` / `dot_agents/...`。
 - `role sequence`: 今回使う child agent role の順序。
+- `wait policy`: child agent の完了を待つ運用規則。既定では timeout を置かず、完了まで待つ。
 
 ## Entry checks
 
@@ -29,6 +30,7 @@
 ## Default role sequence
 
 - root session は task を要約し、最小 role sequence を選んで child agent を起動する。root session 単独で完結させない。
+- child agent の完了待機では timeout を使わず、完了まで待つ。途中で打ち切って次へ進めない。
 - 置き場所、権限、canonical path、session 契約が曖昧な場合だけ `si_scope` を足す。
 - reusable workflow、profile、role config の責務分離を再設計する場合だけ `si_design` を足す。
 - repo-tracked な非自明編集や複数文書の文面整理は `si_editor` へ寄せる。

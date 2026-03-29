@@ -37,6 +37,7 @@
 
 - `developer_instructions` を更新したら、少なくとも 1 回は instruction chain の見え方を確認する。
 - 既存 root skill を編集したら、その skill 単体で trigger、既定 route、読むべき reference、child agent role への導線が見え、正本語彙への導線が残っていることを確認する。
+- child agent の完了待機では timeout を使わず、完了まで待つ運用になっていることを確認する。
 - 既存 compatibility skill を編集したら、その skill 単体で legacy 名から canonical な root skill と child agent role へ handoff できることを確認する。
 - 既存 `references/` を編集したら、その文書単体で判断基準や例外条件が見え、root skill や role contract と入口説明を重複していないことを確認する。
 - 語彙統一を行ったら、同じ概念が root skill / compatibility skills / `references/` / role contract で別名のまま残っていないか、正本語彙がどこか 1 か所で追えるかを確認する。
@@ -58,6 +59,7 @@
 - `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize this workflow, the recommended role sequence, and which references you would read.'`
 - `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize which canonical root skill and child agent role you hand off to.'`
 - `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement Summarize how this workflow is split between developer_instructions, root skill, child agent roles, references, and config.toml in 4 bullets.'`
+- `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize the wait policy for child agents and whether timeout is allowed.'`
 
 ### Manual TTY checks for humans
 
@@ -79,6 +81,7 @@
 - `developer_instructions`、`AGENTS.md`、permissions の責務分離が崩れていないか
 - 典型 workflow の session 契約が `developer_instructions` に閉じ、全体導線が root skill に、詳細手順が `references/` / role contract に逃がされているか
 - root skill が編集作業や検証作業を抱え込まず、実作業が child agent に分離されているか
+- child agent の完了待機で timeout を使わず、完了まで待つ運用が明文化されているか
 - MCP rule の置き場所が `config.toml`、`AGENTS.md`、存在する場合の task 文書、`developer_instructions` のどれかで一意に説明できるか
 - `developer_instructions` を「正本そのもの」と誤解させる表現になっていないか
 - profile 名の自己認識を前提にしたルールが紛れ込んでいないか

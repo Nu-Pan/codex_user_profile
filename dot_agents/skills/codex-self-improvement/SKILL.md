@@ -29,6 +29,7 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 2. [`references/orchestration.md`](references/orchestration.md) と [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) で、最小 role sequence と置き場所の判断を確認する。
 3. 少なくとも 1 つの child agent role を起動し、task summary、対象ファイル、期待出力だけを渡す。
 4. repo-tracked な編集は `si_editor` に寄せ、編集後は `si_audit` で validation と残余リスクを点検する。
+5. child agent の完了待機は timeout を使わず、完了まで待つ。待機ポリシーは [`references/orchestration.md`](references/orchestration.md) を、確認観点は [`references/workflow-checklist.md`](references/workflow-checklist.md) を読む。
 
 - 既定 role sequence、sequence を広げる条件、spawn policy は [`references/orchestration.md`](references/orchestration.md) を正本とする。
 - Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
@@ -56,7 +57,7 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 ## Reference map
 
 - [`references/orchestration.md`](references/orchestration.md)
-  - root/child の routing、推奨 role sequence、handoff の正本を確認するときに読む。
+  - root/child の routing、推奨 role sequence、child agent の完了待機ポリシー、handoff の正本を確認するときに読む。
 - [`references/role-contracts.md`](references/role-contracts.md)
   - `si_scope`、`si_design`、`si_editor`、`si_audit` に渡す入力、期待出力、write policy を確認するときに読む。
 - [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md)
@@ -68,4 +69,4 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 - [`references/editor-guide.md`](references/editor-guide.md)
   - prose / config / reference の文章を短く直接的に保つ基準を確認するときに読む。
 - [`references/workflow-checklist.md`](references/workflow-checklist.md)
-  - 編集前確認、validation、自己レビュー、最終報告の観点を確認するときに読む。
+  - 編集前確認、validation、自己レビュー、最終報告、child agent の完了待機を timeout なしで待つ観点を確認するときに読む。
