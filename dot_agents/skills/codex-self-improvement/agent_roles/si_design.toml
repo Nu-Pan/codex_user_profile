@@ -1,3 +1,4 @@
+# Use the flagship model for decomposition and architecture decisions.
 model = "gpt-5.4"
 model_reasoning_effort = "medium"
 model_verbosity = "medium"

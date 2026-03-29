@@ -1,3 +1,4 @@
-model = "gpt-5.4-mini"
+# Use the smaller model for placement analysis and other well-defined tasks.
+model = "gpt-5-mini"
 model_reasoning_effort = "medium"
 model_verbosity = "medium"

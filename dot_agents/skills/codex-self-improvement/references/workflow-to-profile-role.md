@@ -11,7 +11,7 @@
 - `profile`: その workflow を実行する session 契約を与える。
 - `root skill`: workflow 全体の導線、推奨 role sequence、読むべき reference、child agent への入口を与える。
 - `child agent role`: 1 つの責務だけを持つ focused な agent type を指す。
-- `role config`: child agent role に適用する model / reasoning / verbosity tier 用の TOML layer を指す。
+- `role config`: child agent role に適用する TOML layer を指す。
 - `reference`: `references/` 配下の詳細文書を指す。
 - `session 契約`: `developer_instructions` に置く追加行動契約を指す。
 - `durable 設定`: `config.toml` に置く継続設定を指す。
@@ -24,7 +24,7 @@
 - `profile` は session 契約だけを持ち、workflow の本文や role 分担を抱え込まない。
 - root skill は「最初に何を読み、どの順で child agent を起動するか」を示し、実作業は child agent role に寄せる。
 - child agent role は、その責務に必要な入力条件、期待出力、write policy だけに閉じる。
-- role config は、既定では model、reasoning、verbosity の tier だけを持つ。
+- role config は、OpenAI 公式 docs の一般原則に従って、まず model、reasoning、verbosity の tier を中心に持たせる。
 - `reference` は、各 role から必要時にだけ読む詳細手順と例外条件を持つ。
 - role sequence は既定では推奨順序であり、hard gate にはしない。往復や省略があり得る場合は root skill 側で条件を説明する。
 
@@ -55,7 +55,7 @@
 - 同じ role を繰り返し起動するとき、毎回 CLI override で指定したくない。
 - role 固有の session 契約は不要で、durable な推論 tier だけを固定したい。
 - model / reasoning / verbosity tier の選定原則は [`references/model-selection.md`](model-selection.md) を正本とする。
-- child agent role の `.toml` は OpenAI 公式 docs を正本にして埋める。Agents SDK 前提の構成はこの path では使わない。
+- child agent role の `.toml` は OpenAI 公式 docs の一般原則に従って埋める。Agents SDK 前提の構成はこの path では使わない。
 - role config には選定結果だけを置き、判断基準の本文は置かない。
 
 ### `reference`
@@ -81,7 +81,7 @@
 1. workflow から mission、must-read、allowed modes、quality bar、衝突時の扱い、報告要件だけを抜き出し、`developer_instructions` に入れる。
 2. workflow から end-to-end の導線、推奨 role sequence、child agent への handoff を抜き出し、root skill に入れる。
 3. workflow から focused な責務を抜き出し、child agent role に切る。
-4. role ごとに必要な model / reasoning / verbosity tier だけを抜き出し、role config に入れる。
+4. role ごとに必要な model / reasoning / verbosity tier を中心に抜き出し、OpenAI 公式 docs の一般原則に沿う設定として role config に入れる。
 5. role ごとの再利用可能な詳細手順、判断基準、テンプレ断片を `references/` に入れる。
 6. durable 設定だけを抜き出し、`config.toml` に入れる。
 7. repo-wide router が本当に必要かを最後に判断し、必要なときだけ `AGENTS.md` を触る。router は起動導線だけを持ち、実作業は child agent に委ねる。
@@ -116,8 +116,8 @@
 
 ### `~/.agents/skills/<root-skill-name>/agent_roles/*.toml`
 
-- child agent role ごとの model / reasoning / verbosity tier だけを置く。
-- 値は OpenAI config reference と関連 model docs に従って決める。
+- child agent role ごとの model / reasoning / verbosity tier を基本に置く。
+- 値は OpenAI config reference と関連 model docs の一般原則に従って決める。
 - Agents SDK の導入や SDK 前提の role 設計は置かない。
 - role 固有の session 契約は置かない。
 
@@ -151,7 +151,7 @@ model_reasoning_effort = "<effort>"
 model_verbosity = "<verbosity>"
 ```
 
-- role config には、既定では model tier 以外を入れない。
+- これは基本形であり、role config には OpenAI 公式 docs の一般原則に沿う必要最小限の追加設定を置いてよい。
 
 ## Minimal root skill template
 

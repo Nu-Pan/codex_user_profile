@@ -9,7 +9,7 @@
 - `root session`: `codex_meta` profile で起動し、task summary、role selection、最終統合を担当する親 session。
 - `child agent`: root session が 1 つの責務だけを任せるために起動する agent。
 - `child agent role`: `si_scope`、`si_design`、`si_editor`、`si_audit` のような child agent の責務名。
-- `role config`: `agents.<name>.config_file` から読む TOML layer。child agent role ごとの model、reasoning、verbosity の tier を固定する。
+- `role config`: `agents.<name>.config_file` から読む TOML layer。child agent role ごとの model、reasoning、verbosity の tier を中心に、OpenAI 公式 docs の一般原則に沿う設定を置く。
 - `root skill`: workflow 全体の入口と導線を持つ skill。既定では `codex-self-improvement` を指す。
 - `reference`: `references/` 配下の詳細文書。入口説明の正本にはしない。
 - `session 契約`: `developer_instructions` に置く追加行動契約。

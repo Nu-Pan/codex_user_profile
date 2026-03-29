@@ -1,3 +1,4 @@
+# Complex validation and cross-checking benefit from the flagship reasoning model.
 model = "gpt-5.4"
 model_reasoning_effort = "high"
 model_verbosity = "medium"
