@@ -20,6 +20,7 @@
 
 - 既定では、新しい典型 workflow は `profile` と 1 つの root skill で表現する。
 - workflow に複数の責務やレビュー観点がある場合は、root skill の下に複数の child agent roles を置く。
+- session 契約は `profile` に閉じ、導線と role sequence は root skill に、局所判断は child agent role と `references/` に逃がす。
 - `profile` は session 契約だけを持ち、workflow の本文や role 分担を抱え込まない。
 - root skill は「最初に何を読み、どの順で child agent を起動するか」を示し、実作業は child agent role に寄せる。
 - child agent role は、その責務に必要な入力条件、期待出力、write policy だけに閉じる。
@@ -81,6 +82,7 @@
 5. role ごとの再利用可能な詳細手順、判断基準、テンプレ断片を `references/` に入れる。
 6. durable 設定だけを抜き出し、`config.toml` に入れる。
 7. repo-wide router が本当に必要かを最後に判断し、必要なときだけ `AGENTS.md` を触る。router は起動導線だけを持ち、実作業は child agent に委ねる。
+8. validation の詳細は [`workflow-checklist.md`](workflow-checklist.md) を正本とする。
 
 ## Default placement summary
 
@@ -244,13 +246,3 @@ description: Use when <trigger condition>. Use for <phase responsibility>. Do no
   - `si_design`: workflow / role split を設計する。
   - `si_editor`: 承認済み write scope を更新する。
   - `si_audit`: diff と validation を点検する。
-
-## Validation defaults
-
-- 自動 validation は、既定で非 TTY の `codex exec` だけを使う。
-- 自動 validation の model は、既定で `gpt-5.4-mini` を指定する。
-- 軽量 model で確認できる導線、局所責務、責務分離だけを自動 validation の対象にする。
-- `codex exec -m gpt-5.4-mini -p codex_meta "Summarize the current mission, allowed modes, and must-read documents in 3 bullets."` で profile の見え方を確認する。
-- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement Summarize the canonical roles, default spawn policy, and recommended role sequence in 4 bullets.'` で root skill の導線を確認する。
-- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement Given a request that changes placement rules, state which child roles you would use and in what order.'` で role routing を確認する。
-- instruction や skill が古く見える場合は、Codex を対象 directory で再起動して確認する。

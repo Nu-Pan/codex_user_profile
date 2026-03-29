@@ -29,7 +29,7 @@
 
 ## `si_design`
 
-- Mission: reusable workflow を profile、root skill、child agent roles、role configs、references に分解する。
+- Mission: reusable workflow を profile、root skill、child agent roles、role config、references に分解する。
 - Read first:
   - `references/workflow-to-profile-role.md`
   - `references/developer-instructions-guide.md`

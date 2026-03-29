@@ -35,6 +35,7 @@
 
 ## Validation
 
+- この文書を validation の正本として扱う。
 - `developer_instructions` を更新したら、少なくとも 1 回は instruction chain の見え方を確認する。
 - 既存 root skill を編集したら、その skill 単体で trigger、既定 route、読むべき reference、child agent role への導線が見え、正本語彙への導線が残っていることを確認する。
 - child agent の完了待機では timeout を使わず、完了まで待つ運用になっていることを確認する。
@@ -56,9 +57,8 @@
 ### Automated non-TTY checks
 
 - `codex exec -m gpt-5.4-mini -p codex_meta "Summarize the current mission, allowed modes, and must-read documents in 3 bullets."`
-- `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize this workflow, the recommended role sequence, and which references you would read.'`
-- `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize which canonical root skill and child agent role you hand off to.'`
-- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement Summarize how this workflow is split between developer_instructions, root skill, child agent roles, references, and config.toml in 4 bullets.'`
+- `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize the canonical root skill, child agent roles, and default spawn policy in 4 bullets.'`
+- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement Explain how developer_instructions, root skill, child agent roles, references, and config.toml divide responsibilities.'`
 - `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize the wait policy for child agents and whether timeout is allowed.'`
 
 ### Manual TTY checks for humans

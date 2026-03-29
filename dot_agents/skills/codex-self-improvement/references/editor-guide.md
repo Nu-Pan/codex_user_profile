@@ -29,7 +29,7 @@
 
 - `root session`
 - `child agent`
-- `agent role`
+- `child agent role`
 - `role config`
 - `root skill`
 - `reference`

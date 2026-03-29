@@ -19,21 +19,17 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 
 ## Purpose
 
-- この root skill は Codex 自己改善 workflow の入口であり、root session は task framing、child agent 起動、最終統合だけを担当し、実作業は child agent に委ねる。
-- session 契約の正本は `profiles.codex_meta.developer_instructions`、repo-wide の入口は `AGENTS.md`、routing と詳細判断の正本は関連 `references/` と child agent role contract である。
-- ここには導線だけを置き、手順の本文は `references/` に逃がす。
+- この root skill は Codex 自己改善 workflow の入口であり、root session は task framing、role selection、child agent 起動、最終統合だけを担当し、実作業は child agent に委ねる。
+- session 契約の正本は `profiles.codex_meta.developer_instructions`、routing と handoff の正本は `references/orchestration.md`、role ごとの入出力と write policy の正本は `references/role-contracts.md` である。
+- ここには入口と導線だけを置き、手順の本文は `references/` に逃がす。
 
 ## Recommended flow
 
 1. `AGENTS.md`、`~/.codex/config.toml`、変更対象、既存差分を確認する。
-2. [`references/orchestration.md`](references/orchestration.md) と [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) で、最小 role sequence と置き場所の判断を確認する。
-3. 少なくとも 1 つの child agent role を起動し、task summary、対象ファイル、期待出力だけを渡す。
-4. repo-tracked な編集は `si_editor` に寄せ、編集後は `si_audit` で validation と残余リスクを点検する。
-5. child agent の完了待機は timeout を使わず、完了まで待つ。待機ポリシーは [`references/orchestration.md`](references/orchestration.md) を、確認観点は [`references/workflow-checklist.md`](references/workflow-checklist.md) を読む。
-
-- 既定 role sequence、sequence を広げる条件、spawn policy は [`references/orchestration.md`](references/orchestration.md) を正本とする。
-- Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
-- 迷ったら `si_scope` で置き場所と責務境界を確定し、必要なときだけ後続 role を足す。
+2. [`references/orchestration.md`](references/orchestration.md) と [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を読み、最小 role sequence と置き場所を決める。
+3. 少なくとも 1 つの child agent role を起動する。使い分けと必要条件は [`references/orchestration.md`](references/orchestration.md) と [`references/role-contracts.md`](references/role-contracts.md) を読む。
+4. child agent の完了待機は timeout を使わず、完了まで待つ。待機の詳細は `references/orchestration.md`、確認観点は `references/workflow-checklist.md` を読む。
+5. Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 
 ## Child agent roles
 
@@ -46,9 +42,8 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 
 - `codex_meta` profile で開始する。
 - `AGENTS.md`、`~/.codex/config.toml`、この root skill を確認する。
-- [`references/orchestration.md`](references/orchestration.md) の `Default role sequence` と `Choosing child agent roles` を見て最小 role sequence を決める。
+- 最小 role sequence は [`references/orchestration.md`](references/orchestration.md)、各 role の入出力と write policy は [`references/role-contracts.md`](references/role-contracts.md) を読む。
 - 置き場所や session 契約で迷うときは [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) と [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md) を読む。
-- 各 role に何を渡し、何を返させるかは [`references/role-contracts.md`](references/role-contracts.md) を読む。
 
 ## Repo path notes
 
