@@ -1,19 +1,25 @@
 # Config And Rule Placement
 
+## Purpose
+
+- `AGENTS.md`、`~/.codex/config.toml`、`.codex/config.toml`、`agent_roles/*.toml`、task 文書の置き場所を決める正本である。
+- この文書は「どこに何を書くか」と「どこに書かないか」を分け、root router contract と child role bootstrap contract を混同しないためのものだ。
+
 ## Contract facts
 
-- `AGENTS.md` は project guidance であり、Codex は起動時に instruction chain を構築して読む。
-- `agent_roles/*.toml` の `developer_instructions` は、child agent role の role-local bootstrap contract として扱う。
-- `~/.codex/config.toml` は durable 設定の置き場所であり、この skill family では profile-level `developer_instructions` を置かない。
+- `AGENTS.md` は root agent と child agent の両方に共通する最小規約だけを書く。
+- `~/.codex/config.toml` は durable 設定の置き場所であり、profile-level `developer_instructions` を置いてよい。
+- `profile-level developer_instructions` は root profile の router / orchestrator 契約を置く。
+- `agent_roles/*.toml` の `developer_instructions` は child agent role の role-local bootstrap contract を置く。
 - `permissions` と `default_permissions` は、使う場合は文章上のルールではなく hard gate である。
 - `instructions` は reserved for future use なので、この repo の運用ルール置き場として使わない。
 - `model_instructions_file` は built-in instructions を置き換える強い設定であり、通常の repo 運用では使わない。
 
 ## Default stance
 
-- repo 全体の入口、作業分類、文書ルーティングは `AGENTS.md` を正本とする。
-- `codex_meta` の session 契約は `AGENTS.md` に置き、`~/.codex/config.toml` には置かない。
-- child agent role の `developer_instructions` は `agent_roles/*.toml` に置く role-local bootstrap contract として扱う。
+- repo 全体の共通規約は `AGENTS.md` を正本とする。
+- root session の routing と handoff は `~/.codex/config.toml` の profile-level `developer_instructions` を正本とする。
+- child agent role の read-first docs と bootstrap 条件は `agent_roles/*.toml` に閉じる。
 - durable 設定は `~/.codex/config.toml` を基点にし、repo 共有 override が必要な場合だけ `.codex/config.toml` を使う。
 - repo-scoped `.codex/config.toml` や task 文書は、存在する repo でだけ前提にする。
 - `permissions` は、実際の編集可能範囲を hard gate で強制したいときだけ採用する。
@@ -24,7 +30,7 @@
 
 ## Placement order
 
-1. その変更が repo-wide router、session 契約、durable 設定、hard gate、task-local guidance のどれかを決める。
+1. その変更が shared rules、root router contract、child role bootstrap contract、durable 設定、hard gate、task-local guidance のどれかを決める。
 2. 共有範囲が repo-wide か、profile-local か、user-local か、task-local かを決める。
 3. path を説明するときは canonical path か local working path かを切り分ける。
 4. 可搬性と hard gate が衝突するなら、まず `permissions` 撤廃か sandbox ベース運用を検討する。
@@ -39,35 +45,33 @@
 
 ### `AGENTS.md`
 
-- repo 全体の bootstrapping と router だけを書く。
+- root agent と child agent が共通で守る最小規約だけを書く。
+- repo 全体の bootstrapping と shared rule 以外は置かない。
 - router の実行手順や作業本文は置かない。
-- 作業分類、必読文書、禁止事項、仕様文書の入口を置く。
-- `codex_meta` の session 契約もここに置く。
-- Codex 自己改善タスクの導線は示してよい。
-- repo-wide に常時有効な MCP 利用方針だけを置く。
-- `~/.codex/config.toml` の profile-level `developer_instructions` は使わない。
+- profile 固有の routing や role-local bootstrap は置かない。
+- Codex 自己改善タスクの導線は示してよいが、詳細は root skill に逃がす。
 
-### `developer_instructions`
+### `profile-level developer_instructions`
+
+- root profile の router / orchestrator 契約を書く。
+- root の mission、allowed modes、child role 起動方針、handoff の粒度、最終報告要件を書く。
+- `AGENTS.md` の共通規約を前提にしてよいが、role-local bootstrap や workflow 本文は抱え込まない。
+- `~/.codex/config.toml` の `[profiles.<name>]` に置く。
+
+### `agent_roles/*.toml` の `developer_instructions`
 
 - child agent role の追加行動契約だけを書く。
 - その role で直ちに守るべき read-first docs、作業境界、検証基準、報告基準を書く。
 - role 名を推測しなくても成立する自己完結な指示にする。
-- `AGENTS.md` や permissions を読まなくても最低限の振る舞いが定まるようにする。
+- root handoff が薄くても最低限の振る舞いが定まるようにする。
 - repo 全体の仕様や長い手順を抱え込ませない。
 
 ### `~/.codex/config.toml`
 
 - 個人設定として持つ durable 設定を置く。
 - 個人用 profile、permissions、MCP server inventory の正本候補とする。
-- profile-level の `developer_instructions` は置かない。
+- profile-level の `developer_instructions` を置いてよい。
 - 新しい MCP server を追加しただけなら、まず `mcp_servers` の更新可否をここで確認する。
-
-### `~/.agents/skills/<root-skill-name>/agent_roles/*.toml`
-
-- child agent role の standalone custom agent config を置く。
-- `name`、`description`、`developer_instructions`、`model`、`model_reasoning_effort`、`model_verbosity`、`sandbox_mode` を置く。
-- role-local の read-first docs と bootstrap 条件はここに閉じる。
-- role-local な詳細判断の本文は `references/` に逃がす。
 
 ### `.codex/config.toml`
 
@@ -101,8 +105,8 @@
 - root skill なら、再利用可能な workflow の trigger、目的、推奨 role sequence、child agent role への導線、reference map を書く。
 - root skill なら、child agent が root handoff の不足を local docs と local artifacts で埋められる前提も明示する。
 - compatibility skill なら、旧 skill 名から canonical な root skill と child agent role へ handoff する導線を書く。
-- session 契約や durable 設定の正本にはしない。
-- 長い手順や variant ごとの詳細は `references/` と role contract へ逃がす。
+- root router contract や durable 設定の正本にはしない。
+- 長い手順や variant ごとの差分は `references/` と role contract へ逃がす。
 
 ### user skill の `references/`
 
@@ -124,9 +128,9 @@
 
 ## MCP rule placement
 
-- `~/.codex/config.toml` に durable 設定と server inventory を置く。
+- `~/.codex/config.toml` に durable 設定、server inventory、profile-level `developer_instructions` を置く。
 - `.codex/config.toml` には repo 共有 override だけを置く。
-- `AGENTS.md` には repo-wide に常時有効な MCP 利用方針と、Codex 自己改善タスク時の session 契約入口を書く。
+- `AGENTS.md` には repo-wide に常時有効な共通規約だけを書く。
 - task 文書がある repo では、その文書に特定作業タイプだけに必要な判断基準を書く。
 - child agent role の `developer_instructions` には、その role に必要な追加契約だけを書く。
 - 同じ rule を複数箇所に増やさず、最小スコープの置き場所を選ぶ。
@@ -134,9 +138,9 @@
 
 ## When codifying a typical workflow
 
-- repo-wide router が必要かを最初に決め打ちしない。既定では `AGENTS.md` を増やさず、`profile` と root skill の組で表現し、必要な child agent role を root から起動する。
-- workflow の session 契約は `AGENTS.md` に置く。
-- workflow の durable 設定は `~/.codex/config.toml` の `profiles.<name>` に置く。
+- repo-wide router が本当に必要かを最初に決め打ちしない。既定では `AGENTS.md` を増やさず、`profile` と root skill の組で表現し、必要な child agent role を root から起動する。
+- workflow の共通規約は `AGENTS.md` に置く。
+- workflow の root router contract は `~/.codex/config.toml` の profile-level `developer_instructions` に置く。
 - workflow の trigger、推奨 role sequence、child agent role への短い導線は root skill の `SKILL.md` に置く。
 - child agent role の read-first docs と bootstrap 条件は role config の `developer_instructions` に置く。
 - workflow の局所手順、判断基準、テンプレ断片は関連 `references/` と role contract に置く。
@@ -161,10 +165,10 @@
 
 ## Guardrails
 
-- `AGENTS.md` には、その session に必要な最小限の追加契約だけを書く。
+- `AGENTS.md` には、root / child 共通の最小限の規約だけを書く。
 - child agent role の role-local bootstrap contract は `agent_roles/*.toml` の `developer_instructions` に置く。
 - 新しい典型 workflow は、既定では新規 profile、root skill、必要な child agent roles に分解して扱う。
-- workflow を分解するときは、session 契約を `AGENTS.md`、全体導線を root skill、詳細手順を `references/` と role contract、durable 設定を `config.toml` へ置く。
+- workflow を分解するときは、共通規約を `AGENTS.md`、root router contract を `config.toml`、全体導線を root skill、詳細手順を `references/` と role contract、durable 設定を `config.toml` へ置く。
 - child agent role には、root handoff が薄くても動ける最小 bootstrap 情報を必ず含める。
 - role-local な詳細ルールは対応する `references/` や role contract に集約し、`AGENTS.md` と `agent_roles/*.toml` の `developer_instructions` に同じ細則を重複させない。
 - 個人設定として完結する profile や permissions は `~/.codex/config.toml` を優先し、repo 共有 override だけを `.codex/config.toml` に残す。可搬性を壊す HOME 配下の `permissions` は既定では共有設定に持ち込まない。

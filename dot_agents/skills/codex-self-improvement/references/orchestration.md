@@ -7,13 +7,14 @@
 
 ## Canonical terms
 
-- `root session`: `codex_meta` profile で起動し、task summary、role selection、最終統合を担当する親 session。
+- `root session`: `codex_meta` profile で起動し、router / orchestrator として task summary、role selection、child agent 起動、最終統合だけを担当する親 session。
+- `common rules`: `AGENTS.md` に書く、root と child が共通で守る最小ルール。
+- `root router contract`: `~/.codex/config.toml` の `[profiles.codex_meta].developer_instructions` に書く、root session 専用の追加行動契約。
 - `child agent`: root session が 1 つの責務だけを任せるために起動する agent。
 - `child agent role`: `si_scope`、`si_design`、`si_editor`、`si_audit` のような child agent の責務名。
 - `role config`: `agents.<name>.config_file` から読む standalone custom agent TOML layer。child agent role ごとの `name`、`description`、`developer_instructions`、model、reasoning、verbosity、sandbox_mode を置く。
 - `root skill`: workflow 全体の入口と導線を持つ skill。既定では `codex-self-improvement` を指す。
 - `reference`: `references/` 配下の詳細文書。入口説明の正本にはしない。
-- `session 契約`: root session に対する追加行動契約。Codex 自己改善では `AGENTS.md` に置く。
 - `durable 設定`: `config.toml` に置く継続設定。
 - `canonical path`: deploy 後に見える `~/.codex/...` / `~/.agents/...`。
 - `local working path`: repo 内で mirror を編集するときの `dot_codex/...` / `dot_agents/...`。
@@ -32,9 +33,10 @@
 ## Default role sequence
 
 - root session は task を要約し、最小 role sequence を選んで child agent を起動する。root session 単独で完結させない。
+- root session は、Codex CLI に何かをさせる必要がある場合、対応する custom skill と child role を先に用意してから child agent を起動する。ad hoc な作業を直接依頼しない。
 - child agent への handoff は最小に保ち、child agent 側で current config、current diff、対象ファイル、role config、関連 reference を読めば不足分を復元できるようにする。
 - child agent の完了待機では timeout を使わず、完了まで待つ。途中で打ち切って次へ進めない。
-- 置き場所、権限、canonical path、session 契約が曖昧な場合だけ `si_scope` を足す。
+- 置き場所、権限、canonical path、root router contract が曖昧な場合だけ `si_scope` を足す。
 - reusable workflow、profile、role config の責務分離を再設計する場合だけ `si_design` を足す。
 - repo-tracked な prose / config 編集は `si_editor` へ寄せる。
 - repo-tracked な編集を行った後は、既定で `si_audit` を最後に足す。
@@ -42,7 +44,7 @@
 
 ## Choosing child agent roles
 
-- `si_scope`: `AGENTS.md` / `config.toml` / permissions / MCP / canonical path / `developer_instructions` の置き場所判断が必要なときに使う。
+- `si_scope`: `AGENTS.md` / `config.toml` / permissions / MCP / canonical path / root router contract と profile-level `developer_instructions` の置き場所判断が必要なときに使う。
 - `si_design`: reusable workflow を `profile`、root skill、child agent roles、`reference`、durable 設定へ分解したいときに使う。
 - `si_editor`: 承認済み write scope の prose / config を更新し、責務を変えずに整理したいときに使う。
 - `si_audit`: diff の妥当性、責務分離、validation、残余リスクを点検したいときに使う。
