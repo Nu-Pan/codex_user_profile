@@ -21,7 +21,7 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 
 - この root skill は Codex 自己改善 workflow の入口であり、root session は task framing、role selection、child agent 起動、最終統合だけを担当し、実作業は child agent に委ねる。
 - child agent は root の handoff が薄くても、自分の read-first docs、対象ファイル、現行 config、現行 diff から不足文脈を復元して動けるように書く。
-- session 契約の正本は `profiles.codex_meta.developer_instructions`、routing と handoff の正本は `references/orchestration.md`、role ごとの入出力と write policy の正本は `references/role-contracts.md` である。
+- session 契約の正本は `AGENTS.md`、routing と handoff の正本は `references/orchestration.md`、role ごとの入出力と write policy の正本は `references/role-contracts.md` である。
 - child agent role の実体は `agent_roles/*.toml` に置く standalone custom agent config であり、各 role の `developer_instructions` が読む reference を持つ。
 - ここには入口と導線だけを置き、手順の本文は `references/` に逃がす。
 

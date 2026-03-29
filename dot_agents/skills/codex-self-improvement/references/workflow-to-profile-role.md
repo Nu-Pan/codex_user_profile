@@ -2,42 +2,43 @@
 
 ## Purpose
 
-- ユーザーが提示した再利用可能な workflow を、Codex が繰り返し扱える `profile`、root skill、child agent roles、role config、`references/` に分解するときの基準を定義する。
+- ユーザーが提示した再利用可能な workflow を、Codex が繰り返し扱える `AGENTS.md`、root skill、child agent roles、role config、`references/` に分解するときの基準を定義する。
 - この文書は「どこに何を書くか」と「最小テンプレ」を定め、role-based self-improvement workflow の迷いを減らす。
 - file placement 自体が曖昧な場合は、この文書だけで決め切らず `references/config-and-rule-placement.md` へ戻る。
 
 ## Terms
 
-- `profile`: その workflow を実行する session 契約を与える。
+- `AGENTS.md`: Codex 自己改善 task の profile-level session contract と repo-wide router を置く。
 - `root skill`: workflow 全体の導線、推奨 role sequence、読むべき reference、child agent への入口を与える。
 - `child agent role`: 1 つの責務だけを持つ focused な agent type を指す。
 - `role config`: child agent role に適用する standalone custom agent TOML layer を指す。`name`、`description`、`developer_instructions`、`model`、`model_reasoning_effort`、`model_verbosity`、`sandbox_mode` を置く。
 - `reference`: `references/` 配下の詳細文書を指す。
-- `session 契約`: `developer_instructions` に置く追加行動契約を指す。
+- `session 契約`: Codex 自己改善 task では `AGENTS.md` に置く profile-level 追加行動契約を指す。
 - `durable 設定`: `config.toml` に置く継続設定を指す。
 
 ## Default model
 
-- 既定では、新しい典型 workflow は `profile` と 1 つの root skill で表現する。
+- 既定では、新しい典型 workflow は `AGENTS.md` と 1 つの root skill で表現する。
 - workflow に複数の責務やレビュー観点がある場合は、root skill の下に複数の child agent roles を置く。
-- session 契約は `profile` に閉じ、導線と role sequence は root skill に、局所判断は child agent role と `references/` に逃がす。
-- `profile` は session 契約だけを持ち、workflow の本文や role 分担を抱え込まない。
+- session 契約は `AGENTS.md` に閉じ、導線と role sequence は root skill に、局所判断は child agent role と `references/` に逃がす。
+- `AGENTS.md` は session 契約だけを持ち、workflow の本文や role 分担を抱え込まない。
 - root skill は「最初に何を読み、どの順で child agent を起動するか」を示し、実作業は child agent role に寄せる。
 - child agent role は、その責務に必要な入力条件、期待出力、write policy に加えて、root handoff が薄いときの local bootstrap 条件も明示する。
 - child agent role は、自分の role config、current config、current diff、対象ファイルだけで起動できるように書く。
 - role config は、OpenAI 公式 docs の一般原則に従って、まず model、reasoning、verbosity の tier を中心に持たせる。
-- role config は standalone custom agent config として持ち、role-local な session contract と read-first docs もここに閉じる。
+- role config は standalone custom agent config として持ち、role-local な read-first docs と bootstrap 条件もここに閉じる。
 - role の責務が読み取り専用か書き込み可かで明確に分かれるなら、`sandbox_mode` を最小限追加して capability を role contract に合わせる。
 - `reference` は、各 role から必要時にだけ読む詳細手順と例外条件を持つ。
 - role sequence は既定では推奨順序であり、hard gate にはしない。往復や省略があり得る場合は root skill 側で条件を説明する。
 
 ## When to add each artifact
 
-### `profile`
+### `AGENTS.md`
 
-- session の mission が既存 profile と明確に異なる。
-- allowed modes、quality bar、報告基準、must-read が既存 profile では不足する。
-- sandbox、network、approval、model など durable な実行前提を workflow ごとに切り替えたい。
+- session の mission が既存 guidance と明確に異なる。
+- allowed modes、quality bar、報告基準、must-read が既存 guidance では不足する。
+- Codex 自己改善 task の profile-level session contract を明示したい。
+- repo-wide に常時有効な router を置きたい。
 
 ### root skill
 
@@ -72,18 +73,18 @@
 
 - workflow が単一の導線で完結し、導線と局所手順を分ける利得が小さい。
 - 追加の role 分割をしても、責務より重複の方が増える。
-- `developer_instructions` から読ませる入口が 1 つで十分で、child agent role を経由させる理由が弱い。
+- `AGENTS.md` から読む導線が 1 つで十分で、child agent role を経由させる理由が弱い。
 
-### `profile` + `root skill` + child agent roles が要る場合
+### `AGENTS.md` + `root skill` + child agent roles が要る場合
 
 - session 契約の追加と、workflow 全体の導線と、再利用可能な局所手順のすべてが必要である。
-- 既定では、複数責務を持つ workflow は `profile` + `root skill` + 必要な child agent roles の組で表現する。
-- 例外として、単なる durable 設定差分だけなら profile だけでよい。
-- 例外として、既存 profile の行動契約で十分なら、root skill と child agent role だけでよい。
+- 既定では、複数責務を持つ workflow は `AGENTS.md` + `root skill` + 必要な child agent roles の組で表現する。
+- 例外として、単なる durable 設定差分だけなら `config.toml` だけでよい。
+- 例外として、既存 `AGENTS.md` の行動契約で十分なら、root skill と child agent role だけでよい。
 
 ## Decomposition recipe
 
-1. workflow から mission、must-read、allowed modes、quality bar、衝突時の扱い、報告要件だけを抜き出し、`developer_instructions` に入れる。
+1. workflow から mission、must-read、allowed modes、quality bar、衝突時の扱い、報告要件だけを抜き出し、`AGENTS.md` に入れる。
 2. workflow から end-to-end の導線、推奨 role sequence、child agent への handoff を抜き出し、root skill に入れる。
 3. workflow から focused な責務を抜き出し、child agent role に切る。
 4. child agent role の contract には、最低限の入力と local bootstrap 条件を必ず書く。root の handoff が不完全でも動く前提で分解する。
@@ -100,12 +101,14 @@
 - repo 全体の router だけを書く。
 - 実作業手順や編集手順は書かない。
 - 新しい workflow のために repo-wide 導線が本当に必要な場合だけ更新する。
+- `codex_meta` の session 契約もここに置く。
 
 ### `~/.codex/config.toml`
 
 - `profiles.<name>` を追加する。
 - `agents.<role>.config_file` の対応を書く。
-- durable な sandbox、network、approval、model、`developer_instructions` を置く。
+- durable な sandbox、network、approval、model を置く。
+- profile-level `developer_instructions` は置かない。
 
 ### `~/.agents/skills/<root-skill-name>/agent_roles/*.toml`
 
@@ -114,7 +117,7 @@
 - `developer_instructions` には、その role が読む `references/` と bootstrap 条件を短く書く。
 - role config には選定結果と role-local の実行前提を置き、判断基準の本文は `references/` に逃がす。
 
-### `profiles.<name>.developer_instructions`
+### `AGENTS.md` の profile-level session contract
 
 - mission、must-read、allowed modes、quality bar、衝突時の扱い、最終報告要件だけを書く。
 - 既定では、must-read には `AGENTS.md` と root skill だけを明示する。
@@ -127,7 +130,7 @@
 - trigger 条件、目的、推奨 role sequence、child agent role の導線、reference map を置く。
 - child agent が root handoff の不足を local docs と local artifacts で埋められる前提を明示する。
 - 実作業の本文は置かない。
-- session 契約の正本にはならない。
+- session 契約の本文にはならない。
 
 ### `~/.agents/skills/<root-skill-name>/agent_roles/*.toml`
 
@@ -145,10 +148,7 @@
 
 ## Minimal profile template
 
-```toml
-[profiles.<profile_name>]
-sandbox_mode = "workspace-write"
-developer_instructions = """
+```md
 - 常に <language> で回答する。
 - この session の目的は <mission> である。
 - 実施前に `AGENTS.md` と user skill `<root-skill-name>` を確認し、そこを正本として扱う。
@@ -157,8 +157,17 @@ developer_instructions = """
 - <quality_bar> を満たすまで作業を打ち切らない。
 - 指示や権限が衝突する場合は編集せず、ユーザーに確認する。
 - 最終報告では <reporting_items> を述べる。
-"""
 ```
+
+```toml
+[profiles.<profile_name>]
+sandbox_mode = "workspace-write"
+model = "<model>"
+model_reasoning_effort = "<effort>"
+model_verbosity = "<verbosity>"
+```
+
+- profile-level の契約は `AGENTS.md` に置き、`config.toml` には durable 設定だけを残す。
 
 ## Minimal role config template
 
@@ -200,7 +209,7 @@ description: Use when <trigger condition>. Use for <workflow>. Do not use for <o
 ## Purpose
 
 - この skill は <workflow> 全体の導線、推奨 role sequence、child agent role への入口を定義し、実作業は child agent role に委ねる。
-- session 契約の正本は対応 profile の `developer_instructions` とする。
+- session 契約の正本は `AGENTS.md` とする。
 - child agent role の read-first docs は各 role config に閉じる。
 - child agent role は、root handoff が最小でも local docs と local artifacts から自己起動できる前提で扱う。
 
@@ -257,8 +266,8 @@ sandbox_mode = "<read-only|workspace-write>"
 
 ## Representative example
 
-- `profile`
-  - 目的は「Codex 自己改善」。
+- `AGENTS.md`
+  - 目的は「Codex 自己改善」の session 契約を定義すること。
   - must-read は `AGENTS.md` と root skill `codex-self-improvement` に留める。
 - root skill
   - 推奨順序として「現状確認 -> role 選定 -> 必要な child agent 起動 -> audit」を示す。

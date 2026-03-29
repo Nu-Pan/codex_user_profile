@@ -2,9 +2,9 @@
 
 ## Contract facts
 
-- `developer_instructions` は session に追加で注入される developer instructions であり、optional な文字列である。
-- `agent_roles/*.toml` の `developer_instructions` も、child agent role の role-local bootstrap contract として扱う。
 - `AGENTS.md` は project guidance であり、Codex は起動時に instruction chain を構築して読む。
+- `agent_roles/*.toml` の `developer_instructions` は、child agent role の role-local bootstrap contract として扱う。
+- `~/.codex/config.toml` は durable 設定の置き場所であり、この skill family では profile-level `developer_instructions` を置かない。
 - `permissions` と `default_permissions` は、使う場合は文章上のルールではなく hard gate である。
 - `instructions` は reserved for future use なので、この repo の運用ルール置き場として使わない。
 - `model_instructions_file` は built-in instructions を置き換える強い設定であり、通常の repo 運用では使わない。
@@ -12,7 +12,7 @@
 ## Default stance
 
 - repo 全体の入口、作業分類、文書ルーティングは `AGENTS.md` を正本とする。
-- `developer_instructions` は profile ごとの追加行動契約として扱う。
+- `codex_meta` の session 契約は `AGENTS.md` に置き、`~/.codex/config.toml` には置かない。
 - child agent role の `developer_instructions` は `agent_roles/*.toml` に置く role-local bootstrap contract として扱う。
 - durable 設定は `~/.codex/config.toml` を基点にし、repo 共有 override が必要な場合だけ `.codex/config.toml` を使う。
 - repo-scoped `.codex/config.toml` や task 文書は、存在する repo でだけ前提にする。
@@ -42,16 +42,16 @@
 - repo 全体の bootstrapping と router だけを書く。
 - router の実行手順や作業本文は置かない。
 - 作業分類、必読文書、禁止事項、仕様文書の入口を置く。
+- `codex_meta` の session 契約もここに置く。
 - Codex 自己改善タスクの導線は示してよい。
 - repo-wide に常時有効な MCP 利用方針だけを置く。
-- profile ごとの細かい session 契約は置かない。
+- `~/.codex/config.toml` の profile-level `developer_instructions` は使わない。
 
 ### `developer_instructions`
 
-- profile ごとの追加行動契約だけを書く。
-- その session で直ちに守るべき role、作業境界、検証基準、報告基準を書く。
-- MCP 利用規則は、その profile に固有の義務である場合だけ書く。
-- profile 名を推測しなくても成立する自己完結な指示にする。
+- child agent role の追加行動契約だけを書く。
+- その role で直ちに守るべき read-first docs、作業境界、検証基準、報告基準を書く。
+- role 名を推測しなくても成立する自己完結な指示にする。
 - `AGENTS.md` や permissions を読まなくても最低限の振る舞いが定まるようにする。
 - repo 全体の仕様や長い手順を抱え込ませない。
 
@@ -59,6 +59,7 @@
 
 - 個人設定として持つ durable 設定を置く。
 - 個人用 profile、permissions、MCP server inventory の正本候補とする。
+- profile-level の `developer_instructions` は置かない。
 - 新しい MCP server を追加しただけなら、まず `mcp_servers` の更新可否をここで確認する。
 
 ### `~/.agents/skills/<root-skill-name>/agent_roles/*.toml`
@@ -125,16 +126,16 @@
 
 - `~/.codex/config.toml` に durable 設定と server inventory を置く。
 - `.codex/config.toml` には repo 共有 override だけを置く。
-- `AGENTS.md` には repo-wide に常時有効な MCP 利用方針だけを書く。
+- `AGENTS.md` には repo-wide に常時有効な MCP 利用方針と、Codex 自己改善タスク時の session 契約入口を書く。
 - task 文書がある repo では、その文書に特定作業タイプだけに必要な判断基準を書く。
-- `developer_instructions` には特定 profile だけに必要な追加契約を書く。
+- child agent role の `developer_instructions` には、その role に必要な追加契約だけを書く。
 - 同じ rule を複数箇所に増やさず、最小スコープの置き場所を選ぶ。
 - 狭い層で再掲する場合も、server inventory や接続設定は `config.toml` に戻し、行動契約だけを書く。
 
 ## When codifying a typical workflow
 
 - repo-wide router が必要かを最初に決め打ちしない。既定では `AGENTS.md` を増やさず、`profile` と root skill の組で表現し、必要な child agent role を root から起動する。
-- workflow の session 契約は `profiles.<name>.developer_instructions` に置く。
+- workflow の session 契約は `AGENTS.md` に置く。
 - workflow の durable 設定は `~/.codex/config.toml` の `profiles.<name>` に置く。
 - workflow の trigger、推奨 role sequence、child agent role への短い導線は root skill の `SKILL.md` に置く。
 - child agent role の read-first docs と bootstrap 条件は role config の `developer_instructions` に置く。
@@ -148,7 +149,7 @@
 2. repo 共有 override が必要なときだけ `.codex/config.toml` を追加または確認する。
 3. repo-wide に常時有効な利用方針が新たに必要な場合だけ `AGENTS.md` を更新する。
 4. task 文書がある repo で、特定の作業タイプでだけ必要な利用判断基準なら対応する task 文書を更新する。
-5. 特定 profile でだけ必要な追加契約なら `developer_instructions` を更新する。
+5. 特定 role でだけ必要な追加契約なら `agent_roles/*.toml` の `developer_instructions` を更新する。
 
 ## OpenAI docs rule
 
@@ -160,14 +161,13 @@
 
 ## Guardrails
 
-- `developer_instructions` には、その session に必要な最小限の追加契約だけを書く。
+- `AGENTS.md` には、その session に必要な最小限の追加契約だけを書く。
 - child agent role の role-local bootstrap contract は `agent_roles/*.toml` の `developer_instructions` に置く。
-- `AGENTS.md` には、repo 全体の入口と文書ルーティングだけを書く。
 - 新しい典型 workflow は、既定では新規 profile、root skill、必要な child agent roles に分解して扱う。
-- workflow を分解するときは、session 契約を `developer_instructions`、全体導線を root skill、詳細手順を `references/` と role contract、durable 設定を `config.toml` へ置く。
+- workflow を分解するときは、session 契約を `AGENTS.md`、全体導線を root skill、詳細手順を `references/` と role contract、durable 設定を `config.toml` へ置く。
 - child agent role には、root handoff が薄くても動ける最小 bootstrap 情報を必ず含める。
-- role-local な詳細ルールは対応する `references/` や role contract に集約し、`AGENTS.md` と `developer_instructions` に同じ細則を重複させない。
+- role-local な詳細ルールは対応する `references/` や role contract に集約し、`AGENTS.md` と `agent_roles/*.toml` の `developer_instructions` に同じ細則を重複させない。
 - 個人設定として完結する profile や permissions は `~/.codex/config.toml` を優先し、repo 共有 override だけを `.codex/config.toml` に残す。可搬性を壊す HOME 配下の `permissions` は既定では共有設定に持ち込まない。
-- MCP rule は `config.toml`、`AGENTS.md`、存在する場合の task 文書、`developer_instructions` のうち最小スコープへ置く。
+- MCP rule は `config.toml`、`AGENTS.md`、存在する場合の task 文書、`agent_roles/*.toml` の `developer_instructions` のうち最小スコープへ置く。
 - 書き込み権限の最小化を優先し、必要以上に writable roots や permissions を広げない。可搬性と hard gate が衝突する場合は、まず `permissions` 撤廃を検討する。
 - 指示と権限のどちらかが矛盾する場合は、実装に進まずユーザー確認を行う。

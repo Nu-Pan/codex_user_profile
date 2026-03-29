@@ -13,7 +13,7 @@
 - `role config`: `agents.<name>.config_file` から読む standalone custom agent TOML layer。child agent role ごとの `name`、`description`、`developer_instructions`、model、reasoning、verbosity、sandbox_mode を置く。
 - `root skill`: workflow 全体の入口と導線を持つ skill。既定では `codex-self-improvement` を指す。
 - `reference`: `references/` 配下の詳細文書。入口説明の正本にはしない。
-- `session 契約`: `developer_instructions` に置く追加行動契約。
+- `session 契約`: root session に対する追加行動契約。Codex 自己改善では `AGENTS.md` に置く。
 - `durable 設定`: `config.toml` に置く継続設定。
 - `canonical path`: deploy 後に見える `~/.codex/...` / `~/.agents/...`。
 - `local working path`: repo 内で mirror を編集するときの `dot_codex/...` / `dot_agents/...`。

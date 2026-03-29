@@ -2,20 +2,30 @@
 
 ## Purpose
 
-- `developer_instructions` には、profile ごとの追加行動契約だけを書く。`agent_roles/*.toml` で使う `developer_instructions` は role-local bootstrap contract として別扱いにする。
+- `AGENTS.md` には、Codex 自己改善 task の profile-level session contract を置く。
+- `developer_instructions` は child agent role の role-local bootstrap contract として扱う。
 - `developer_instructions` は must-read の入口であり、workflow 本文の正本ではない。
 - repo 全体ルールや handbook の本体は `AGENTS.md` や、存在する場合の task 文書へ戻す。
 - child agent が root handoff の不足を local docs と local artifacts から埋められる前提は、root skill と role contract 側で明示する。
 
+## `AGENTS.md` should include
+
+- Codex 自己改善 task の mission
+- 必ず読む正本
+- 許容する作業モード
+- 品質基準、自己レビュー基準、報告要件
+- 指示衝突時や権限衝突時の扱い
+- `codex-self-improvement` に必要な追加制約
+
 ## `developer_instructions` should include
 
 - 応答言語や最終出力の基礎スタイル
-- その profile の mission
+- その role の mission
 - 着手前に読むべき正本や task 文書
-- その session で許容する作業モード
+- その role で許容する作業モード
 - 品質基準、自己レビュー基準、報告要件
 - 指示衝突時や権限衝突時の扱い
-- その profile に固有で必要な追加参照先や追加制約
+- その role に固有で必要な追加参照先や追加制約
 
 ## `developer_instructions` should not include
 
@@ -36,14 +46,14 @@
 - 1 行 1 意図の短い箇条書きにする。
 - 直接命令形で書く。
 - あいまいな努力目標ではなく、観測可能な行動に落とす。
-- 原則ではなく、その profile に必要な最小限の契約だけを書く。
+- 原則ではなく、その role に必要な最小限の契約だけを書く。
 - 既定では must-read を `AGENTS.md` と root skill に留め、child agent roles や詳細 reference はそこから辿らせる。
 - この skill family では `root skill`、`child agent role`、`reference`、`role config` を正本語彙として使い、独自の言い換えを増やさない。
 - 長くなるルールは `AGENTS.md` や root skill に逃がし、そこには参照だけを書く。
 
 ## Canonical template
 
-`developer_instructions` を新設・改訂するときは、まず次の骨格から始める。
+`AGENTS.md` の profile-level session contract を新設・改訂するときは、まず次の骨格から始める。
 
 ```text
 - 常に <language> で回答する。
@@ -67,14 +77,14 @@
 
 ## Optional extra line
 
-- Codex 契約や OpenAI developer docs の確認がタスクの一部である profile に限り、参照先の行を追加してよい。
+- Codex 契約や OpenAI developer docs の確認が task の一部である profile に限り、参照先の行を追加してよい。
 - 例:
 
 ```text
 - Codex 契約や repo から確認できない設定キーの意味を確認する必要があるなら OpenAI developer docs MCP を使う。
 ```
 
-- この条件付き項目は `codex_meta` のような Codex 自己改善 profile には有効だが、`question` や `spec_doc` の共通要件にはしない。
+- この条件付き項目は `codex_meta` のような Codex 自己改善 task では有効だが、`question` や `spec_doc` の共通要件にはしない。
 
 ## Role config lens
 
@@ -83,14 +93,14 @@
 - root skill 側に同じ詳細を再掲しない。
 - 1 role 1 purpose、1 行 1 意図を守る。
 
-## When a workflow is implemented as profile + root skill + child roles
+## When a workflow is implemented as AGENTS.md + root skill + child roles
 
-- `developer_instructions` には session 契約だけを書く。
+- `AGENTS.md` には session 契約だけを書く。
 - 既定では、must-read には `AGENTS.md` と root skill だけを入れる。
-- child agent roles は `developer_instructions` から直接列挙しすぎず、root skill と role contract から辿らせる。
+- child agent roles は `AGENTS.md` から直接列挙しすぎず、root skill と role contract から辿らせる。
 - child agent roles は、root handoff が不完全でも自分で起動できるよう、role contract と局所 reference 側で self-bootstrap 条件を持たせる。
 - 詳細な workflow、判断基準、テンプレ断片は root skill、必要に応じて role contract と関連 `references/` へ逃がす。
-- `developer_instructions` では、詳細が別文書にあることを 1 行で示せば十分である。
+- `AGENTS.md` では、詳細が別文書にあることを 1 行で示せば十分である。
 
 例:
 
@@ -99,11 +109,11 @@
 - 詳細な workflow、推奨 role sequence、child agent role への導線は user skill `codex-self-improvement` と、そこから辿る関連 `references/` を参照する。
 ```
 
-- 逆に、workflow 全文、variant ごとの差分、child agent role の一覧全文、長いテンプレ本文を `developer_instructions` に埋め込まない。
+- 逆に、workflow 全文、variant ごとの差分、child agent role の一覧全文、長いテンプレ本文を `AGENTS.md` に埋め込まない。
 
-## Example profile lens
+## Example task lens
 
-以下は profile 設計の例であり、profile 名の自己認識を要求するルールではない。
+以下は task 設計の例であり、task 名の自己認識を要求するルールではない。
 
 - `question`
   - mission は「質問応答」。

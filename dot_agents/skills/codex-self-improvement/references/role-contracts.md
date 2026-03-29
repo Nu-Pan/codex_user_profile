@@ -6,6 +6,7 @@
 - child agent role は 1 つの責務だけを担当する。
 - child agent role は root の handoff が最小でも、自分の role config と current repo state から起動できるように書く。
 - 具体の read-first docs は role config の `developer_instructions` に閉じる。
+- codex_meta の session 契約は `AGENTS.md` に閉じる。
 - root session は task summary を渡すだけでなく、対象ファイル、明示した制約、観測済みの local facts も渡す。
 - child agent は不足分を canonical files、current config、current diff、関連 reference から復元し、必要なときだけ確認を返す。
 - 確認が必要なのは、欠けた情報が placement、権限、安全性、期待出力を変える場合に限る。

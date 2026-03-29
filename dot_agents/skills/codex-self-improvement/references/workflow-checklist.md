@@ -36,7 +36,7 @@
 ## Validation
 
 - この文書を validation の正本として扱う。
-- `developer_instructions` を更新したら、少なくとも 1 回は instruction chain の見え方を確認する。
+- `AGENTS.md` を更新したら、少なくとも 1 回は instruction chain の見え方を確認する。
 - 既存 root skill を編集したら、その skill 単体で trigger、既定 route、読むべき reference、child agent role への導線が見え、正本語彙への導線が残っていることを確認する。
 - 既存 root skill を編集したら、child agent が root handoff の不足を local docs と local artifacts で復元できることも確認する。
 - 既存 child agent role config を編集したら、その file 単体で name、description、developer_instructions、model、reasoning、verbosity、sandbox_mode が見え、role-local の read-first docs が developer_instructions に閉じていることを確認する。
@@ -61,7 +61,7 @@
 - `codex exec -m gpt-5.4-mini -p codex_meta "Summarize the current mission, allowed modes, and must-read documents in 3 bullets."`
 - `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize the canonical root skill, child agent roles, and default spawn policy in 4 bullets.'`
 - `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize the standalone role config shape for si_scope, si_design, si_editor, and si_audit in 4 bullets.'`
-- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement Explain how profile-level developer_instructions, standalone role configs, root skill, references, and config.toml divide responsibilities.'`
+- `codex exec -m gpt-5.4-mini -p codex_meta '$codex-self-improvement Explain how AGENTS.md, standalone role configs, root skill, references, and config.toml divide responsibilities.'`
 - `codex exec -m gpt-5.4-mini '$codex-self-improvement Summarize the wait policy for child agents and whether timeout is allowed.'`
 
 ### Manual TTY checks for humans
@@ -81,15 +81,15 @@
 
 最低 1 回、以下を点検すること。
 
-- `developer_instructions`、`AGENTS.md`、permissions の責務分離が崩れていないか
-- 典型 workflow の session 契約が `developer_instructions` に閉じ、全体導線が root skill に、詳細手順が `references/` / role contract に逃がされているか
+- `AGENTS.md`、`config.toml`、permissions の責務分離が崩れていないか
+- 典型 workflow の session 契約が `AGENTS.md` に閉じ、全体導線が root skill に、詳細手順が `references/` / role contract に逃がされているか
 - root skill が編集作業や検証作業を抱え込まず、実作業が child agent に分離されているか
 - child agent の完了待機で timeout を使わず、完了まで待つ運用が明文化されているか
-- MCP rule の置き場所が `config.toml`、`AGENTS.md`、存在する場合の task 文書、`developer_instructions` のどれかで一意に説明できるか
-- `developer_instructions` を「正本そのもの」と誤解させる表現になっていないか
+- MCP rule の置き場所が `config.toml`、`AGENTS.md`、存在する場合の task 文書、role config の `developer_instructions` のどれかで一意に説明できるか
+- `AGENTS.md` を「正本そのもの」と誤解させる表現になっていないか
 - profile 名の自己認識を前提にしたルールが紛れ込んでいないか
 - profile 名が `lower_snake_case`、skill 名が `lower-hyphen-case` の既定に沿っているか
-- `developer_instructions` が child agent role を直接抱え込みすぎず、既定どおり root skill を入口にし、child agent 起動が原則必須になっているか
+- `AGENTS.md` が child agent role を直接抱え込みすぎず、既定どおり root skill を入口にし、child agent 起動が原則必須になっているか
 - child agent role config が standalone custom agent 方式になっていて、role-local の read-first docs を `developer_instructions` に閉じているか
 - child agent role が root handoff を前提にしすぎず、local bootstrap 条件を明示しているか
 - root skill、role contract、compatibility skill の責務が重複していないか
