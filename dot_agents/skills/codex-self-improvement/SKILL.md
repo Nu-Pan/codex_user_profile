@@ -20,16 +20,17 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 ## Purpose
 
 - この root skill は Codex 自己改善の入口である。
-- root session は routing と handoff だけを持ち、実作業は child agent に委ねる。
-- 共通規約は `AGENTS.md`、root router contract は `~/.codex/config.toml` の top-level `developer_instructions`、role contract は [`references/role-contracts.md`](references/role-contracts.md)、配置判断は [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を正本とする。
+- root session は `~/.codex/config.toml` の top-level `developer_instructions` を root router contract の正本として扱い、直接解決せず routing と handoff だけを持つ。
+- 実作業は対応する custom skill と child agent に委ね、対応する custom skill が無い場合は task に必要な最小責務だけを持つ built-in child agent へ移譲する。
+- 共通規約は `AGENTS.md`、role contract は [`references/role-contracts.md`](references/role-contracts.md)、配置判断は [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を正本とする。
 
 ## Recommended flow
 
 1. `AGENTS.md`、`~/.codex/config.toml`、変更対象、既存差分を確認する。この repo では、repo root の `README.md` に列挙された 3 つの典型プロンプト例だけを入口の local facts として確認する。
 2. [`references/orchestration.md`](references/orchestration.md) と [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を読み、routing と placement の前提を揃える。
-3. 必要な custom skill と child agent role を確認し、既存 role で足りるならその role を使う。
+3. 必要な custom skill と child agent role を確認し、既存 role で足りるならその role を使う。対応する custom skill が無い場合は、その場限りの built-in child agent を起動して task を移譲する。
 4. child agent への handoff は bootstrap packet に絞る。bootstrap packet には task summary、対象ファイル、明示した制約、観測済みの local facts を入れる。
-5. child agent の完了待機は timeout を使わず、完了まで待つ。Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
+5. root session は child agent に委譲した task を自分で引き取って直接解決しない。child agent の完了待機は timeout を使わず、完了まで待つ。Codex 契約や設定キーの意味が repo から確定できない場合だけ OpenAI developer docs MCP を使う。
 
 ## Child agent roles
 
@@ -44,7 +45,7 @@ description: Use when improving Codex itself by editing `AGENTS.md`, `~/.codex/*
 - `AGENTS.md`、`~/.codex/config.toml`、この root skill を読み、次に `references/orchestration.md` と [`references/config-and-rule-placement.md`](references/config-and-rule-placement.md) を読む。
 - role の mission、inputs、outputs、write policy は [`references/role-contracts.md`](references/role-contracts.md) を読む。
 - `developer_instructions` の使い分けで迷うときは [`references/developer-instructions-guide.md`](references/developer-instructions-guide.md) を読む。
-- 最初の child agent は、迷いがなければ最小 role sequence に従い、迷いがあれば `si_scope` から始める。
+- 最初の child agent は、迷いがなければ最小 role sequence に従い、迷いがあれば `si_scope` から始める。対応する custom skill が無い場合は built-in child agent を使う。
 
 ## Repo path notes
 
