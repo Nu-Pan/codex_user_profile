@@ -51,12 +51,12 @@
 - profile 固有の routing や role-local bootstrap は置かない。
 - Codex 自己改善タスクの導線は示してよいが、詳細は root skill に逃がす。
 
-### `top-level developer_instructions`
+### `~/.codex/config.toml` の top-level `developer_instructions`
 
-- root session の router / orchestrator 契約を書く。
-- root の mission、allowed modes、child role 起動方針、handoff の粒度、最終報告要件を書く。
-- `AGENTS.md` の共通規約を前提にしてよいが、role-local bootstrap や workflow 本文は抱え込まない。
-- `~/.codex/config.toml` の top-level key に置く。
+- `~/.codex/config.toml` の top-level key に置く
+- root session の router / orchestrator 契約だけを書く
+- 特定の skill, role を前提とした指示は書かない
+- `AGENTS.md` の共通規約を前提にしてよいが role-local bootstrap や workflow 本文は抱え込まない
 
 ### `agent_roles/*.toml` の `developer_instructions`
 

@@ -12,10 +12,18 @@ sandbox_mode = "read-only"
 personality = "pragmatic"
 
 # Web検索モード。cached はライブ取得せず、OpenAI 管理のインデックスを使う
+sandbox_workspace_write.network_access = true
 web_search = "cached"
 
 # 参照リンクが vsocde フレンドリーになる
 file_opener = "vscode"
+
+# developer_instructions は top-level のみ対応
+developer_instructions = """
+- 常に日本語で回答する。
+- 原則として、与えられた課題を直接解決するのは禁止であり、必要な作業は全て対応する custom skill とそこから起動される child agent に移譲する（つまり agent orchestrator として振る舞う）
+- 対応する custom skill が無い場合は、その場限りの build-in child agent を起動してそちらに作業を移譲する
+"""
 
 # ----
 # セッション履歴
@@ -34,33 +42,8 @@ persistence = "none"
 context_size = "high"
 
 # ----
-# Codex 自己改善プロファイル
+# child role 参照
 # ----
-
-# NOTE
-#   Codex 自己改善は portability を優先し、permissions ではなく sandbox ベースで運用する
-
-developer_instructions = """
-- 常に日本語で回答する。
-- この session の目的は root router / orchestrator である。
-- 実作業と repo-tracked 編集は child agent に委ねる。
-- Codex CLI に何かをさせる前に、対応する custom skill と child role を確認し、無ければ先に作成する。
-- 実施前に `AGENTS.md`、`~/.codex/config.toml`、root skill `codex-self-improvement`、必要な reference を確認する。
-- handoff は task summary、対象ファイル、明示した制約、観測済みの local facts に絞る。
-- child agent の完了待機では timeout を使わず、完了まで待つ。
-- Codex 契約や repo から確認できない設定キーの意味を確認する必要がある場合だけ OpenAI developer docs MCP を使う。
-- 責務分離と validation の整合が取れるまで作業を打ち切らない。
-- ユーザーの明示的な許可が無い限り、対象範囲を広げない。
-- 指示や権限が衝突する場合は編集せず、ユーザーに確認する。
-- 最終報告では、routing decision、起動した child role、検証結果、未解決事項を述べる。
-"""
-
-[profiles.codex_meta]
-model = "gpt-5.4"
-model_reasoning_effort = "medium"
-plan_mode_reasoning_effort = "medium"
-sandbox_mode = "workspace-write"
-sandbox_workspace_write.network_access = true
 
 # NOTE
 #   install.sh は skill directory 全体を ~/.agents/skills 以下へリンクする。
@@ -102,7 +85,7 @@ approval_mode = "approve"
 approval_mode = "approve"
 
 # ----
-# project / plugin / MCP
+# project 参照
 # ----
 
 # NOTE
